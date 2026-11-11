@@ -675,7 +675,7 @@ function showThankYouToast() {
     </svg>
     <div>
       <p class="toast-title">Makasih udah mampir! 🙏</p>
-      <p class="toast-sub">Selamat nyimak — kalo ada yang mau ditanyain, gas aja!</p>
+      <p class="toast-sub">Kalo ada yang mau ditanyain, gas aja!</p>
     </div>
     <button class="toast-close" aria-label="Tutup">&times;</button>
   `;
