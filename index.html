@@ -20,7 +20,41 @@
     <!-- ========== NAVIGASI ========== -->
     <nav class="navbar">
         <div class="nav-container">
-            <a href="#home" class="nav-logo">CK</a>
+            <a href="#home" class="nav-logo" aria-label="Cedric Kilian">
+                <svg width="42" height="36" viewBox="0 0 42 36" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <defs>
+                        <linearGradient id="ckGrad" x1="0" y1="0" x2="1" y2="1" gradientUnits="objectBoundingBox">
+                            <stop offset="0%" stop-color="#a78bfa"/>
+                            <stop offset="50%" stop-color="#7c5cbf"/>
+                            <stop offset="100%" stop-color="#4fc3f7"/>
+                        </linearGradient>
+                        <filter id="ckGlow" x="-30%" y="-30%" width="160%" height="160%">
+                            <feGaussianBlur stdDeviation="2" result="blur"/>
+                            <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+                        </filter>
+                    </defs>
+                    <g filter="url(#ckGlow)">
+                        <text x="0" y="28" font-family="'JetBrains Mono', monospace" font-weight="700" font-size="30" fill="url(#ckGrad)">CK</text>
+                    </g>
+                    <circle cx="36" cy="6" r="4" fill="#4fc3f7" opacity="0.85">
+                        <animate attributeName="opacity" values="0.85;0.3;0.85" dur="2.2s" repeatCount="indefinite"/>
+                        <animate attributeName="r" values="4;5.5;4" dur="2.2s" repeatCount="indefinite"/>
+                    </circle>
+                </svg>
+                <style>
+                    .nav-logo:hover svg .ck-text { animation: ck-wobble 0.4s ease; }
+                    .ck-text { animation: ck-float 4s ease-in-out infinite; transform-origin: center; }
+                    @keyframes ck-wobble {
+                        0%,100%{ transform: rotate(0deg) scale(1); }
+                        25%{ transform: rotate(-6deg) scale(1.08); }
+                        75%{ transform: rotate(6deg) scale(1.08); }
+                    }
+                    @keyframes ck-float {
+                        0%,100%{ transform: translateY(0px); }
+                        50%{ transform: translateY(-3px); }
+                    }
+                </style>
+            </a>
             <ul class="nav-links" id="navLinks">
                 <li><a href="#about" data-i18n="nav_about">Tentang</a></li>
                 <li><a href="#skills" data-i18n="nav_skills">Skill</a></li>
