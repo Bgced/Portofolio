@@ -45,7 +45,7 @@ const SEASONS = [
   },
 ];
 
-const SEASON_DURATION = 22_000; // ms per musim
+const SEASON_DURATION = 10_000; // ms per musim
 let currentSeasonIndex = 0;
 let starCtx, seasonCtx;
 let stars = [];
@@ -97,8 +97,8 @@ function drawStars() {
   const W = ctx.canvas.width, H = ctx.canvas.height;
   ctx.clearRect(0, 0, W, H);
 
-  // Background gelap
-  ctx.fillStyle = '#070710';
+  // Background hitam
+  ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, W, H);
 
   // Stars
@@ -118,7 +118,7 @@ function initSeasonParticles() {
   seasonParticles = [];
 
   const season = SEASONS[currentSeasonIndex];
-  const count = 160;
+  const count = 80;
 
   for (let i = 0; i < count; i++) {
     const p = makeParticle(season.particles, W, H, true);
@@ -144,42 +144,42 @@ function makeParticle(type, W, H, randomY = false) {
     case 'snow':
       return {
         ...base,
-        vy: Math.random() * 1.2 + 0.4,
-        vx: (Math.random() - 0.5) * 0.8,
-        size: Math.random() * 3 + 1.5,
-        alpha: Math.random() * 0.7 + 0.3,
+        vy: Math.random() * 0.8 + 0.3,
+        vx: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 2 + 1,
+        alpha: Math.random() * 0.4 + 0.2,
         color: '#e8f0ff',
       };
 
     case 'rain':
       return {
         ...base,
-        vy: Math.random() * 9 + 7,
-        vx: Math.random() * 2 - 1,
-        size: Math.random() * 1.5 + 0.8,
-        alpha: Math.random() * 0.4 + 0.2,
+        vy: Math.random() * 6 + 5,
+        vx: Math.random() * 1.5 - 0.75,
+        size: Math.random() * 0.8 + 0.4,
+        alpha: Math.random() * 0.2 + 0.1,
         color: '#80b8e8',
       };
 
     case 'petals':
       return {
         ...base,
-        vy: Math.random() * 1.8 + 0.8,
-        vx: Math.sin(Math.random() * Math.PI) * 1.2,
-        size: Math.random() * 7 + 4,
-        alpha: Math.random() * 0.7 + 0.3,
-        rotSpeed: Math.random() * 0.04 - 0.02,
+        vy: Math.random() * 1.2 + 0.5,
+        vx: Math.sin(Math.random() * Math.PI) * 0.8,
+        size: Math.random() * 5 + 3,
+        alpha: Math.random() * 0.4 + 0.2,
+        rotSpeed: Math.random() * 0.03 - 0.015,
         color: Math.random() > 0.5 ? '#ffb3d9' : '#ffc0cb',
       };
 
     case 'leaves':
       return {
         ...base,
-        vy: Math.random() * 2 + 1,
-        vx: Math.random() * 2 - 1,
-        size: Math.random() * 8 + 5,
-        alpha: Math.random() * 0.8 + 0.2,
-        rotSpeed: Math.random() * 0.06 - 0.03,
+        vy: Math.random() * 1.5 + 0.6,
+        vx: Math.random() * 1.5 - 0.75,
+        size: Math.random() * 6 + 3,
+        alpha: Math.random() * 0.5 + 0.15,
+        rotSpeed: Math.random() * 0.04 - 0.02,
         color: Math.random() > 0.5
           ? (Math.random() > 0.5 ? '#e07020' : '#cc5500')
           : (Math.random() > 0.5 ? '#c8a000' : '#b05010'),
@@ -188,9 +188,9 @@ function makeParticle(type, W, H, randomY = false) {
     case 'fireflies':
       return {
         ...base,
-        vy: Math.random() * 0.6 - 0.1,
-        vx: (Math.random() - 0.5) * 1.2,
-        size: Math.random() * 3 + 1.5,
+        vy: Math.random() * 0.4 - 0.05,
+        vx: (Math.random() - 0.5) * 0.8,
+        size: Math.random() * 2 + 1,
         alpha: 0,
         alphaDir: 1,
         phase: Math.random() * Math.PI * 2,
