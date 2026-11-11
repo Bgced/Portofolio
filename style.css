@@ -88,6 +88,55 @@ body {
 body.light-mode .bg-canvas,
 body.light-mode .bg-vignette { opacity: 0; }
 
+/* ---------- Thank You Toast ---------- */
+.thank-you-toast {
+  position: fixed;
+  bottom: 80px;
+  right: 28px;
+  z-index: 500;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  max-width: 320px;
+  padding: 16px 18px;
+  background: rgba(8,14,20,0.92);
+  border: 1px solid rgba(0,229,255,0.25);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 24px rgba(0,229,255,0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--text);
+  transform: translateX(120%);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease;
+}
+.thank-you-toast.toast-visible {
+  transform: translateX(0);
+  opacity: 1;
+}
+.thank-you-toast svg {
+  color: var(--accent);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.thank-you-toast .toast-title {
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.thank-you-toast .toast-sub {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Light mode variant */
+body.light-mode .thank-you-toast {
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(0,145,199,0.3);
+  box-shadow: 0 8px 32px rgba(0,40,60,0.12);
+}
+
 /* ---------- Preloader ---------- */
 .preloader {
   position: fixed;
