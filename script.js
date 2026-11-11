@@ -498,7 +498,28 @@ function setupThemeToggle() {
   });
 }
 
-// ========== NAVIGATION ==========
+// ========== COPY EMAIL BUTTON ==========
+function setupCopyEmail() {
+  const btn = document.getElementById('copyEmail');
+  if (!btn) return;
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText('cekaell3@gmail.com').then(() => {
+      btn.classList.add('copied');
+      // Ganti icon jadi checkmark sebentar
+      const svg = btn.querySelector('svg');
+      const origSVG = svg.innerHTML;
+      svg.innerHTML = '<polyline points="20 6 9 17 4 12"/>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        svg.innerHTML = origSVG;
+      }, 2000);
+    });
+  });
+}
+
+// ========== NAVIGATION (enhanced scroll offset) ==========
 function setupNav() {
   const nav = document.getElementById('navLinks');
   const ham = document.getElementById('hamburger');
@@ -520,7 +541,7 @@ function setupNav() {
     nav.querySelectorAll('a').forEach(a => {
       a.classList.toggle('active', a.getAttribute('href') === `#${cur}`);
     });
-  });
+  }, { passive: true });
 }
 
 // ========== BACK TO TOP ==========
@@ -750,6 +771,7 @@ function init() {
   setupCursorGlow();
   setupTiltCards();
   setupPreloader();
+  setupCopyEmail();
   typeLoop();
   setTimeout(showThankYouToast, 1800); // muncul setelah preloader selesai
 }
