@@ -426,15 +426,14 @@ function setupDemoSlider() {
 const translations = {
   id: {
     nav_about:'Tentang', nav_skills:'Skill', nav_projects:'Project',
-    nav_journey:'Perjalanan', nav_insight:'Insight', nav_contact:'Kontak',
+    nav_journey:'Daily Driver', nav_insight:'Insight', nav_contact:'Kontak',
     hero_badge:'Open to work', hero_greeting:'Halo, nama saya',
     hero_desc:'Saya membangun aplikasi web yang bersih, cepat, dan user-friendly. Saat ini sedang menempuh kuliah di <strong>Universitas Negeri Yogyakarta</strong>, Jurusan <strong>Teknik Elektro</strong>.',
     btn_projects:'Lihat Project', btn_contact:'Hubungi Saya',
     skills_title:'Skill & Teknologi', slider_hint:'← Geser / drag / scroll bebas →',
     demo_label:'Mainin background-nya:',
     demo_hint:'Geser untuk atur seberapa jauh titik-titik saling terhubung — 0 = sendiri-sendiri, 100 = nyambung semua',
-    games_title:'Game Favorit', games_intro:'Di luar coding, ini tempatku melepas penat.',
-    journey_title:'Perjalanan Saya', journey_intro:'Langkah demi langkah — dari nol sampai sekarang.',
+    journey_title:'Daily Driver', journey_intro:'Tools & setup yang saya pakai sehari-hari untuk coding, kuliah, dan produktivitas.',
     projects_title:'Project & Karya', projects_intro:'Project yang sudah saya buat + kumpulan pengetahuan yang saya dokumentasikan.',
     insight_title:'Insight & Pengetahuan', insight_intro:'Catatan dan pengetahuan yang saya pelajari — dibagikan supaya bermanfaat.',
     contact_title:'Hubungi Saya', contact_intro:'Tertarik bekerja sama atau punya pertanyaan? Jangan ragu untuk menghubungi saya!',
@@ -444,15 +443,14 @@ const translations = {
   },
   en: {
     nav_about:'About', nav_skills:'Skills', nav_projects:'Projects',
-    nav_journey:'Journey', nav_insight:'Insight', nav_contact:'Contact',
+    nav_journey:'Daily Driver', nav_insight:'Insight', nav_contact:'Contact',
     hero_badge:'Open to work', hero_greeting:"Hello, my name is",
     hero_desc:"I build clean, fast, user-friendly web applications. Currently studying at <strong>Universitas Negeri Yogyakarta</strong>, majoring in <strong>Electrical Engineering</strong>.",
     btn_projects:'View Projects', btn_contact:'Contact Me',
     skills_title:'Skills & Tech', slider_hint:'← Slide / drag / scroll freely →',
     demo_label:'Play with the background:',
     demo_hint:'Slide to control how far the dots connect — 0 = isolated, 100 = fully connected',
-    games_title:'Favorite Games', games_intro:'Outside of coding, this is where I unwind.',
-    journey_title:'My Journey', journey_intro:'Step by step — from zero to now.',
+    journey_title:'Daily Driver', journey_intro:'Tools & setup I use every day for coding, study, and productivity.',
     projects_title:'Projects & Works', projects_intro:'Projects I have made + knowledge I documented.',
     insight_title:'Insight & Knowledge', insight_intro:'Notes and knowledge I learned — shared for good.',
     contact_title:'Contact Me', contact_intro:"Interested in collaborating or have a question? Don't hesitate to reach out!",
@@ -493,6 +491,8 @@ function setupThemeToggle() {
   btn.addEventListener('click', () => {
     darkMode = !darkMode;
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    // Sembunyikan canvas night-sky di light mode biar background terang keliatan
+    document.body.classList.toggle('light-mode', !darkMode);
     if (sun)  sun.style.display  = darkMode ? 'none'   : 'block';
     if (moon) moon.style.display = darkMode ? 'block'  : 'none';
   });
@@ -538,7 +538,7 @@ function setupBackToTop() {
 // ========== SCROLL ANIMATIONS (IntersectionObserver) ==========
 function setupScrollAnimations() {
   const targets = document.querySelectorAll(
-    '.about-content, .timeline, .games-grid, .projects-grid, .insight-grid, .contact-content'
+    '.about-content, .timeline, .projects-grid, .insight-grid, .contact-content'
   );
   const obs = new IntersectionObserver((entries) => {
     entries.forEach(e => {
