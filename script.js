@@ -558,6 +558,120 @@ function setupScrollAnimations() {
   });
 }
 
+// ========== TYPING EFFECT (hero role) ==========
+const TYPING_TEXTS_ID = [
+  'Software Engineer & Web Developer',
+  'Mahasiswa Teknik Elektro UNY',
+  'Frontend Enthusiast',
+  'Problem Solver',
+];
+const TYPING_TEXTS_EN = [
+  'Software Engineer & Web Developer',
+  'Electrical Engineering Student',
+  'Frontend Enthusiast',
+  'Problem Solver',
+];
+let typingIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+
+function typeLoop() {
+  const el = document.getElementById('typingText');
+  if (!el) return;
+  const texts = currentLang === 'en' ? TYPING_TEXTS_EN : TYPING_TEXTS_ID;
+  const text = texts[typingIndex % texts.length];
+
+  if (!isDeleting) {
+    charIndex++;
+    el.textContent = text.slice(0, charIndex);
+    if (charIndex === text.length) {
+      isDeleting = true;
+      setTimeout(typeLoop, 2200); // pause sebelum hapus
+      return;
+    }
+    setTimeout(typeLoop, 65);
+  } else {
+    charIndex--;
+    el.textContent = text.slice(0, charIndex);
+    if (charIndex === 0) {
+      isDeleting = false;
+      typingIndex++;
+      setTimeout(typeLoop, 400);
+      return;
+    }
+    setTimeout(typeLoop, 32);
+  }
+}
+
+// ========== SCROLL PROGRESS BAR ==========
+function setupScrollProgress() {
+  const fill = document.getElementById('scrollProgress');
+  if (!fill) return;
+  window.addEventListener('scroll', () => {
+    const total = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+    fill.style.width = pct + '%';
+  }, { passive: true });
+}
+
+// ========== CUSTOM CURSOR GLOW ==========
+function setupCursorGlow() {
+  const glow = document.getElementById('cursorGlow');
+  if (!glow) return;
+  let gx = 0, gy = 0, tx = 0, ty = 0;
+  let rafId = null;
+
+  window.addEventListener('mousemove', (e) => {
+    tx = e.clientX; ty = e.clientY;
+    glow.style.opacity = '1';
+    if (!rafId) followCursor();
+  }, { passive: true });
+
+  function followCursor() {
+    gx += (tx - gx) * 0.12;
+    gy += (ty - gy) * 0.12;
+    glow.style.transform = `translate(${gx - 160}px, ${gy - 160}px)`;
+    if (Math.abs(tx - gx) > 0.5 || Math.abs(ty - gy) > 0.5) {
+      rafId = requestAnimationFrame(followCursor);
+    } else {
+      rafId = null;
+    }
+  }
+
+  document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
+}
+
+// ========== 3D TILT CARDS ==========
+function setupTiltCards() {
+  const cards = document.querySelectorAll('.project-card, .skill-card');
+  cards.forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width;   // 0..1
+      const py = (e.clientY - rect.top) / rect.height;   // 0..1
+      const rotY = (px - 0.5) * 10;   // max 5 deg
+      const rotX = (0.5 - py) * 10;
+      card.classList.add('tilt-active');
+      card.style.transform = `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-4px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.classList.remove('tilt-active');
+      card.style.transform = '';
+    });
+  });
+}
+
+// ========== PRELOADER ==========
+function setupPreloader() {
+  const pre = document.getElementById('preloader');
+  if (!pre) return;
+  window.addEventListener('load', () => {
+    setTimeout(() => pre.classList.add('done'), 450);
+  });
+  // Fallback kalau load event kelewat
+  setTimeout(() => pre.classList.add('done'), 2500);
+}
+
 // ========== INIT ==========
 function init() {
   setupCanvases();
@@ -576,6 +690,11 @@ function init() {
   setupNav();
   setupBackToTop();
   setupScrollAnimations();
+  setupScrollProgress();
+  setupCursorGlow();
+  setupTiltCards();
+  setupPreloader();
+  typeLoop();
 }
 
 if (document.readyState === 'loading') {
