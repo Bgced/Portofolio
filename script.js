@@ -663,6 +663,7 @@ function setupTiltCards() {
 
 // ========== THANK YOU TOAST (once per visitor) ==========
 function showThankYouToast() {
+  // Hanya sekali per browser
   if (localStorage.getItem('ck_visited')) return;
   localStorage.setItem('ck_visited', '1');
 
@@ -676,19 +677,26 @@ function showThankYouToast() {
       <p class="toast-title">Terima kasih sudah mampir! 🙏</p>
       <p class="toast-sub">Semoga portofolio-nya bermanfaat. Jangan ragu hubungi saya ya!</p>
     </div>
+    <button class="toast-close" aria-label="Tutup">&times;</button>
   `;
-  document.body.appendChild(toast);
 
-  // Animate in
-  requestAnimationFrame(() => {
-    toast.classList.add('toast-visible');
+  document.body.appendChild(toast);
+  const closeBtn = toast.querySelector('.toast-close');
+  closeBtn.addEventListener('click', () => {
+    toast.classList.remove('toast-visible');
+    setTimeout(() => toast.remove(), 500);
   });
 
-  // Auto remove after 5s
+  // Animate in
+  requestAnimationFrame(() => toast.classList.add('toast-visible'));
+
+  // Auto remove setelah 6 detik
   setTimeout(() => {
-    toast.classList.remove('toast-visible');
-    setTimeout(() => toast.remove(), 600);
-  }, 5000);
+    if (document.body.contains(toast)) {
+      toast.classList.remove('toast-visible');
+      setTimeout(() => toast.remove(), 500);
+    }
+  }, 6000);
 }
 
 // ========== PRELOADER ==========
