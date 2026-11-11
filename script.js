@@ -101,15 +101,43 @@ function drawStars() {
   ctx.fillStyle = '#000000';
   ctx.fillRect(0, 0, W, H);
 
-  // Stars
+  // Stars — crisp solid dots
   stars.forEach(s => {
     s.angle += s.twinkle;
-    const a = s.alpha * (0.65 + 0.35 * Math.sin(s.angle));
+    const a = s.alpha * (0.7 + 0.3 * Math.sin(s.angle));
     ctx.beginPath();
     ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(200,215,255,${a.toFixed(3)})`;
+    ctx.fillStyle = `rgba(200,230,255,${a.toFixed(3)})`;
     ctx.fill();
   });
+
+  // Star connections — thinner and subtle
+  if (linkDist > 5) drawStarConnections();
+}
+
+function drawStarConnections() {
+  if (linkDist < 5) return;
+  const ctx = starCtx;
+  const threshold = (linkDist / 100) * 140;
+
+  ctx.lineWidth = 0.4;
+  ctx.globalAlpha = 0.18;
+  for (let i = 0; i < stars.length; i++) {
+    for (let j = i + 1; j < stars.length; j++) {
+      const dx = stars[i].x - stars[j].x;
+      const dy = stars[i].y - stars[j].y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < threshold) {
+        const alpha = (1 - dist / threshold) * (stars[i].alpha + stars[j].alpha) / 2;
+        ctx.beginPath();
+        ctx.moveTo(stars[i].x, stars[i].y);
+        ctx.lineTo(stars[j].x, stars[j].y);
+        ctx.strokeStyle = `rgba(0,200,255,${alpha.toFixed(3)})`;
+        ctx.stroke();
+      }
+    }
+  }
+  ctx.globalAlpha = 1;
 }
 
 // ========== SEASON PARTICLES ==========
@@ -236,24 +264,29 @@ function drawSeasonParticles() {
   const W = ctx.canvas.width, H = ctx.canvas.height;
   ctx.clearRect(0, 0, W, H);
 
+  // Use 'lighter' blending so overlapping particles add up nicely
+  ctx.globalCompositeOperation = 'lighter';
+
   seasonParticles.forEach(p => {
     ctx.save();
     ctx.globalAlpha = Math.max(0, Math.min(1, p.alpha));
 
     if (p.type === 'snow') {
-      // snowflake dot
-      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size);
-      grad.addColorStop(0, p.color);
-      grad.addColorStop(1, 'rgba(200,220,255,0)');
+      // Crisp snowflake — solid circle with thin bright ring
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * 1.5, 0, Math.PI * 2);
-      ctx.fillStyle = grad;
+      ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
       ctx.fill();
+      // Sharp ring
+      ctx.strokeStyle = 'rgba(220,240,255,0.6)';
+      ctx.lineWidth = 0.7;
+      ctx.stroke();
 
     } else if (p.type === 'rain') {
+      // Crisp rain streak
       ctx.beginPath();
       ctx.moveTo(p.x, p.y);
-      ctx.lineTo(p.x + p.vx * 2, p.y + p.vy * 2);
+      ctx.lineTo(p.x + p.vx * 2.5, p.y + p.vy * 2.5);
       ctx.strokeStyle = p.color;
       ctx.lineWidth = p.size;
       ctx.lineCap = 'round';
@@ -263,9 +296,16 @@ function drawSeasonParticles() {
       ctx.translate(p.x, p.y);
       ctx.rotate(p.rot);
       ctx.beginPath();
-      ctx.ellipse(0, 0, p.size * 0.6, p.size, 0, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, p.size * 0.55, p.size, 0, 0, Math.PI * 2);
       ctx.fillStyle = p.color;
       ctx.fill();
+      // Crisp petal vein
+      ctx.beginPath();
+      ctx.moveTo(0, -p.size);
+      ctx.lineTo(0, p.size);
+      ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+      ctx.lineWidth = 0.5;
+      ctx.stroke();
 
     } else if (p.type === 'leaves') {
       ctx.translate(p.x, p.y);
@@ -274,51 +314,30 @@ function drawSeasonParticles() {
       ctx.ellipse(0, 0, p.size, p.size * 0.5, 0, 0, Math.PI * 2);
       ctx.fillStyle = p.color;
       ctx.fill();
-      // vein line
-      ctx.beginPath();
-      ctx.moveTo(-p.size, 0);
-      ctx.lineTo(p.size, 0);
-      ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-      ctx.lineWidth = 0.8;
-      ctx.stroke();
 
     } else if (p.type === 'fireflies') {
-      const grad = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.size * 4);
-      grad.addColorStop(0, p.color);
-      grad.addColorStop(0.4, `rgba(255,230,100,${p.alpha * 0.5})`);
-      grad.addColorStop(1, 'rgba(255,200,50,0)');
+      // Multi-layer glow: inner bright core, outer soft halo
+      // outer halo
       ctx.beginPath();
-      ctx.arc(p.x, p.y, p.size * 4, 0, Math.PI * 2);
-      ctx.fillStyle = grad;
+      ctx.arc(p.x, p.y, p.size * 5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(100,200,255,${p.alpha * 0.08})`;
+      ctx.fill();
+      // mid glow
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * 2.5, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(150,230,255,${p.alpha * 0.25})`;
+      ctx.fill();
+      // bright core
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.size * 0.8, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(220,255,255,${p.alpha * 0.9})`;
       ctx.fill();
     }
 
     ctx.restore();
   });
-}
 
-// ========== STAR CONNECTIONS (particles link) ==========
-function drawStarConnections() {
-  if (linkDist < 5) return;
-  const ctx = starCtx;
-  const threshold = (linkDist / 100) * 160;
-
-  ctx.lineWidth = 0.6;
-  for (let i = 0; i < stars.length; i++) {
-    for (let j = i + 1; j < stars.length; j++) {
-      const dx = stars[i].x - stars[j].x;
-      const dy = stars[i].y - stars[j].y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
-      if (dist < threshold) {
-        const alpha = (1 - dist / threshold) * 0.22 * (stars[i].alpha + stars[j].alpha) / 2;
-        ctx.beginPath();
-        ctx.moveTo(stars[i].x, stars[i].y);
-        ctx.lineTo(stars[j].x, stars[j].y);
-        ctx.strokeStyle = `rgba(140,160,220,${alpha.toFixed(3)})`;
-        ctx.stroke();
-      }
-    }
-  }
+  ctx.globalCompositeOperation = 'source-over';
 }
 
 // ========== ANIMATION LOOP ==========
@@ -326,7 +345,6 @@ function animate() {
   const W = window.innerWidth, H = window.innerHeight;
 
   drawStars();
-  if (linkDist > 5) drawStarConnections();
 
   updateSeasonParticles(W, H);
   drawSeasonParticles();

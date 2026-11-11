@@ -10,20 +10,22 @@ html { scroll-behavior: smooth; }
 
 :root {
   --bg:        #000000;
-  --bg-card:   #0a0f14;
-  --text:      #cceeff;
-  --text-muted:#4a8aaa;
-  --accent:    #00d4ff;
-  --accent2:   #0099cc;
-  --border:    #0d2a3a;
-  --nav-bg:    rgba(0,0,0,0.88);
+  --bg-card:   #080c10;
+  --text:      #d4f0ff;
+  --text-muted:#3a7a99;
+  --accent:    #00e5ff;
+  --accent2:   #0091b0;
+  --border:    #0a1a24;
+  --nav-bg:    rgba(0,0,0,0.92);
 
   /* musim warna accent */
-  --season-accent: #00d4ff;
-  --season-warm:   #00aaff;
+  --season-accent: #00e5ff;
+  --season-warm:   #0099ff;
   --font: 'Inter', sans-serif;
   --mono: 'JetBrains Mono', monospace;
 }
+
+* { -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; text-rendering: optimizeLegibility; }
 
 body {
   font-family: var(--font);
@@ -168,8 +170,8 @@ body {
 .hero-badge .dot {
   width: 8px; height: 8px;
   border-radius: 50%;
-  background: #00d4ff;
-  box-shadow: 0 0 6px #00d4ff;
+  background: #00e5ff;
+  box-shadow: 0 0 8px rgba(0,229,255,0.8), 0 0 16px rgba(0,229,255,0.3);
   animation: pulse-dot 2s infinite;
 }
 @keyframes pulse-dot {
@@ -213,9 +215,12 @@ body {
   height: 240px;
   border-radius: 50%;
   overflow: hidden;
-  border: 3px solid var(--accent);
-  box-shadow: 0 0 32px rgba(0,212,255,0.4);
-  background: var(--bg-card);
+  border: 2.5px solid var(--accent);
+  box-shadow:
+    0 0 0 8px rgba(0,229,255,0.06),
+    0 0 0 16px rgba(0,229,255,0.03),
+    0 0 40px rgba(0,229,255,0.35);
+  background: #000;
   position: relative;
 }
 .profile-img {
