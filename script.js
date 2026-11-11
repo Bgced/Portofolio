@@ -662,6 +662,19 @@ function setupTiltCards() {
 }
 
 // ========== THANK YOU TOAST (once per visitor) ==========
+// Bungkus tiap kata jadi span biar bisa dianimasikan berurutan
+function animateWords(textEl, text, baseDelay = 0) {
+  textEl.innerHTML = '';
+  text.split(' ').forEach((word, i) => {
+    const span = document.createElement('span');
+    span.className = 'toast-word';
+    span.textContent = word;
+    span.style.animationDelay = `${baseDelay + i * 0.09}s`;
+    textEl.appendChild(span);
+    textEl.appendChild(document.createTextNode(' '));
+  });
+}
+
 function showThankYouToast() {
   // Hanya sekali per browser
   if (localStorage.getItem('ck_visited')) return;
@@ -674,13 +687,18 @@ function showThankYouToast() {
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
     </svg>
     <div>
-      <p class="toast-title">Makasih udah mampir! 🙏</p>
-      <p class="toast-sub">Kalo ada yang mau ditanyain, gas aja!</p>
+      <p class="toast-title" id="toastTitle"></p>
+      <p class="toast-sub" id="toastSub"></p>
     </div>
     <button class="toast-close" aria-label="Tutup">&times;</button>
   `;
 
   document.body.appendChild(toast);
+
+  // Animasi kata demi kata — judul dulu, lalu subjudul
+  animateWords(toast.querySelector('#toastTitle'), 'Makasih udah mampir! 🙏', 0.15);
+  animateWords(toast.querySelector('#toastSub'), 'Kalo ada yang mau ditanyain, gas aja!', 0.65);
+
   const closeBtn = toast.querySelector('.toast-close');
   closeBtn.addEventListener('click', () => {
     toast.classList.remove('toast-visible');
@@ -690,13 +708,13 @@ function showThankYouToast() {
   // Animate in
   requestAnimationFrame(() => toast.classList.add('toast-visible'));
 
-  // Auto remove setelah 6 detik
+  // Auto remove setelah 7 detik (dikasih lebih lama karena teks muncul bertahap)
   setTimeout(() => {
     if (document.body.contains(toast)) {
       toast.classList.remove('toast-visible');
       setTimeout(() => toast.remove(), 500);
     }
-  }, 6000);
+  }, 7000);
 }
 
 // ========== PRELOADER ==========
