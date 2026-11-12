@@ -74,6 +74,9 @@ body {
 /* Season canvas di atas stars */
 #bgSeason { z-index: 2; }
 
+/* 3D hologram canvas - di atas stars, di bawah konten */
+#bgHologram { z-index: 3; }
+
 /* Vignette gelap di atas semuanya */
 .bg-vignette {
   position: fixed;

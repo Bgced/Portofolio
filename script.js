@@ -662,6 +662,162 @@ function setupCursorGlow() {
   document.addEventListener('mouseleave', () => { glow.style.opacity = '0'; });
 }
 
+// ========== 3D HOLOGRAM ==========
+function setupHologram() {
+  const hologramCanvas = document.getElementById('bgHologram');
+  if (!hologramCanvas) return;
+
+  // Reduced motion check
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // Color palette
+  const colors = {
+    bg: '#050a10',
+    cyan: '#00e5ff',
+    cyan2: '#0091f4',
+    glow: '#00ffcc',
+    accent: '#52eaff'
+  };
+
+  // Initialize Three.js
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(colors.bg);
+
+  const camera = new THREE.PerspectiveCamera(
+    60,
+    hologramCanvas.clientWidth / hologramCanvas.clientHeight,
+    0.1,
+    1000
+  );
+  camera.position.z = 3;
+
+  const renderer = new THREE.WebGLRenderer({
+    canvas: hologramCanvas,
+    antialias: true,
+    alpha: true
+  });
+  renderer.setSize(hologramCanvas.clientWidth, hologramCanvas.clientHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  // Handle resize
+  window.addEventListener('resize', () => {
+    const width = hologramCanvas.clientWidth;
+    const height = hologramCanvas.clientHeight;
+    camera.aspect = width / height;
+    camera.updateProjectionMatrix();
+    renderer.setSize(width, height);
+  });
+
+  // Hologram geometry - a complex shape
+  const geometry = new THREE.IcosahedronGeometry(1, 1);
+
+  // Custom shader material for hologram effect
+  const material = new THREE.ShaderMaterial({
+    uniforms: {
+      uTime: { value: 0 },
+      uCyan: { value: new THREE.Color(colors.cyan) },
+      uCyan2: { value: new THREE.Color(colors.cyan2) },
+      uGlow: { value: new THREE.Color(colors.glow) },
+      uAccent: { value: new THREE.Color(colors.accent) }
+    },
+    vertexShader: `
+      varying vUv;
+      varying vPos;
+      void main() {
+        vUv = uv;
+        vPos = position;
+        gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      }
+    `,
+    fragmentShader: `
+      uniform float uTime;
+      uniform vec3 uCyan;
+      uniform vec3 uCyan2;
+      uniform vec3 uGlow;
+      uniform vec3 uAccent;
+      varying vUv;
+      varying vPos;
+
+      // Noise function for organic feel
+      float noise(vec2 p) {
+        return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+      }
+
+      void main() {
+        vec3 pos = vPos;
+
+        // Calculate distance from center
+        float dist = length(pos);
+
+        // Time-based animation
+        float pulse = 0.5 + 0.5 * sin(uTime * 2.0);
+
+        // Cyan base color with pulse
+        vec3 color = uCyan * pulse;
+
+        // Add secondary cyan for depth
+        color += uCyan2 * sin(uTime * 1.5) * 0.3;
+
+        // Glow effect around edges
+        float edge = 1.0 - smoothstep(0.8, 1.0, dist);
+        color += uGlow * edge * 0.5;
+
+        // Accent highlights
+        color += uAccent * sin(uTime * 3.0 + pos.x * 10.0) * 0.2;
+
+        // Subtle noise for texture
+        float n = noise(vUv * 10.0 + uTime * 0.5);
+        color += vec3(0.01) * n;
+
+        gl_FragColor = vec4(color, 1.0);
+      }
+    `
+  });
+
+  // Hologram mesh
+  const hologram = new THREE.Mesh(geometry, material);
+  scene.add(hologram);
+
+  // Orbit controls (subtle)
+  let orbitAngle = 0;
+
+  // Mouse interaction
+  let mouseX = 0;
+  let mouseY = 0;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+    mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+  });
+
+  // Animation loop
+  let animTime = 0;
+  function animate() {
+    requestAnimationFrame(animate);
+
+    if (!prefersReducedMotion.matches) {
+      // Rotate based on mouse position
+      orbitAngle += 0.01;
+      hologram.rotation.y = Math.sin(orbitAngle) * 0.5;
+      hologram.rotation.x = Math.cos(orbitAngle * 1.3) * 0.3;
+
+      // Update shader time
+      material.uniforms.uTime.value = animTime;
+    }
+
+    animTime += 0.016;
+    renderer.render(scene, camera);
+  }
+
+  // Start animation after a short delay
+  setTimeout(() => {
+    animate();
+  }, 500);
+
+  // Store references for cleanup
+  return { scene, camera, renderer, hologram, prefersReducedMotion };
+}
+
 // ========== 3D TILT CARDS ==========
 function setupTiltCards() {
   const cards = document.querySelectorAll('.project-card, .skill-card');
@@ -746,7 +902,11 @@ function setupPreloader() {
     setTimeout(() => pre.classList.add('done'), 450);
   });
   // Fallback kalau load event kelewat
-  setTimeout(() => pre.classList.add('done'), 2500);
+  setTimeout(() => {
+    pre.classList.add('done');
+    // After preloader, allow content to show even if Three.js is still loading
+    init();
+  }, 2500);
 }
 
 // ========== INIT ==========
@@ -756,6 +916,12 @@ function init() {
   initSeasonParticles();
   buildSeasonIndicator();
   updateSeasonIndicator(SEASONS[0]);
+
+  // Start hologram after stars are ready
+  setTimeout(() => {
+    setupHologram();
+    setupTiltCards();
+  }, 500);
 
   animate();
   startSeasonCycle();
@@ -769,7 +935,6 @@ function init() {
   setupScrollAnimations();
   setupScrollProgress();
   setupCursorGlow();
-  setupTiltCards();
   setupPreloader();
   setupCopyEmail();
   typeLoop();
