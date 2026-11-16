@@ -1,0 +1,173 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+
+  --color-accent: #00d2ff;
+  --color-accent-dim: #0891b2;
+  --color-amber-accent: #ffb020;
+  --color-ink: #020617;
+  --color-panel: #0b1220;
+  --color-line: #1e293b;
+}
+
+:root {
+  --bg: #020617;
+  --bg-soft: #0b1220;
+  --fg: #e2e8f0;
+  --fg-muted: #94a3b8;
+  --line: #1e293b;
+  --accent: #00d2ff;
+  --amber: #ffb020;
+  /* next/font variables live on <body>, so the stacks are declared here too */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+  color-scheme: dark;
+}
+
+html[data-theme="light"] {
+  --bg: #eef2f7;
+  --bg-soft: #ffffff;
+  --fg: #0f172a;
+  --fg-muted: #475569;
+  --line: #cbd5e1;
+  color-scheme: light;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 84px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-sans);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* ---------- Shared industrial surfaces ---------- */
+.section-shell {
+  position: relative;
+  width: 100%;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+  padding-block: clamp(4rem, 9vw, 7rem);
+}
+
+.panel {
+  background: color-mix(in srgb, var(--bg-soft) 88%, transparent);
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.grid-texture {
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--accent) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--accent) 8%, transparent) 1px, transparent 1px);
+  background-size: 44px 44px;
+  mask-image: radial-gradient(ellipse at 50% 30%, black 25%, transparent 75%);
+}
+
+.hairline {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  opacity: 0.55;
+}
+
+/* ---------- Marquee ---------- */
+@keyframes marquee-x {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-x 32s linear infinite;
+}
+.marquee-track:hover { animation-play-state: paused; }
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 0.7; }
+  70% { transform: scale(1.6); opacity: 0; }
+  100% { opacity: 0; }
+}
+.pulse-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  animation: pulse-ring 2.4s cubic-bezier(0.24, 0.6, 0.35, 1) infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(300%); }
+}
+.scanline::before {
+  content: "";
+  position: absolute;
+  inset-inline: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--accent) 22%, transparent), transparent);
+  animation: scan 5.5s linear infinite;
+  pointer-events: none;
+}
+
+/* ---------- Mascot speech bubble ---------- */
+@keyframes bubble-pop {
+  0% { transform: translateY(6px) scale(0.96); opacity: 0; }
+  100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+.mascot-bubble {
+  animation: bubble-pop 0.28s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+.mascot-bubble-tail {
+  position: absolute;
+  left: 50%;
+  bottom: -7px;
+  width: 12px;
+  height: 12px;
+  transform: translateX(-50%) rotate(45deg);
+  background: #020617;
+  border-right: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
