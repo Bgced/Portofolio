@@ -402,7 +402,7 @@ function LoadingPlaceholder() {
  * - static ContactShadows (frames={1}) instead of a real-time shadow map
  */
 export default function InteractiveMascot3D({ className = "" }) {
-  const { lang } = useLang();
+  const { t, lang } = useLang();
   const wrapRef = useRef(null);
   const scrollRef = useRef(0);
   const bubbleTimer = useRef(null);
