@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { CALC_KEYS } from "@/lib/content";
+import { useLang } from "@/components/providers";
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -9,7 +10,7 @@ import { CALC_KEYS } from "@/lib/content";
 
 const MAX_DIGITS = 14;
 const PRECISION = 1e12;
-const DIV_ZERO = "Nggak bisa dibagi 0 bro!";
+const DIV_ZERO = "DIV_ZERO";
 
 /** Buang artefak float kayak 0.1+0.2 = 0.30000000000000004 */
 function round(n) {
@@ -233,6 +234,8 @@ function keyClasses(key) {
 /* ------------------------------------------------------------------ */
 
 export default function CyberCalc({ active = true }) {
+  const { lang } = useLang();
+  const en = lang === "en";
   const [state, dispatch] = useReducer(reducer, INITIAL);
   const press = useCallback((key) => {
     if (/^\d$/.test(key)) return dispatch({ type: "DIGIT", digit: key });
@@ -287,7 +290,10 @@ export default function CyberCalc({ active = true }) {
     return () => window.removeEventListener("keydown", onKeyDown);
   }, [active]);
 
-  const display = useMemo(() => (state.error ? DIV_ZERO : pretty(state.display)), [state.display, state.error]);
+  const display = useMemo(
+    () => (state.error ? (en ? "Can't divide by 0, bro!" : "Nggak bisa dibagi 0 bro!") : pretty(state.display)),
+    [state.display, state.error, en]
+  );
 
   const expression = useMemo(() => {
     if (state.error) return "ERROR / DIV_BY_ZERO";
@@ -330,7 +336,7 @@ export default function CyberCalc({ active = true }) {
             </p>
           </div>
 
-          <div className="grid grid-cols-4 gap-2" role="group" aria-label="Keypad kalkulator">
+          <div className="grid grid-cols-4 gap-2" role="group" aria-label={en ? "Calculator keypad" : "Keypad kalkulator"}>
             {CALC_KEYS.flat().map((key) => (
               <button
                 key={key}
@@ -345,7 +351,9 @@ export default function CyberCalc({ active = true }) {
           </div>
 
           <p className="mono-label mt-3 text-center leading-relaxed">
-            keyboard aktif: 0-9 · . + - * / % · enter = · backspace del · esc ac
+            {en
+              ? "keyboard active: 0-9 · . + - * / % · enter = · backspace del · esc ac"
+              : "keyboard aktif: 0-9 · . + - * / % · enter = · backspace del · esc ac"}
           </p>
         </div>
       </div>
@@ -356,9 +364,9 @@ export default function CyberCalc({ active = true }) {
           <p className="mono-label">recent ops</p>
           {state.ticker.length === 0 ? (
             <p className="mt-3 font-mono text-[0.72rem] leading-relaxed text-muted">
-              belum ada operasi.
+              {en ? "no operations yet." : "belum ada operasi."}
               <br />
-              coba 12 × 8 terus pencet =.
+              {en ? "try 12 × 8 then hit =." : "coba 12 × 8 terus pencet =."}
             </p>
           ) : (
             <ul className="mt-3 space-y-1.5">
@@ -378,19 +386,25 @@ export default function CyberCalc({ active = true }) {
         </div>
 
         <div className="panel p-4">
-          <p className="mono-label">catatan mesin</p>
+          <p className="mono-label">{en ? "machine notes" : "catatan mesin"}</p>
           <ul className="mt-3 space-y-2 text-[0.78rem] leading-relaxed text-muted">
             <li className="flex gap-2">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-              Presisi dipangkas ke 12 digit, jadi 0.1 + 0.2 = 0.3 — bukan 0.30000000000000004.
+              {en
+                ? "Precision is capped at 12 digits, so 0.1 + 0.2 = 0.3 — not 0.30000000000000004."
+                : "Presisi dipangkas ke 12 digit, jadi 0.1 + 0.2 = 0.3 — bukan 0.30000000000000004."}
             </li>
             <li className="flex gap-2">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-              Operator dobel otomatis diganti, nggak numpuk jadi &quot;++&quot;.
+              {en
+                ? "Consecutive operators are replaced automatically, they don't stack into ++."
+                : "Operator dobel otomatis diganti, nggak numpuk jadi ++."}
             </li>
             <li className="flex gap-2">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
-              Bagi 0 bikin mesin kunci. Tekan AC atau DEL buat bangunin.
+              {en
+                ? "Dividing by 0 locks the machine. Press AC or DEL to wake it up."
+                : "Bagi 0 bikin mesin kunci. Tekan AC atau DEL buat bangunin."}
             </li>
           </ul>
         </div>

@@ -10,7 +10,7 @@ const PROVIDER_TIMEOUT_MS = 12000;
 
 const SYSTEM_PROMPT = `Kamu adalah "Cekael AI", asisten di portfolio ${PROFILE.fullName} (panggil "Cekael").
 Aturan:
-- Selalu jawab dalam Bahasa Indonesia gaul (santai, akrab, pakai "lo/gue" secukupnya), singkat 2-6 baris.
+- Selalu jawab dalam Bahasa Indonesia gaul (santai, akrab, pakai "kamu/aku" secukupnya), singkat 2-6 baris.
 - Fokus topik: profil Cekael, skill, project, cara kontak, dan bantu jelasin mini tools di portfolio (Cyber Calc, BMI Check).
 - Kalau relevan, arahkan user ke project/link/kontak berikut.
 - Jangan mengarang data pribadi di luar fakta ini. Kalau nggak tau, bilang belum tau dan arahkan ke kontak.
@@ -54,7 +54,14 @@ function localFallback(text, note) {
   return json({ reply: getLocalReply(text), source: "local" });
 }
 
-async function callGemini(messages, apiKey, model) {
+function systemPrompt(lang) {
+  if (lang === "en") {
+    return `${SYSTEM_PROMPT}\n\nLANGUAGE OVERRIDE: The visitor switched the site to English. Reply in casual, friendly English (2-6 lines). Keep the same facts; do not invent anything.`;
+  }
+  return SYSTEM_PROMPT;
+}
+
+async function callGemini(messages, apiKey, model, prompt) {
   const contents = messages.map((m) => ({
     role: m.role === "assistant" ? "model" : "user",
     parts: [{ text: m.content }],
@@ -72,7 +79,7 @@ async function callGemini(messages, apiKey, model) {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          systemInstruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          systemInstruction: { parts: [{ text: prompt }] },
           contents,
           generationConfig: { temperature: 0.8, maxOutputTokens: 512, topP: 0.95 },
         }),
@@ -95,7 +102,7 @@ async function callGemini(messages, apiKey, model) {
   }
 }
 
-async function callOpenAI(messages, apiKey, model) {
+async function callOpenAI(messages, apiKey, model, prompt) {
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), PROVIDER_TIMEOUT_MS);
 
@@ -108,7 +115,7 @@ async function callOpenAI(messages, apiKey, model) {
       },
       body: JSON.stringify({
         model,
-        messages: [{ role: "system", content: SYSTEM_PROMPT }, ...messages],
+        messages: [{ role: "system", content: prompt }, ...messages],
         temperature: 0.8,
         max_tokens: 512,
       }),
@@ -136,6 +143,8 @@ export async function POST(request) {
   }
 
   const messages = sanitizeMessages(payload?.messages);
+  const lang = payload?.lang === "en" ? "en" : "id";
+  const prompt = systemPrompt(lang);
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
   const lastUserText = lastUser?.content ?? "";
 
@@ -147,13 +156,13 @@ export async function POST(request) {
   const openaiKey = process.env.OPENAI_API_KEY;
 
   if (geminiKey) {
-    const reply = await callGemini(messages, geminiKey, process.env.GEMINI_MODEL || "gemini-2.0-flash");
+    const reply = await callGemini(messages, geminiKey, process.env.GEMINI_MODEL || "gemini-2.0-flash", prompt);
     if (reply) return json({ reply, source: "gemini" });
     return localFallback(lastUserText, "gemini gagal, pakai brain lokal");
   }
 
   if (openaiKey) {
-    const reply = await callOpenAI(messages, openaiKey, process.env.OPENAI_MODEL || "gpt-4o-mini");
+    const reply = await callOpenAI(messages, openaiKey, process.env.OPENAI_MODEL || "gpt-4o-mini", prompt);
     if (reply) return json({ reply, source: "openai" });
     return localFallback(lastUserText, "openai gagal, pakai brain lokal");
   }

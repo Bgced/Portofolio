@@ -2,6 +2,7 @@
 
 import { Briefcase, Camera, Mail, MessageCircle } from "lucide-react";
 import { NAV_LINKS, PROFILE, SOCIALS } from "@/lib/content";
+import { useLang } from "@/components/providers";
 
 const ICONS = {
   mail: Mail,
@@ -12,6 +13,8 @@ const ICONS = {
 
 export default function Footer() {
   const year = new Date().getFullYear();
+  const { t, lang } = useLang();
+  const en = lang === "en";
 
   return (
     <footer className="relative z-10 mt-4 border-t border-line-soft bg-canvas">
@@ -40,7 +43,7 @@ export default function Footer() {
           {/* nav + social */}
           <div className="grid grid-cols-2 gap-8 sm:gap-14">
             <nav aria-label="Navigasi footer">
-              <p className="mono-label mb-3">Peta</p>
+              <p className="mono-label mb-3">{en ? "Map" : "Peta"}</p>
               <ul className="flex flex-col gap-2">
                 {NAV_LINKS.map((link) => (
                   <li key={link.id}>
@@ -48,7 +51,7 @@ export default function Footer() {
                       href={`#${link.id}`}
                       className="text-[0.8rem] text-muted transition-colors hover:text-accent"
                     >
-                      {link.label}
+                      {t(`nav.${link.id}`)}
                     </a>
                   </li>
                 ))}
@@ -56,7 +59,7 @@ export default function Footer() {
             </nav>
 
             <div>
-              <p className="mono-label mb-3">Sinyal</p>
+              <p className="mono-label mb-3">{en ? "Signals" : "Sinyal"}</p>
               <ul className="flex flex-col gap-2">
                 {SOCIALS.map((social) => {
                   const Icon = ICONS[social.icon] ?? Mail;
@@ -90,13 +93,13 @@ export default function Footer() {
         </p>
 
         <div className="mt-6 flex flex-col gap-2 text-[0.72rem] text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p>Dibuat oleh Cedric Kilian</p>
-          <p className="mono-label text-[0.58rem]">Universitas Negeri Yogyakarta · Electrical Engineering</p>
+          <p>{t("footer.made")}</p>
+          <p className="mono-label text-[0.58rem]">{t("footer.uni")}</p>
         </div>
 
         <div className="mt-4 flex flex-col gap-1 text-[0.66rem] text-muted sm:flex-row sm:items-center sm:justify-between">
           <p className="mono-label text-[0.55rem]">© {year} CEK-2026 · All systems nominal</p>
-          <p className="mono-label text-[0.55rem]">Built with Next.js &amp; Tailwind</p>
+          <p className="mono-label text-[0.55rem]">{t("footer.built")}</p>
         </div>
       </div>
     </footer>

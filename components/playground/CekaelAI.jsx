@@ -3,6 +3,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Bot, CornerDownLeft, Send, Sparkles } from "lucide-react";
 import { AI_SUGGESTIONS } from "@/lib/content";
+import { AI_SUGGESTIONS_EN } from "@/lib/content-en";
+import { useLang } from "@/components/providers";
 import { getLocalReply } from "@/lib/cekael-brain";
 
 const CHARS_PER_TICK = 3;
@@ -11,15 +13,21 @@ const REQUEST_TIMEOUT_MS = 8000;
 const MAX_CONTEXT = 10;
 
 const WELCOME =
-  "Yo! Gue Cekael AI — asisten lokal di portfolio Cedric Kilian.\nTanya apa aja soal profil, project, skill, atau kontak. Kalau server lagi offline, gue tetep jawab pakai brain lokal.";
+  "Yo! Aku Cekael AI — asisten lokal di portfolio Cedric Kilian.\nTanya apa aja soal profil, project, skill, atau kontak. Kalau server lagi offline, aku tetep jawab pakai brain lokal.";
+
+const WELCOME_EN =
+  "Yo! I'm Cekael AI — the local assistant inside Cedric Kilian's portfolio.\nAsk me anything about his profile, projects, skills, or how to get in touch. If the server is offline, I'll still answer from the local brain.";
 
 function nextId() {
   return `m-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
 }
 
 export default function CekaelAI() {
+  const { lang } = useLang();
+  const en = lang === "en";
+  const suggestions = en ? AI_SUGGESTIONS_EN : AI_SUGGESTIONS;
   const [messages, setMessages] = useState(() => [
-    { id: "welcome", role: "assistant", content: WELCOME, typed: true },
+    { id: "welcome", role: "assistant", content: en ? WELCOME_EN : WELCOME, typed: true },
   ]);
   const [input, setInput] = useState("");
   const [busy, setBusy] = useState(false);
@@ -52,6 +60,13 @@ export default function CekaelAI() {
     if (!node) return;
     node.scrollTo({ top: node.scrollHeight, behavior: "smooth" });
   }, [messages, busy]);
+
+  // Keep the greeting in sync when the language toggle changes.
+  useEffect(() => {
+    setMessages((prev) =>
+      prev.map((m) => (m.id === "welcome" ? { ...m, content: en ? WELCOME_EN : WELCOME } : m))
+    );
+  }, [en]);
 
   const typeOut = useCallback((id, full) => {
     clearTimer();
@@ -106,7 +121,7 @@ export default function CekaelAI() {
           res = await fetch("/api/chat", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ messages: history }),
+            body: JSON.stringify({ messages: history, lang }),
             signal: controller.signal,
           });
         } finally {
@@ -176,7 +191,7 @@ export default function CekaelAI() {
         ref={listRef}
         className="no-scrollbar max-h-[380px] min-h-[280px] overflow-y-auto px-3 py-4 sm:px-4"
         aria-live="polite"
-        aria-label="Percakapan dengan Cekael AI"
+        aria-label={en ? "Conversation with Cekael AI" : "Percakapan dengan Cekael AI"}
       >
         <div className="space-y-3">
           {messages.map((message) => {
@@ -197,7 +212,7 @@ export default function CekaelAI() {
                     </span>
                   ) : null}
                   {isThinking ? (
-                    <span className="flex items-center gap-1.5 py-1" aria-label="Cekael AI sedang mengetik">
+                    <span className="flex items-center gap-1.5 py-1" aria-label={en ? "Cekael AI is typing" : "Cekael AI sedang mengetik"}>
                       <span className="typing-dot" />
                       <span className="typing-dot" />
                       <span className="typing-dot" />
@@ -219,7 +234,7 @@ export default function CekaelAI() {
 
       {/* suggestions */}
       <div className="no-scrollbar flex gap-2 overflow-x-auto border-t border-line-soft px-3 py-2.5 sm:px-4">
-        {AI_SUGGESTIONS.map((suggestion) => (
+        {suggestions.map((suggestion) => (
           <button
             key={suggestion}
             type="button"
@@ -235,36 +250,36 @@ export default function CekaelAI() {
       {/* composer */}
       <form onSubmit={onSubmit} className="border-t border-line-soft p-3 sm:p-4">
         <div className="flex items-end gap-2">
-          <label htmlFor="cekael-input" className="sr-only">
-            Tulis pesan buat Cekael AI
-          </label>
+            <label htmlFor="cekael-input" className="sr-only">
+              {en ? "Write a message for Cekael AI" : "Tulis pesan buat Cekael AI"}
+            </label>
           <textarea
             id="cekael-input"
             rows={1}
             value={input}
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Tanya apa aja... (Enter kirim, Shift+Enter baris baru)"
+            placeholder={en ? "Ask me anything... (Enter to send, Shift+Enter for a new line)" : "Tanya apa aja... (Enter kirim, Shift+Enter baris baru)"}
             className="max-h-28 min-h-[48px] w-full resize-none rounded-xl border border-line-soft bg-canvas px-3 py-3 text-[0.84rem] leading-relaxed text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-accent/70"
           />
           <button
             type="submit"
             disabled={busy || !input.trim()}
-            aria-label="Kirim pesan"
+            aria-label={en ? "Send message" : "Kirim pesan"}
             className="btn btn-primary min-h-[48px] min-w-[48px] shrink-0 px-4 disabled:cursor-not-allowed disabled:opacity-40"
           >
             <Send className="h-4 w-4" aria-hidden="true" />
-            <span className="hidden sm:inline">Kirim</span>
+            <span className="hidden sm:inline">{en ? "Send" : "Kirim"}</span>
           </button>
         </div>
         <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 font-mono text-[0.6rem] uppercase tracking-[0.16em] text-muted">
           <span className="inline-flex items-center gap-1">
-            <CornerDownLeft className="h-3 w-3" aria-hidden="true" /> enter kirim
+            <CornerDownLeft className="h-3 w-3" aria-hidden="true" /> {en ? "enter to send" : "enter kirim"}
           </span>
           <span className="inline-flex items-center gap-1">
-            <Sparkles className="h-3 w-3" aria-hidden="true" /> fallback lokal aktif
+            <Sparkles className="h-3 w-3" aria-hidden="true" /> {en ? "local fallback active" : "fallback lokal aktif"}
           </span>
-          <span className="text-muted/70">nggak ada key disimpan di browser</span>
+          <span className="text-muted/70">{en ? "no API keys stored in the browser" : "nggak ada key disimpan di browser"}</span>
         </p>
       </form>
     </div>

@@ -6,6 +6,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import TiltCard from "@/components/ui/TiltCard";
 import { NOTES, PROFILE } from "@/lib/content";
+import { NOTES_EN } from "@/lib/content-en";
+import { useLang } from "@/components/providers";
 
 const FOCUS = ["React / Next.js", "3D Web", "Embedded / IoT", "AI-Assisted Dev"];
 
@@ -16,14 +18,18 @@ const TERMINAL_LINES = [
 ];
 
 export default function About() {
+  const { t, lang } = useLang();
+  const en = lang === "en";
+  const notes = NOTES.map((note, index) => (en ? { ...note, ...(NOTES_EN[index] ?? {}) } : note));
+
   return (
     <section id="about" className="section-shell">
       <SectionHeading
         index="01"
-        kicker="tentang"
-        title="Bukan cuma ngoding."
-        accent="Gue juga ngulik sirkuit."
-        intro="Software engineer yang kuliah teknik elektro — dua dunia yang ternyata nyambung banget."
+        kicker={t("about.kicker")}
+        title={t("about.title")}
+        accent={t("about.accent")}
+        intro={t("about.intro")}
       />
 
       <div className="grid gap-3 sm:gap-4 lg:grid-cols-12">
@@ -48,12 +54,12 @@ export default function About() {
                 <span className="pill pill-accent">ID / CEK-2026</span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-ok/40 bg-surface-2 px-2.5 py-1 font-mono text-[0.56rem] uppercase tracking-[0.12em] text-ok">
                   <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
-                  available
+                  {t("about.available")}
                 </span>
               </div>
 
               <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="font-mono text-[0.55rem] uppercase tracking-[0.18em] text-accent">operator</p>
+                <p className="font-mono text-[0.55rem] uppercase tracking-[0.18em] text-accent">{t("about.operator")}</p>
                 <p className="mt-1 text-lg font-semibold leading-tight text-ink">{PROFILE.name}</p>
                 <p className="mt-1 text-[0.74rem] leading-snug text-muted">{PROFILE.role}</p>
                 <p className="mt-3 flex items-center gap-1.5 font-mono text-[0.58rem] uppercase tracking-[0.12em] text-muted">
@@ -68,20 +74,15 @@ export default function About() {
         {/* bio */}
         <Reveal delay={0.05} className="h-full lg:col-span-8">
           <div className="panel panel-hover flex h-full flex-col gap-3 p-5 sm:p-6">
-            <p className="mono-label">// profil singkat</p>
+            <p className="mono-label">{t("about.profile")}</p>
             <p className="text-[0.95rem] leading-relaxed text-ink">
-              Gue <span className="font-semibold text-accent">Cedric</span> — lebih sering ngoprek
-              daripada ngomong. Fokus gue bikin web yang cepat, rapi, dan nggak bikin mata sakit:
-              React, Next.js, Tailwind, plus Three.js kalau butuh sentuhan visual 3D.
+              {t("about.p1")}
             </p>
             <p className="text-[0.88rem] leading-relaxed text-muted">
-              Di kampus gue ambil S1 Teknik Elektro di UNY. Jadi selain ngurus component dan state,
-              gue juga belajar rangkaian, sistem digital, sampai mikrokontroler. Kombinasi ini yang
-              bikin cara gue nyelesaiin masalah agak beda dari yang cuma ngoding.
+              {t("about.p2")}
             </p>
             <p className="text-[0.88rem] leading-relaxed text-muted">
-              Yang paling gue suka: bikin sesuatu dari nol. Mulai dari folder kosong, sketsa di
-              kertas, sampai akhirnya jalan di browser atau nyala di breadboard.
+              {t("about.p3")}
             </p>
             <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
               <span className="pill">S1 Teknik Elektro</span>
@@ -126,12 +127,12 @@ export default function About() {
           <TiltCard max={5} className="panel panel-hover h-full p-4 sm:p-5">
             <div className="flex items-baseline justify-between gap-2">
               <p className="font-mono text-3xl font-semibold leading-none text-accent">3+</p>
-              <span className="mono-label text-right text-[0.55rem]">project live</span>
+              <span className="mono-label text-right text-[0.55rem]">{t("about.focus")}</span>
             </div>
             <div className="hairline my-3" />
             <div className="flex items-baseline justify-between gap-2">
               <p className="font-mono text-3xl font-semibold leading-none text-ink">6</p>
-              <span className="mono-label text-right text-[0.55rem]">modul elektro</span>
+              <span className="mono-label text-right text-[0.55rem]">{t("about.modules")}</span>
             </div>
             <p className="mt-4 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-accent">
               electrical × web
@@ -150,11 +151,11 @@ export default function About() {
         <Reveal delay={0.2} className="lg:col-span-12">
           <div className="panel px-4 py-4 sm:px-5">
             <div className="mb-3 flex items-center justify-between">
-              <p className="mono-label">// catatan terbaru</p>
+              <p className="mono-label">{t("about.notes")}</p>
               <ArrowUpRight size={13} className="text-accent" aria-hidden="true" />
             </div>
             <div className="grid gap-2 sm:grid-cols-3">
-              {NOTES.map((note) => (
+              {notes.map((note) => (
                 <a
                   key={note.title}
                   href="#playground"

@@ -13,30 +13,28 @@ import HeroFallback from "./HeroFallback";
 ------------------------------------------------------------------- */
 const PALETTES = {
   dark: {
-    body: "#191510",
-    bodyAccent: "#241c14",
-    edge: "#ff6a2a",
-    edgeSoft: "#8a3b18",
-    fog: "#0b0a08",
-    ambient: 0.52,
-    key: 1.45,
-    fill: 0.32,
-    coreGlow: 4.5,
-    keyColor: "#ffe4cf",
-    bodyMetalness: 0.34,
+    body: "#08090b",
+    bodyAccent: "#10151a",
+    edge: "#00f0ff",
+    edgeSoft: "#0b6f7a",
+    ambient: 0.5,
+    key: 1.55,
+    fill: 0.4,
+    coreGlow: 5.5,
+    keyColor: "#d7feff",
+    bodyMetalness: 0.42,
   },
   light: {
-    body: "#e6dfd0",
-    bodyAccent: "#f2ecdd",
-    edge: "#c2410c",
-    edgeSoft: "#e8a87c",
-    fog: "#f4f0e6",
-    ambient: 0.98,
-    key: 2.15,
-    fill: 0.55,
+    body: "#dbe3ec",
+    bodyAccent: "#eef3f8",
+    edge: "#0284c7",
+    edgeSoft: "#7dd3fc",
+    ambient: 1.02,
+    key: 2.2,
+    fill: 0.6,
     coreGlow: 0,
-    keyColor: "#fffdf7",
-    bodyMetalness: 0.12,
+    keyColor: "#ffffff",
+    bodyMetalness: 0.16,
   },
 };
 
@@ -401,8 +399,6 @@ function Rig({ reduced, children }) {
 const SceneContents = memo(function SceneContents({ palette, reduced }) {
   return (
     <>
-      <fog attach="fog" args={[palette.fog, 10.5, 24]} />
-
       <ambientLight intensity={palette.ambient} />
       <directionalLight position={[4, 6, 6]} intensity={palette.key} color={palette.keyColor} />
       <directionalLight

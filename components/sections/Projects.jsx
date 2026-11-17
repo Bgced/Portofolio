@@ -5,9 +5,8 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import TiltCard from "@/components/ui/TiltCard";
 import { PROJECTS } from "@/lib/content";
-
-const featured = PROJECTS.find((project) => project.featured) ?? PROJECTS[0];
-const rest = PROJECTS.filter((project) => project.id !== featured.id);
+import { PROJECTS_EN } from "@/lib/content-en";
+import { useLang } from "@/components/providers";
 
 /** Tumpukan plat isometrik murni CSS — pengganti visual 3D di kartu featured. */
 function CubeStack() {
@@ -36,13 +35,21 @@ function CubeStack() {
 }
 
 export default function Projects() {
+  const { t, lang } = useLang();
+  const en = lang === "en";
+  const localized = PROJECTS.map((project) =>
+    en ? { ...project, ...(PROJECTS_EN[project.id] ?? {}) } : project
+  );
+  const featured = localized.find((project) => project.featured) ?? localized[0];
+  const rest = localized.filter((project) => project.id !== featured.id);
+
   return (
     <section id="projects" className="section-shell">
       <SectionHeading
         index="02"
-        kicker="karya"
-        title="Karya & Project Gue"
-        intro="Bukan sekadar numpuk tutorial — ini yang beneran gue bangun, deploy, dan pake sendiri."
+        kicker={t("projects.kicker")}
+        title={t("projects.title")}
+        intro={t("projects.intro")}
       />
 
       <div className="grid gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">
@@ -97,8 +104,8 @@ export default function Projects() {
               {/* copy */}
               <div className="flex flex-col gap-4 p-5 sm:p-6 lg:p-7">
                 <div className="flex items-center gap-2">
-                  <span className="pill">featured</span>
-                  <span className="mono-label text-[0.55rem]">lab interaktif</span>
+                  <span className="pill">{t("projects.featured")}</span>
+                  <span className="mono-label text-[0.55rem]">{t("projects.lab")}</span>
                 </div>
 
                 <h3 className="max-w-[26ch] text-[clamp(1.4rem,2.6vw,2rem)] font-semibold leading-[1.1] tracking-[-0.02em] text-ink">
@@ -136,7 +143,7 @@ export default function Projects() {
                     rel="noopener noreferrer"
                     className="btn btn-primary group w-full sm:w-auto"
                   >
-                    Gas Cek Webnya ↗
+                    {t("projects.cta")} ↗
                   </a>
                 </div>
               </div>
@@ -228,8 +235,8 @@ export default function Projects() {
               <Plus size={15} aria-hidden="true" />
             </span>
             <div>
-              <p className="text-[0.8rem] text-muted">Next project loading...</p>
-              <p className="mono-label mt-1 text-[0.52rem]">queue · in progress</p>
+              <p className="text-[0.8rem] text-muted">{t("projects.next")}</p>
+              <p className="mono-label mt-1 text-[0.52rem]">{t("projects.queue")}</p>
             </div>
           </div>
         </Reveal>

@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { HeartPulse, RotateCcw } from "lucide-react";
+import { useLang } from "@/components/providers";
 
 const MIN_BMI = 15;
 const MAX_BMI = 40;
@@ -13,15 +14,17 @@ const BANDS = [
   { from: 30, to: 40, label: "Obesitas", bar: "bg-danger" },
 ];
 
-function categorize(bmi) {
+function categorize(bmi, en) {
   if (bmi < 18.5) {
     return {
       key: "kurus",
-      label: "Kurus",
+      label: en ? "Underweight" : "Kurus",
       tone: "text-[#fbbf24]",
       border: "border-[#fbbf24]/40",
       bg: "bg-[#fbbf24]/10",
-      msg: "Kurus banget bro, gas perbanyak makan bergizi!",
+      msg: en
+        ? "Pretty light — time to eat more nutritious meals!"
+        : "Kurus banget bro, gas perbanyak makan bergizi!",
     };
   }
   if (bmi < 25) {
@@ -31,7 +34,9 @@ function categorize(bmi) {
       tone: "text-ok",
       border: "border-ok/40",
       bg: "bg-ok/10",
-      msg: "Mantap! Badan lo udah ideal abis, pertahanin!",
+      msg: en
+        ? "Nice! Your body is right in the ideal range — keep it up!"
+        : "Mantap! Badan kamu udah ideal abis, pertahanin!",
     };
   }
   if (bmi < 30) {
@@ -41,54 +46,71 @@ function categorize(bmi) {
       tone: "text-[#fb923c]",
       border: "border-[#fb923c]/40",
       bg: "bg-[#fb923c]/10",
-      msg: "Agak berisi nih (Overweight), yuk mulai rutin lari!",
+      msg: en
+        ? "A little over the range — start with a short run now and then!"
+        : "Agak berisi nih (Overweight), yuk mulai rutin lari!",
     };
   }
   return {
     key: "obesitas",
-    label: "Obesitas",
+    label: en ? "Obese" : "Obesitas",
     tone: "text-danger",
     border: "border-danger/40",
     bg: "bg-danger/10",
-    msg: "Waduh udah masuk Obesitas, gas olahraga & atur pola makan!",
+    msg: en
+      ? "This is in the obese range — get moving and sort out your eating pattern!"
+      : "Waduh udah masuk Obesitas, gas olahraga & atur pola makan!",
   };
 }
 
-function parseField(raw) {
+function parseField(raw, en) {
   const cleaned = String(raw).replace(",", ".").trim();
   if (!cleaned) return { value: null, error: null };
-  if (!/^\d*\.?\d*$/.test(cleaned)) return { value: null, error: "Isi angka aja ya, jangan huruf atau simbol." };
+  if (!/^\d*\.?\d*$/.test(cleaned))
+    return { value: null, error: en ? "Numbers only, no letters or symbols." : "Isi angka aja ya, jangan huruf atau simbol." };
   const value = Number.parseFloat(cleaned);
-  if (!Number.isFinite(value)) return { value: null, error: "Angkanya nggak kebaca nih, coba ulang." };
-  if (value <= 0) return { value: null, error: "Harus lebih dari 0 dong, masa iya segitu." };
+  if (!Number.isFinite(value))
+    return { value: null, error: en ? "That number doesn't parse, try again." : "Angkanya nggak kebaca nih, coba ulang." };
+  if (value <= 0)
+    return { value: null, error: en ? "It has to be greater than 0." : "Harus lebih dari 0 dong, masa iya segitu." };
   return { value, error: null };
 }
 
 const clamp = (n, min, max) => Math.min(max, Math.max(min, n));
 
 export default function BmiCalc() {
+  const { lang } = useLang();
+  const en = lang === "en";
   const [height, setHeight] = useState("");
   const [weight, setWeight] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [pulse, setPulse] = useState(0);
 
-  const heightParsed = useMemo(() => parseField(height), [height]);
-  const weightParsed = useMemo(() => parseField(weight), [weight]);
+  const heightParsed = useMemo(() => parseField(height, en), [height, en]);
+  const weightParsed = useMemo(() => parseField(weight, en), [weight, en]);
 
   const heightError =
     heightParsed.error ??
     (heightParsed.value !== null && heightParsed.value < 80
-      ? "Tinggi segitu kayak bayi bro, cek lagi ya (cm)."
+      ? en
+        ? "That's baby height — double-check the number (cm)."
+        : "Tinggi segitu kayak bayi bro, cek lagi ya (cm)."
       : heightParsed.value !== null && heightParsed.value > 250
-        ? "Lebih dari 2,5 meter? Cek satuannya, harus cm."
+        ? en
+          ? "Over 2.5 meters? Check the unit, it should be cm."
+          : "Lebih dari 2,5 meter? Cek satuannya, harus cm."
         : null);
 
   const weightError =
     weightParsed.error ??
     (weightParsed.value !== null && weightParsed.value < 20
-      ? "Berat segitu terlalu kecil, cek lagi ya (kg)."
+      ? en
+        ? "That weight is too low — check again (kg)."
+        : "Berat segitu terlalu kecil, cek lagi ya (kg)."
       : weightParsed.value !== null && weightParsed.value > 350
-        ? "Di atas 350 kg? Pastiin satuannya kg ya."
+        ? en
+          ? "Over 350 kg? Make sure the unit is kg."
+          : "Di atas 350 kg? Pastiin satuannya kg ya."
         : null);
 
   const ready = heightParsed.value !== null && weightParsed.value !== null && !heightError && !weightError;
@@ -100,12 +122,12 @@ export default function BmiCalc() {
     const rounded = Math.round(bmi * 10) / 10;
     return {
       bmi: rounded,
-      category: categorize(rounded),
+      category: categorize(rounded, en),
       healthyMin: Math.round(18.5 * m * m * 10) / 10,
       healthyMax: Math.round(24.9 * m * m * 10) / 10,
       position: clamp(((rounded - MIN_BMI) / (MAX_BMI - MIN_BMI)) * 100, 0, 100),
     };
-  }, [ready, heightParsed.value, weightParsed.value]);
+  }, [ready, heightParsed.value, weightParsed.value, en]);
 
   const showHeightError = Boolean(heightError) && (height.length > 0 || submitted);
   const showWeightError = Boolean(weightError) && (weight.length > 0 || submitted);
@@ -139,7 +161,7 @@ export default function BmiCalc() {
         <div className="space-y-4 p-4">
           <div>
             <label htmlFor="bmi-height" className="mono-label mb-1.5 block">
-              tinggi badan (cm)
+              {en ? "height (cm)" : "tinggi badan (cm)"}
             </label>
             <div className="relative">
               <input
@@ -148,7 +170,7 @@ export default function BmiCalc() {
                 type="text"
                 inputMode="decimal"
                 autoComplete="off"
-                placeholder="contoh: 172"
+                placeholder={en ? "e.g. 172" : "contoh: 172"}
                 value={height}
                 onChange={(event) => {
                   setHeight(event.target.value);
@@ -173,7 +195,7 @@ export default function BmiCalc() {
 
           <div>
             <label htmlFor="bmi-weight" className="mono-label mb-1.5 block">
-              berat badan (kg)
+              {en ? "weight (kg)" : "berat badan (kg)"}
             </label>
             <div className="relative">
               <input
@@ -182,7 +204,7 @@ export default function BmiCalc() {
                 type="text"
                 inputMode="decimal"
                 autoComplete="off"
-                placeholder="contoh: 64"
+                placeholder={en ? "e.g. 64" : "contoh: 64"}
                 value={weight}
                 onChange={(event) => {
                   setWeight(event.target.value);
@@ -207,7 +229,7 @@ export default function BmiCalc() {
 
           <div className="flex flex-wrap items-center gap-2 pt-1">
             <button type="submit" className="btn btn-primary flex-1 sm:flex-none">
-              Cek Sekarang
+              {en ? "Check Now" : "Cek Sekarang"}
             </button>
             <button type="button" onClick={reset} className="btn btn-ghost">
               <RotateCcw className="h-3.5 w-3.5" aria-hidden="true" />
@@ -216,7 +238,9 @@ export default function BmiCalc() {
           </div>
 
           <p className="font-mono text-[0.68rem] leading-relaxed text-muted">
-            BMR? belum. Ini BMI doang — hitungan kasar, bukan pengganti saran dokter.
+            {en
+              ? "BMR? Not yet. This is BMI only — a rough estimate, not a substitute for a doctor's advice."
+              : "BMR? belum. Ini BMI doang — hitungan kasar, bukan pengganti saran dokter."}
           </p>
         </div>
       </form>
@@ -224,7 +248,7 @@ export default function BmiCalc() {
       {/* ---------------- result ---------------- */}
       <div className="panel overflow-hidden" aria-live="polite">
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
-          <span className="mono-label">hasil analisa</span>
+          <span className="mono-label">{en ? "analysis result" : "hasil analisa"}</span>
           <span className={`pill ${result ? "pill-accent" : ""}`}>
             {result ? (submitted ? "checked" : "live") : "standby"}
           </span>
@@ -235,7 +259,7 @@ export default function BmiCalc() {
             <div key={pulse}>
               <div className="flex items-end justify-between gap-3">
                 <div>
-                  <p className="mono-label">bmi lo</p>
+                  <p className="mono-label">{en ? "your bmi" : "bmi kamu"}</p>
                   <p className={`mt-1 font-mono text-[clamp(2.4rem,9vw,3.4rem)] font-bold leading-none tabular-nums ${result.category.tone} glow-text`}>
                     {result.bmi.toFixed(1)}
                   </p>
@@ -254,7 +278,7 @@ export default function BmiCalc() {
                 <div
                   className="relative h-3 w-full overflow-visible rounded-full"
                   role="img"
-                  aria-label={`BMI ${result.bmi.toFixed(1)}, kategori ${result.category.label}`}
+                  aria-label={en ? `BMI ${result.bmi.toFixed(1)}, category ${result.category.label}` : `BMI ${result.bmi.toFixed(1)}, kategori ${result.category.label}`}
                 >
                   <div className="flex h-3 w-full overflow-hidden rounded-full border border-line-soft">
                     {BANDS.map((band) => (
@@ -281,13 +305,15 @@ export default function BmiCalc() {
               </div>
 
               <div className="mt-5 rounded-xl border border-line-soft bg-surface-2 p-3">
-                <p className="mono-label">range berat sehat buat tinggi {heightParsed.value} cm</p>
+                <p className="mono-label">{en ? `healthy weight range for ${heightParsed.value} cm` : `range berat sehat buat tinggi ${heightParsed.value} cm`}</p>
                 <p className="mt-1.5 font-mono text-[0.95rem] text-ink">
                   {result.healthyMin.toFixed(1)} kg <span className="text-muted">—</span>{" "}
                   {result.healthyMax.toFixed(1)} kg
                 </p>
                 <p className="mt-1 text-[0.72rem] leading-relaxed text-muted">
-                  Patokan BMI 18.5–24.9. Kalau timbangan lo di luar range ini, mulai pelan-pelan aja — nggak perlu ekstrem.
+                  {en
+                    ? "Based on a BMI of 18.5–24.9. If your scale is outside this range, start slowly — no need to go extreme."
+                    : "Patokan BMI 18.5–24.9. Kalau timbangan kamu di luar range ini, mulai pelan-pelan aja — nggak perlu ekstrem."}
                 </p>
               </div>
             </div>
@@ -296,9 +322,11 @@ export default function BmiCalc() {
               <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-line bg-accent/5">
                 <HeartPulse className="h-5 w-5 text-accent" aria-hidden="true" />
               </div>
-              <p className="font-mono text-[0.78rem] text-ink">menunggu data...</p>
+              <p className="font-mono text-[0.78rem] text-ink">{en ? "waiting for data..." : "menunggu data..."}</p>
               <p className="mt-2 max-w-[26ch] text-[0.75rem] leading-relaxed text-muted">
-                Isi tinggi & berat badan, hasilnya langsung muncul. Tekan &quot;Cek Sekarang&quot; buat konfirmasi.
+                {en
+                  ? 'Enter your height & weight and the result appears instantly. Hit "Check Now" to confirm.'
+                  : 'Isi tinggi & berat badan, hasilnya langsung muncul. Tekan "Cek Sekarang" buat konfirmasi.'}
               </p>
             </div>
           )}

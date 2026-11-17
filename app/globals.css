@@ -1,49 +1,49 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   CEKAEL // INDUSTRIAL CYBER — design tokens
+   CEKAEL // CYBER BLACK — design tokens
    Dark adalah default; next-themes menambahkan class `.light` di <html>.
 ------------------------------------------------------------------- */
 :root {
-  /* Industrial warm: carbon, concrete, safety orange, bone. */
-  --bg: #0b0a08;
-  --bg-soft: #12100c;
-  --surface: #171410;
-  --surface-2: #1f1b15;
-  --text: #f3efe4;
-  --muted: #a49c8d;
-  --line: rgba(255, 106, 42, 0.26);
-  --line-soft: rgba(243, 239, 228, 0.1);
-  --accent: #ff6a2a;
-  --accent-2: #d7ff4f;
-  --accent-ink: #140a04;
-  --accent-soft: rgba(255, 106, 42, 0.09);
-  --glow: rgba(255, 106, 42, 0.32);
-  --grid: rgba(243, 239, 228, 0.045);
-  --danger: #ff5d73;
-  --ok: #b6e33a;
+  /* Cyber black: obsidian, graphite, electric cyan. */
+  --bg: #050505;
+  --bg-soft: #0a0b0d;
+  --surface: #0d1013;
+  --surface-2: #111318;
+  --text: #f8fafc;
+  --muted: #94a3b8;
+  --line: rgba(0, 240, 255, 0.22);
+  --line-soft: rgba(248, 250, 252, 0.1);
+  --accent: #00f0ff;
+  --accent-2: #7df9ff;
+  --accent-ink: #021014;
+  --accent-soft: rgba(0, 240, 255, 0.08);
+  --glow: rgba(0, 240, 255, 0.4);
+  --grid: rgba(0, 240, 255, 0.055);
+  --danger: #fb7185;
+  --ok: #5eead4;
   --font-sans: var(--font-space), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
   color-scheme: dark;
 }
 
 html.light {
-  --bg: #f4f0e6;
-  --bg-soft: #ebe6d9;
-  --surface: #fffdf7;
-  --surface-2: #f8f4e9;
-  --text: #1a1712;
-  --muted: #6d6457;
-  --line: rgba(194, 65, 12, 0.26);
-  --line-soft: #ded7c8;
-  --accent: #c2410c;
-  --accent-2: #4d7c0f;
-  --accent-ink: #fffdf7;
-  --accent-soft: rgba(194, 65, 12, 0.07);
-  --glow: rgba(194, 65, 12, 0.2);
-  --grid: rgba(26, 23, 18, 0.05);
+  --bg: #f8fafc;
+  --bg-soft: #eef2f7;
+  --surface: #ffffff;
+  --surface-2: #f1f5f9;
+  --text: #0f172a;
+  --muted: #57647a;
+  --line: rgba(2, 132, 199, 0.26);
+  --line-soft: #e2e8f0;
+  --accent: #0284c7;
+  --accent-2: #0369a1;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(2, 132, 199, 0.07);
+  --glow: rgba(2, 132, 199, 0.22);
+  --grid: rgba(15, 23, 42, 0.05);
   --danger: #be123c;
-  --ok: #3f6212;
+  --ok: #0f766e;
   color-scheme: light;
 }
 

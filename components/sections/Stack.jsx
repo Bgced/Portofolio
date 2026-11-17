@@ -4,21 +4,31 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import TiltCard from "@/components/ui/TiltCard";
 import { NOTES, SKILL_GROUPS, TOOLS } from "@/lib/content";
+import { NOTES_EN, SKILL_GROUPS_EN, TOOLS_EN } from "@/lib/content-en";
+import { useLang } from "@/components/providers";
 
 export default function Stack() {
+  const { t, lang } = useLang();
+  const en = lang === "en";
+  const groups = SKILL_GROUPS.map((group) =>
+    en ? { ...group, ...(SKILL_GROUPS_EN[group.code] ?? {}) } : group
+  );
+  const tools = TOOLS.map((tool) => (en ? { ...tool, ...(TOOLS_EN[tool.title] ?? {}) } : tool));
+  const notes = NOTES.map((note, index) => (en ? { ...note, ...(NOTES_EN[index] ?? {}) } : note));
+
   return (
     <section id="stack" className="section-shell">
       <SectionHeading
         index="04"
-        kicker="setup & skill"
-        title="Alat kerja &"
-        accent="skill yang gue pegang."
-        intro="Nggak semua harus jago duluan — yang penting tau alatnya, tau kapan dipake, dan berani mulai."
+        kicker={t("stack.kicker")}
+        title={t("stack.title")}
+        accent={t("stack.accent")}
+        intro={t("stack.intro")}
       />
 
       {/* skill groups */}
       <div className="grid gap-3 sm:gap-4 sm:grid-cols-2">
-        {SKILL_GROUPS.map((group, index) => (
+        {groups.map((group, index) => (
           <Reveal key={group.code} delay={index * 0.06} className="h-full">
             <TiltCard max={5} className="panel panel-hover group h-full p-5 sm:p-6">
               <div className="flex items-start justify-between gap-3">
@@ -48,14 +58,14 @@ export default function Stack() {
       {/* daily drivers */}
       <Reveal delay={0.05}>
         <div className="mt-10 mb-3 flex items-center gap-3">
-          <p className="mono-label text-[0.58rem]">// daily drivers</p>
+          <p className="mono-label text-[0.58rem]">{t("stack.drivers")}</p>
           <span className="hairline flex-1" aria-hidden="true" />
           <p className="mono-label text-[0.52rem]">04 unit</p>
         </div>
       </Reveal>
 
       <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {TOOLS.map((tool, index) => (
+        {tools.map((tool, index) => (
           <Reveal key={tool.title} delay={index * 0.05} className="h-full">
             <div className="panel panel-hover flex h-full flex-col p-4">
               <span className="pill pill-accent self-start text-[0.55rem]">{tool.tag}</span>
@@ -71,14 +81,14 @@ export default function Stack() {
       {/* log */}
       <Reveal delay={0.05}>
         <div className="mt-10 mb-3 flex items-center gap-3">
-          <p className="mono-label text-[0.58rem]">// log terakhir</p>
+          <p className="mono-label text-[0.58rem]">{t("stack.log")}</p>
           <span className="hairline flex-1" aria-hidden="true" />
           <p className="mono-label text-[0.52rem]">read-only</p>
         </div>
       </Reveal>
 
       <div className="grid gap-3 md:grid-cols-3">
-        {NOTES.map((note, index) => (
+        {notes.map((note, index) => (
           <Reveal key={note.title} delay={index * 0.06} className="h-full">
             <article className="panel panel-hover flex h-full flex-col p-4">
               <div className="flex items-center justify-between gap-2">

@@ -5,11 +5,14 @@ import { Menu, X } from "lucide-react";
 import { NAV_LINKS, PROFILE, SECTION_IDS } from "@/lib/content";
 import { useActiveSection, useScrollLock } from "@/lib/hooks";
 import ThemeToggle from "@/components/chrome/ThemeToggle";
+import LanguageToggle from "@/components/chrome/LanguageToggle";
+import { useLang } from "@/components/providers";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const active = useActiveSection(SECTION_IDS);
+  const { t } = useLang();
 
   useScrollLock(open);
 
@@ -41,7 +44,7 @@ export default function Navbar() {
           href="#home"
           onClick={() => setOpen(false)}
           className="group flex items-center gap-3"
-          aria-label={`${PROFILE.name} — ke bagian markas`}
+          aria-label={`${PROFILE.name} — ${t("nav.homeLabel")}`}
         >
           <span className="relative grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface-2 font-mono text-[0.72rem] font-semibold tracking-[0.06em] text-accent transition-colors group-hover:border-accent">
             CK
@@ -54,7 +57,7 @@ export default function Navbar() {
         </a>
 
         {/* desktop nav */}
-        <nav aria-label="Navigasi utama" className="hidden items-center gap-1 lg:flex">
+        <nav aria-label={t("nav.main")} className="hidden items-center gap-1 lg:flex">
           {NAV_LINKS.map((link) => {
             const isActive = active === link.id;
             return (
@@ -66,7 +69,7 @@ export default function Navbar() {
                   isActive ? "text-accent" : "text-muted hover:text-ink"
                 }`}
               >
-                {link.label}
+                {t(`nav.${link.id}`)}
                 <span
                   aria-hidden="true"
                   className={`absolute inset-x-3 -bottom-px h-px origin-left bg-accent transition-transform duration-300 ${
@@ -79,15 +82,13 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <LanguageToggle />
           <ThemeToggle />
-          <a href="#contact" className="btn btn-primary hidden lg:inline-flex">
-            Gas Kolab
-          </a>
 
           <button
             type="button"
             onClick={() => setOpen((prev) => !prev)}
-            aria-label={open ? "Tutup menu navigasi" : "Buka menu navigasi"}
+            aria-label={open ? t("nav.close") : t("nav.open")}
             aria-expanded={open}
             aria-controls="mobile-nav"
             className="grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface-2 text-ink transition-colors hover:border-accent hover:text-accent lg:hidden"
@@ -103,7 +104,7 @@ export default function Navbar() {
         hidden={!open}
         className="border-t border-line-soft bg-canvas/95 backdrop-blur-xl lg:hidden"
       >
-        <nav aria-label="Navigasi mobile" className="mx-auto w-full max-w-[1180px] px-4 py-4 sm:px-7">
+        <nav aria-label={t("nav.mobile")} className="mx-auto w-full max-w-[1180px] px-4 py-4 sm:px-7">
           <ul className="flex flex-col">
             {NAV_LINKS.map((link) => {
               const isActive = active === link.id;
@@ -117,7 +118,7 @@ export default function Navbar() {
                       isActive ? "text-accent" : "text-muted hover:text-ink"
                     }`}
                   >
-                    {link.label}
+                    {t(`nav.${link.id}`)}
                     <span className="mono-label text-[0.55rem] tracking-[0.2em]">
                       {String(NAV_LINKS.indexOf(link) + 1).padStart(2, "0")}
                     </span>
@@ -126,13 +127,10 @@ export default function Navbar() {
               );
             })}
           </ul>
-          <a
-            href="#contact"
-            onClick={() => setOpen(false)}
-            className="btn btn-primary mt-4 w-full"
-          >
-            Gas Kolab
-          </a>
+          <div className="mt-4 flex items-center justify-between gap-3">
+            <LanguageToggle />
+            <ThemeToggle />
+          </div>
         </nav>
       </div>
     </header>

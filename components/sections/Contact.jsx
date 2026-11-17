@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { QRCodeCanvas } from "qrcode.react";
 import {
   ArrowUpRight,
   Briefcase,
@@ -9,10 +11,14 @@ import {
   Copy,
   Mail,
   MessageCircle,
+  QrCode,
+  X,
 } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
+import ContactForm from "@/components/sections/ContactForm";
 import { PROFILE, SOCIALS } from "@/lib/content";
+import { useLang } from "@/components/providers";
 
 const ICONS = {
   mail: Mail,
@@ -21,11 +27,36 @@ const ICONS = {
   instagram: Camera,
 };
 
+const VCARD = [
+  "BEGIN:VCARD",
+  "VERSION:3.0",
+  "N:Lasmana;Cedric Kilian;;;",
+  "FN:Cedric Kilian",
+  "ORG:Universitas Negeri Yogyakarta",
+  "TITLE:Software Engineer & 3D Web Enthusiast",
+  "TEL;TYPE=CELL:+628972007113",
+  "EMAIL:cekaell3@gmail.com",
+  "URL:https://cekael.vercel.app",
+  "END:VCARD",
+].join("\n");
+
 export default function Contact() {
   const [copied, setCopied] = useState(false);
+  const [qrOpen, setQrOpen] = useState(false);
   const timerRef = useRef(null);
+  const { t, lang } = useLang();
+  const en = lang === "en";
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
+
+  useEffect(() => {
+    if (!qrOpen) return undefined;
+    const onKey = (event) => {
+      if (event.key === "Escape") setQrOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [qrOpen]);
 
   const copyEmail = async (event) => {
     event.preventDefault();
@@ -42,7 +73,6 @@ export default function Contact() {
     }
 
     if (!ok) {
-      // fallback buat browser / konteks non-secure yang blokir clipboard API
       const field = document.createElement("textarea");
       try {
         field.value = PROFILE.email;
@@ -69,10 +99,10 @@ export default function Contact() {
     <section id="contact" className="section-shell">
       <SectionHeading
         index="05"
-        kicker="kontak"
-        title="Ide lo bagus?"
-        accent="Gas ngobrol."
-        intro="Kolaborasi, magang, project freelance, atau sekadar nanya soal elektro dan web — semua boleh."
+        kicker={t("sections.contactKicker")}
+        title={t("contact.title")}
+        accent={t("contact.accent")}
+        intro={t("contact.intro")}
       />
 
       <Reveal>
@@ -86,62 +116,54 @@ export default function Contact() {
             }}
           />
 
-          <div className="relative grid lg:grid-cols-[1.1fr_0.9fr]">
-            {/* CTA */}
-            <div className="p-5 sm:p-7 lg:p-9">
-              <p className="eyebrow">sinyal terbuka</p>
-              <h3 className="mt-4 max-w-[22ch] text-[clamp(1.6rem,3.4vw,2.5rem)] font-semibold leading-[1.05] tracking-[-0.03em] text-ink">
-                Punya rencana? <span className="text-gradient">Kirim brief-nya.</span>
-              </h3>
-              <p className="mt-3 max-w-[46ch] text-[0.88rem] leading-relaxed text-muted">
-                Ceritain aja idenya, mau rapi atau masih acak-acakan. Gue bales dengan pertanyaan
-                yang jelas, bukan template.
-              </p>
+          <div className="relative grid lg:grid-cols-[0.92fr_1.08fr]">
+            {/* kiri: direct + socials */}
+            <div className="flex flex-col p-5 sm:p-7 lg:p-9">
+              <p className="eyebrow">{t("contact.signal")}</p>
 
-              <div className="mt-6 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-                <a href={`mailto:${PROFILE.email}`} className="btn btn-primary w-full sm:w-auto">
-                  <Mail size={15} aria-hidden="true" />
-                  Kirim Email
-                </a>
-                <button
-                  type="button"
-                  onClick={copyEmail}
-                  aria-live="polite"
-                  className="btn btn-ghost w-full sm:w-auto"
-                >
-                  {copied ? (
-                    <Check size={15} aria-hidden="true" className="text-ok" />
-                  ) : (
-                    <Copy size={15} aria-hidden="true" />
-                  )}
-                  {copied ? "Email kesalin!" : "Copy email"}
-                </button>
-              </div>
-
-              <p className="mt-4 font-mono text-[0.68rem] tracking-[0.06em] text-muted">
-                {PROFILE.email}
-              </p>
-
-              <p className="mono-label mt-6 text-[0.52rem] leading-relaxed">
-                biasanya bales &lt; 24 jam · senin–sabtu
-              </p>
-            </div>
-
-            {/* socials + status */}
-            <div className="border-t border-line-soft p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-9">
-              <div className="flex items-center gap-2.5 rounded-lg border border-ok/30 bg-surface-2 px-3 py-3">
+              <div className="mt-5 flex items-center gap-2.5 rounded-lg border border-ok/30 bg-surface-2 px-3 py-3">
                 <span className="relative flex h-2 w-2" aria-hidden="true">
                   <span className="pulse-dot absolute inset-0 rounded-full bg-ok" />
                 </span>
                 <div>
-                  <p className="text-[0.78rem] font-semibold text-ink">Open buat kolaborasi</p>
-                  <p className="mt-0.5 text-[0.68rem] text-muted">
-                    magang · freelance · project bareng
-                  </p>
+                  <p className="text-[0.78rem] font-semibold text-ink">{t("contact.open")}</p>
+                  <p className="mt-0.5 text-[0.68rem] text-muted">{t("contact.openSub")}</p>
                 </div>
               </div>
 
-              <ul className="mt-4 flex flex-col gap-1.5">
+              <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                <a href={`mailto:${PROFILE.email}`} className="btn btn-primary w-full sm:w-auto">
+                  <Mail size={15} aria-hidden="true" />
+                  {t("contact.send")}
+                </a>
+                <a
+                  href={`${PROFILE.whatsapp}?text=${encodeURIComponent(
+                    en ? "Hi Cekael, I saw your portfolio and wanted to talk." : "Halo Cekael, aku lihat portfolio kamu dan mau ngobrol."
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-ghost w-full sm:w-auto"
+                >
+                  <MessageCircle size={15} aria-hidden="true" className="text-accent" />
+                  WhatsApp
+                </a>
+              </div>
+
+              <div className="mt-3 flex flex-wrap gap-2">
+                <button type="button" onClick={copyEmail} aria-live="polite" className="btn btn-ghost !px-3 !py-2 !text-[0.74rem]">
+                  {copied ? <Check size={13} aria-hidden="true" className="text-ok" /> : <Copy size={13} aria-hidden="true" />}
+                  {copied ? (en ? "Copied!" : "Tersalin! ✅") : en ? "Copy email" : "Copy Email"}
+                </button>
+                <button type="button" onClick={() => setQrOpen(true)} className="btn btn-ghost !px-3 !py-2 !text-[0.74rem]">
+                  <QrCode size={13} aria-hidden="true" className="text-accent" />
+                  {en ? "Scan my contact QR" : "Scan QR Kontak"}
+                </button>
+              </div>
+
+              <p className="mt-4 break-all font-mono text-[0.68rem] tracking-[0.04em] text-muted">{PROFILE.email}</p>
+              <p className="mono-label mt-2 text-[0.52rem] leading-relaxed">{t("contact.reply")}</p>
+
+              <ul className="mt-5 flex flex-col gap-1.5 border-t border-line-soft pt-4">
                 {SOCIALS.map((social) => {
                   const Icon = ICONS[social.icon] ?? Mail;
                   const external = social.href.startsWith("http");
@@ -150,7 +172,7 @@ export default function Contact() {
                       <a
                         href={social.href}
                         {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                        className="group flex items-center gap-3 rounded-lg border border-transparent px-2 py-2 transition-colors hover:border-line-soft hover:bg-surface-2"
+                        className="group flex items-center gap-3 rounded-lg border border-transparent px-2 py-1.5 transition-colors hover:border-line-soft hover:bg-surface-2"
                       >
                         <span className="grid h-7 w-7 shrink-0 place-items-center rounded-md border border-line-soft text-muted transition-colors group-hover:border-line group-hover:text-accent">
                           <Icon size={13} aria-hidden="true" />
@@ -159,7 +181,7 @@ export default function Contact() {
                           <span className="block font-mono text-[0.55rem] uppercase tracking-[0.18em] text-muted">
                             {social.label}
                           </span>
-                          <span className="block truncate text-[0.78rem] text-ink transition-colors group-hover:text-accent">
+                          <span className="block truncate text-[0.76rem] text-ink transition-colors group-hover:text-accent">
                             {social.value}
                           </span>
                         </span>
@@ -173,17 +195,62 @@ export default function Contact() {
                   );
                 })}
               </ul>
+            </div>
 
-              <div className="mt-4 rounded-lg border border-line-soft bg-surface-2 p-3 font-mono text-[0.62rem] leading-relaxed text-muted">
-                <p>
-                  <span className="text-accent">$</span> ping cedric --channel=email
-                </p>
-                <p className="mt-1 text-ok">→ latency 0.9*24h · packet loss 0%</p>
-              </div>
+            {/* kanan: form */}
+            <div className="border-t border-line-soft p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-9">
+              <ContactForm />
             </div>
           </div>
         </div>
       </Reveal>
+
+      {/* modal QR kontak */}
+      {qrOpen ? (
+        <div
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+          role="dialog"
+          aria-modal="true"
+          aria-label={en ? "Contact QR code" : "QR kontak Cekael"}
+          onClick={(event) => {
+            if (event.target === event.currentTarget) setQrOpen(false);
+          }}
+        >
+          <div className="relative w-full max-w-sm rounded-2xl border border-line bg-surface p-5 text-center shadow-[0_40px_120px_-40px_var(--glow)]">
+            <button
+              type="button"
+              onClick={() => setQrOpen(false)}
+              aria-label={en ? "Close QR" : "Tutup QR"}
+              className="absolute right-3 top-3 grid h-8 w-8 place-items-center rounded-lg border border-line-soft text-muted transition-colors hover:border-line hover:text-ink"
+            >
+              <X size={14} aria-hidden="true" />
+            </button>
+
+            <p className="mono-label text-accent">ck · contact card</p>
+            <h3 className="mt-2 text-lg font-semibold text-ink">{PROFILE.name}</h3>
+            <p className="mt-1 text-[0.76rem] text-muted">{PROFILE.role}</p>
+
+            <div className="mx-auto mt-4 w-fit rounded-xl bg-white p-3">
+              <QRCodeCanvas value={VCARD} size={208} level="M" marginSize={4} bgColor="#FFFFFF" fgColor="#000000" />
+            </div>
+
+            <p className="mt-3 font-mono text-[0.6rem] leading-relaxed text-muted">
+              {en ? "Scan with your phone camera to save the contact." : "Scan pakai kamera HP buat simpan kontaknya."}
+            </p>
+
+            <div className="mt-4 flex flex-col gap-2">
+              <Link href="/#playground" onClick={() => setQrOpen(false)} className="btn btn-primary w-full !py-2.5 !text-[0.76rem]">
+                <QrCode size={13} aria-hidden="true" />
+                {en ? "Open QR Studio" : "Buka QR Studio"}
+              </Link>
+              <a href={PROFILE.whatsapp} target="_blank" rel="noopener noreferrer" className="btn btn-ghost w-full !py-2.5 !text-[0.76rem]">
+                <MessageCircle size={13} aria-hidden="true" className="text-accent" />
+                WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </section>
   );
 }

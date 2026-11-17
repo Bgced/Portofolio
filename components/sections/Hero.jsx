@@ -2,9 +2,10 @@
 
 import dynamic from "next/dynamic";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, MapPin, Move3D, Play } from "lucide-react";
-import { HERO_STATS, PROFILE } from "@/lib/content";
+import { ArrowUpRight, Move3D, Play } from "lucide-react";
+import { PROFILE } from "@/lib/content";
 import { useInView } from "@/lib/hooks";
+import { useLang } from "@/components/providers";
 
 const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
   ssr: false,
@@ -21,6 +22,7 @@ const EASE = [0.22, 1, 0.36, 1];
 export default function Hero() {
   const reduced = useReducedMotion();
   const [sceneRef, sceneInView] = useInView({ threshold: 0.05, rootMargin: "180px" });
+  const { t } = useLang();
 
   // Selalu render initial style yang sama di server & client; reduced motion
   // cuma memangkas durasi. Ini yang bikin hydration bersih.
@@ -37,63 +39,78 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative w-full overflow-hidden pt-24 pb-14 sm:pt-28 lg:flex lg:min-h-[calc(100svh-64px)] lg:flex-col lg:justify-center lg:pt-24 lg:pb-12"
+      className="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-20 lg:pt-24"
     >
-      {/* ambient accent, murni dekorasi */}
+      {/* 3D scene transparan — bukan kartu, beneran jadi latar belakang */}
+      <div
+        ref={sceneRef}
+        role="img"
+        aria-label={t("hero.sceneLabel")}
+        className="pointer-events-auto absolute inset-y-0 right-0 z-0 w-full opacity-40 sm:opacity-50 lg:w-[62%] lg:opacity-100"
+      >
+        <HeroScene inView={sceneInView} className="absolute inset-0" />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 78%, transparent) 30%, transparent 66%)",
+          }}
+        />
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-canvas to-transparent"
+        />
+      </div>
+
+      {/* glow ambien tipis */}
       <div
         aria-hidden="true"
-        className="pointer-events-none absolute -right-32 top-0 h-[420px] w-[420px] rounded-full bg-accent/10 blur-[130px]"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute -left-40 bottom-0 h-[360px] w-[360px] rounded-full bg-accent/5 blur-[120px]"
+        className="pointer-events-none absolute left-1/4 top-1/4 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-accent/10 blur-[150px]"
       />
 
-      <div className="relative mx-auto grid w-full max-w-[1180px] items-center gap-10 px-5 sm:px-7 lg:grid-cols-[1.02fr_0.98fr] lg:gap-12">
-        {/* ------------------------------- copy ------------------------------- */}
-        <div className="relative z-10 min-w-0">
-          <motion.div className="flex flex-wrap items-center gap-2" {...fade(0)}>
+      <div className="relative z-10 mx-auto grid w-full max-w-[1180px] items-center gap-10 px-5 sm:px-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.7fr)] lg:gap-8">
+        <div className="pointer-events-none min-w-0 max-w-[36rem]">
+          <motion.div className="pointer-events-auto flex flex-wrap items-center gap-2" {...fade(0)}>
             <span className="pill pill-accent">
               <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-              open to work
-            </span>
-            <span className="pill">
-              <MapPin size={11} className="text-accent" aria-hidden="true" />
-              based in yogyakarta
+              {t("hero.status")}
             </span>
           </motion.div>
 
-          <motion.p className="eyebrow mt-6" {...fade(0.06)}>
-            markas digital · ck-01
+          <motion.p className="eyebrow mt-7" {...fade(0.06)}>
+            {t("hero.eyebrow")}
           </motion.p>
 
           <motion.h1
-            className="mt-3 text-[clamp(2.35rem,6.6vw,4.35rem)] font-semibold leading-[0.98] tracking-[-0.04em] text-balance text-ink [overflow-wrap:break-word]"
+            className="mt-3 text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-balance text-ink [overflow-wrap:break-word]"
             {...fade(0.12)}
           >
-            Yo, gue <span className="text-gradient glow-text">Cekael</span>!
+            {t("hero.greeting")} <span className="text-gradient glow-text">Cekael</span>!
           </motion.h1>
 
           <motion.p
-            className="mt-5 max-w-xl text-[0.98rem] leading-relaxed text-muted sm:text-[1.06rem]"
+            className="mt-6 max-w-xl text-[1rem] leading-relaxed text-ink/85 sm:text-[1.08rem]"
             {...fade(0.18)}
           >
-            Selamat datang di <span className="font-medium text-ink">markas digital gue</span> —
-            tempat kode, sirkuit, dan visual 3D ketemu jadi satu.
+            {t("hero.intro")}
           </motion.p>
 
           <motion.p
-            className="mt-3 max-w-xl text-[0.88rem] leading-relaxed text-muted"
+            className="mt-3 max-w-xl text-[0.9rem] leading-relaxed text-muted"
             {...fade(0.24)}
           >
-            Gue {PROFILE.name}, {PROFILE.role} dari {PROFILE.major},{" "}
-            {PROFILE.university}. Bikin antarmuka yang rapi, cepat, dan enak dipakai — plus
-            eksperimen WebGL yang tetap ringan.
+            {t("hero.bio", {
+              name: PROFILE.name,
+              role: PROFILE.role,
+              major: PROFILE.major,
+              university: PROFILE.university,
+            })}
           </motion.p>
 
-          <motion.div className="mt-8 flex flex-wrap items-center gap-3" {...fade(0.3)}>
+          <motion.div className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3" {...fade(0.3)}>
             <a href="#projects" className="btn btn-primary group">
-              Gas Lihat Karya
+              {t("hero.viewWork")}
               <ArrowUpRight
                 size={15}
                 aria-hidden="true"
@@ -102,77 +119,36 @@ export default function Hero() {
             </a>
             <a href="#playground" className="btn btn-ghost group">
               <Play size={13} aria-hidden="true" className="text-accent" />
-              Coba Playground
+              {t("hero.tryPlayground")}
             </a>
           </motion.div>
 
           <motion.div
-            className="mt-10 grid max-w-md grid-cols-3 gap-3 border-t border-line-soft pt-5"
+            className="mt-10 grid max-w-sm grid-cols-2 gap-3 border-t border-line-soft pt-5"
             {...fade(0.36)}
           >
-            {HERO_STATS.map((stat) => (
-              <div key={stat.label} className="min-w-0">
-                <p className="font-mono text-[1.3rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.45rem]">
-                  {stat.value}
-                </p>
-                <p className="mono-label mt-2 leading-tight">{stat.label}</p>
-              </div>
-            ))}
+            <div className="min-w-0">
+              <p className="font-mono text-[1.35rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.5rem]">
+                3+
+              </p>
+              <p className="mono-label mt-2 leading-tight">{t("hero.statProjects")}</p>
+            </div>
+            <div className="min-w-0">
+              <p className="font-mono text-[1.35rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.5rem]">
+                6
+              </p>
+              <p className="mono-label mt-2 leading-tight">{t("hero.statModules")}</p>
+            </div>
           </motion.div>
         </div>
 
-        {/* ------------------------------- 3D scene ------------------------------- */}
-        <div ref={sceneRef} className="relative min-w-0">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -inset-5 rounded-[2.2rem] bg-accent/5 blur-2xl"
-          />
-
-          <div
-            role="img"
-            aria-label="Matriks kubus 3D interaktif — drag atau scroll buat muter"
-            className="panel corner-frame relative overflow-hidden p-2 sm:p-3"
-          >
-            <div className="relative h-[340px] w-full max-w-full overflow-hidden rounded-[0.8rem] border border-line-soft bg-surface-2 sm:h-[440px] lg:h-[540px]">
-              <HeroScene inView={sceneInView} className="absolute inset-0" />
-
-              {/* HUD — pointer-events-none biar drag tetap kena canvas */}
-              <div className="pointer-events-none absolute inset-0 z-10">
-                <span className="absolute left-0 top-0 h-4 w-4 border-l border-t border-accent/50" />
-                <span className="absolute right-0 top-0 h-4 w-4 border-r border-t border-accent/50" />
-                <span className="absolute bottom-0 left-0 h-4 w-4 border-b border-l border-accent/50" />
-                <span className="absolute bottom-0 right-0 h-4 w-4 border-b border-r border-accent/50" />
-
-                <span className="mono-label absolute left-3 top-3 text-accent">
-                  ck-01 / cube matrix
-                </span>
-
-                <span className="absolute right-3 top-3 flex items-center gap-1.5">
-                  <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
-                  <span className="mono-label">live</span>
-                </span>
-
-                <span className="mono-label absolute bottom-3 left-3 hidden sm:block">
-                  drag / scroll / parallax
-                </span>
-                <span className="mono-label absolute bottom-3 right-3 hidden sm:block">
-                  scene / cube_matrix_v3
-                </span>
-
-                <span className="absolute inset-x-0 bottom-9 hidden justify-center sm:flex">
-                  <span className="pill bg-surface/80">
-                    <Move3D size={11} className="text-accent" aria-hidden="true" />
-                    scroll / drag buat muter
-                  </span>
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <p className="mono-label mt-3 flex items-center justify-between gap-3">
-            <span>webgl · r3f 9</span>
-            <span className="text-accent">60 fps target</span>
-          </p>
+        {/* ruang kosong di kanan biar kubus bisa bernapas + HUD minimal */}
+        <div className="pointer-events-none relative hidden min-h-[440px] lg:block">
+          <span className="mono-label absolute right-0 top-0 text-accent">ck-01 / cube matrix</span>
+          <span className="absolute bottom-6 right-0 flex items-center gap-1.5">
+            <Move3D size={11} className="text-accent" aria-hidden="true" />
+            <span className="mono-label">{t("hero.scrollHint")}</span>
+          </span>
         </div>
       </div>
     </section>
