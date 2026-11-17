@@ -19,6 +19,7 @@ import Reveal from "@/components/ui/Reveal";
 import ContactForm from "@/components/sections/ContactForm";
 import { PROFILE, SOCIALS } from "@/lib/content";
 import { useLang } from "@/components/providers";
+import { useToast } from "@/components/ui/ToastProvider";
 
 const ICONS = {
   mail: Mail,
@@ -45,6 +46,7 @@ export default function Contact() {
   const [qrOpen, setQrOpen] = useState(false);
   const timerRef = useRef(null);
   const { t, lang } = useLang();
+  const { toast } = useToast();
   const en = lang === "en";
 
   useEffect(() => () => clearTimeout(timerRef.current), []);
@@ -89,10 +91,22 @@ export default function Contact() {
       }
     }
 
-    if (!ok) return;
+    if (!ok) {
+      toast({
+        title: en ? "Couldn't copy the email" : "Gagal nyalin email",
+        description: PROFILE.email,
+        variant: "error",
+      });
+      return;
+    }
     setCopied(true);
     clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => setCopied(false), 2200);
+    toast({
+      title: en ? "Email copied!" : "Email tersalin!",
+      description: PROFILE.email,
+      variant: "success",
+    });
   };
 
   return (

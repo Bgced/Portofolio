@@ -16,6 +16,8 @@ import {
   Wifi,
 } from "lucide-react";
 import { useLang } from "@/components/providers";
+import { useToast } from "@/components/ui/ToastProvider";
+import { CARD_THEME_LIST } from "@/lib/card-themes";
 import {
   QR_COLORS,
   QR_EVENTS,
@@ -51,6 +53,7 @@ function Field({ label, hint, children }) {
 
 export default function QrStudio() {
   const { lang } = useLang();
+  const { toast } = useToast();
   const en = lang === "en";
 
   const [mode, setMode] = useState("card");
@@ -67,6 +70,7 @@ export default function QrStudio() {
   const [waMessage, setWaMessage] = useState("");
   const [rawText, setRawText] = useState("");
   const [color, setColor] = useState(QR_COLORS[0].value);
+  const [cardTheme, setCardTheme] = useState("cyan");
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -94,7 +98,8 @@ export default function QrStudio() {
         if (!origin) return "";
         return buildCardUrl(
           { v: 1, n: recipient.trim() || (en ? "Friend" : "Teman"), s: sender.trim(), e: event, m: message.trim() },
-          origin
+          origin,
+          cardTheme
         );
       }
       case "link":
@@ -108,7 +113,7 @@ export default function QrStudio() {
       default:
         return "";
     }
-  }, [mode, origin, recipient, sender, event, message, url, ssid, password, security, phone, waMessage, rawText, en]);
+  }, [mode, origin, recipient, sender, event, message, url, ssid, password, security, phone, waMessage, rawText, en, cardTheme]);
 
   const canPreview = mode === "card" || mode === "link" || mode === "wa";
 
@@ -142,20 +147,52 @@ export default function QrStudio() {
     }
 
     setCopied(ok);
+    toast({
+      title: ok
+        ? en
+          ? "Link copied!"
+          : "Link tersalin!"
+        : en
+          ? "Couldn't copy the link"
+          : "Gagal nyalin link",
+      description: ok
+        ? mode === "card"
+          ? en
+            ? "Paste it anywhere — the card is inside."
+            : "Tempel di mana aja — kartunya udah di dalam."
+          : undefined
+        : en
+          ? "Try selecting the preview link manually."
+          : "Coba seleksi link preview-nya manual.",
+      variant: ok ? "success" : "error",
+    });
   };
 
   const download = () => {
     const canvas =
       hdRef.current?.querySelector("canvas") ??
       Array.from(document.querySelectorAll("#qr_panel canvas")).find((node) => node.width >= 1000);
-    if (!canvas || !value) return;
+    if (!canvas || !value) {
+      toast({
+        title: en ? "Nothing to download yet" : "Belum ada yang bisa di-download",
+        description: en ? "Fill the form so the QR shows up first." : "Isi form dulu biar QR-nya muncul.",
+        variant: "error",
+      });
+      return;
+    }
     const name =
       mode === "card"
         ? `qr-ucapan-${(recipient || "cekael").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") || "cekael"}`
         : `qr-${mode}`;
 
     canvas.toBlob((blob) => {
-      if (!blob) return;
+      if (!blob) {
+        toast({
+          title: en ? "PNG failed to render" : "PNG gagal dibikin",
+          variant: "error",
+        });
+        return;
+      }
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
       link.download = `${name}.png`;
@@ -166,7 +203,31 @@ export default function QrStudio() {
       link.remove();
       setTimeout(() => URL.revokeObjectURL(url), 1500);
       setSaved(true);
+      toast({
+        title: en ? "QR PNG saved" : "QR PNG tersimpan",
+        description: `${name}.png · 1024 × 1024`,
+        variant: "success",
+      });
     }, "image/png");
+  };
+
+  const shareToWhatsApp = () => {
+    if (!value) return;
+    const intro =
+      mode === "card"
+        ? en
+          ? "I made you a digital greeting card. Scan the QR or open this link:"
+          : "Aku bikinin kartu ucapan digital buat kamu. Scan QR-nya atau buka link ini ya:"
+        : en
+          ? "Here's the QR I made. Scan it or open this link:"
+          : "Nih QR yang aku bikin. Scan atau buka link ini:";
+    const shareUrl = `https://wa.me/?text=${encodeURIComponent(`${intro}\n${value}`)}`;
+    window.open(shareUrl, "_blank", "noopener,noreferrer");
+    toast({
+      title: en ? "WhatsApp opened" : "WhatsApp kebuka",
+      description: en ? "Pick a contact and hit send." : "Pilih kontak terus langsung kirim.",
+      variant: "success",
+    });
   };
 
   const reset = () => {
@@ -180,6 +241,7 @@ export default function QrStudio() {
     setWaMessage("");
     setRawText("");
     setColor(QR_COLORS[0].value);
+    setCardTheme("cyan");
   };
 
   const openPreview = () => {
@@ -247,6 +309,35 @@ export default function QrStudio() {
                   ))}
                 </select>
               </Field>
+
+              <div>
+                <span className="mono-label mb-1.5 block">{en ? "Card theme" : "Tema Kartu"}</span>
+                <div className="flex flex-wrap gap-1.5">
+                  {CARD_THEME_LIST.map((theme) => {
+                    const active = cardTheme === theme.id;
+                    return (
+                      <button
+                        key={theme.id}
+                        type="button"
+                        onClick={() => setCardTheme(theme.id)}
+                        aria-pressed={active}
+                        className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 text-[0.68rem] transition-colors ${
+                          active
+                            ? "border-accent/70 bg-accent-soft text-ink"
+                            : "border-line-soft bg-surface/40 text-muted hover:text-ink"
+                        }`}
+                      >
+                        <span
+                          className="h-3 w-3 rounded-full border border-black/20"
+                          style={{ backgroundColor: theme.accent }}
+                          aria-hidden="true"
+                        />
+                        {theme.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
               <Field label={en ? "Message" : "Pesan Ucapan"} hint={`${message.length}/300`}>
                 <textarea
@@ -433,6 +524,16 @@ export default function QrStudio() {
             {saved ? (en ? "Saved!" : "Tersimpan!") : "PNG HD"}
           </button>
         </div>
+
+        <button
+          type="button"
+          onClick={shareToWhatsApp}
+          disabled={!value}
+          className="btn btn-ghost mt-2 w-full !px-2 !py-2 !text-[0.7rem] disabled:opacity-40"
+        >
+          <MessageCircle size={12} aria-hidden="true" className="text-ok" />
+          {en ? "Share to WhatsApp" : "Share ke WA"}
+        </button>
 
         <button
           type="button"

@@ -3,6 +3,7 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { translate } from "@/lib/site-copy";
+import { ToastProvider } from "@/components/ui/ToastProvider";
 
 const LangContext = createContext(null);
 
@@ -71,7 +72,9 @@ export function Providers({ children }) {
       storageKey="cekael-theme"
       disableTransitionOnChange={false}
     >
-      <LanguageProvider>{children}</LanguageProvider>
+      <LanguageProvider>
+        <ToastProvider>{children}</ToastProvider>
+      </LanguageProvider>
     </NextThemesProvider>
   );
 }

@@ -1,20 +1,25 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
 import TiltCard from "@/components/ui/TiltCard";
 import { NOTES, PROFILE } from "@/lib/content";
 import { NOTES_EN } from "@/lib/content-en";
 import { useLang } from "@/components/providers";
+import TechArsenal from "@/components/sections/TechArsenal";
 
-const FOCUS = ["React / Next.js", "3D Web", "Embedded / IoT", "AI-Assisted Dev"];
+const BIO_STATS = [
+  { value: "3+", idLabel: "Project jadi", enLabel: "Projects built" },
+  { value: "480+", idLabel: "Cangkir kopi", enLabel: "Cups of coffee" },
+  { value: "12+", idLabel: "Tech stack", enLabel: "Tech stack" },
+];
 
 const TERMINAL_LINES = [
   { cmd: "whoami", out: "cedric_kilian" },
   { cmd: "status", out: "open_to_work", tone: "ok" },
-  { cmd: "base", out: "yogyakarta, id" },
+  { cmd: "stack", out: "next.js · three.js · tailwind" },
 ];
 
 export default function About() {
@@ -62,10 +67,6 @@ export default function About() {
                 <p className="font-mono text-[0.55rem] uppercase tracking-[0.18em] text-accent">{t("about.operator")}</p>
                 <p className="mt-1 text-lg font-semibold leading-tight text-ink">{PROFILE.name}</p>
                 <p className="mt-1 text-[0.74rem] leading-snug text-muted">{PROFILE.role}</p>
-                <p className="mt-3 flex items-center gap-1.5 font-mono text-[0.58rem] uppercase tracking-[0.12em] text-muted">
-                  <MapPin size={11} aria-hidden="true" />
-                  Sleman · Yogyakarta
-                </p>
               </div>
             </div>
           </TiltCard>
@@ -84,10 +85,22 @@ export default function About() {
             <p className="text-[0.88rem] leading-relaxed text-muted">
               {t("about.p3")}
             </p>
-            <div className="mt-auto flex flex-wrap gap-1.5 pt-2">
-              <span className="pill">S1 Teknik Elektro</span>
-              <span className="pill">UNY · Yogyakarta</span>
-              <span className="pill pill-accent">open to work</span>
+            <div className="mt-auto pt-3">
+              <div className="grid grid-cols-3 divide-x divide-line-soft overflow-hidden rounded-lg border border-line-soft bg-surface-2/45">
+                {BIO_STATS.map((stat) => (
+                  <div key={stat.idLabel} className="px-2.5 py-2">
+                    <p className="font-mono text-lg font-semibold leading-none text-accent">{stat.value}</p>
+                    <p className="mt-1 font-mono text-[0.5rem] uppercase leading-tight tracking-[0.1em] text-muted">
+                      {en ? stat.enLabel : stat.idLabel}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-2 flex flex-wrap gap-1.5">
+                <span className="pill">S1 Teknik Elektro</span>
+                <span className="pill">UNY · Electrical Engineering</span>
+                <span className="pill pill-accent">open to work</span>
+              </div>
             </div>
           </div>
         </Reveal>
@@ -122,29 +135,9 @@ export default function About() {
           </TiltCard>
         </Reveal>
 
-        {/* stats + focus */}
-        <Reveal delay={0.15} className="h-full lg:col-span-3">
-          <TiltCard max={5} className="panel panel-hover h-full p-4 sm:p-5">
-            <div className="flex items-baseline justify-between gap-2">
-              <p className="font-mono text-3xl font-semibold leading-none text-accent">3+</p>
-              <span className="mono-label text-right text-[0.55rem]">{t("about.focus")}</span>
-            </div>
-            <div className="hairline my-3" />
-            <div className="flex items-baseline justify-between gap-2">
-              <p className="font-mono text-3xl font-semibold leading-none text-ink">6</p>
-              <span className="mono-label text-right text-[0.55rem]">{t("about.modules")}</span>
-            </div>
-            <p className="mt-4 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-accent">
-              electrical × web
-            </p>
-            <ul className="mt-2 flex flex-wrap gap-1.5">
-              {FOCUS.map((item) => (
-                <li key={item} className="pill">
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </TiltCard>
+        {/* interactive tech arsenal */}
+        <Reveal delay={0.15} className="h-full lg:col-span-7">
+          <TechArsenal />
         </Reveal>
 
         {/* notes strip */}

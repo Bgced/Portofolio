@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Check, Loader2, Send } from "lucide-react";
 import { useLang } from "@/components/providers";
+import { useToast } from "@/components/ui/ToastProvider";
 
 const TOPICS = [
   { id: "kolaborasi", idLabel: "Kolaborasi Project", enLabel: "Project collaboration" },
@@ -15,6 +16,7 @@ const inputClass =
 
 export default function ContactForm() {
   const { lang } = useLang();
+  const { toast } = useToast();
   const en = lang === "en";
 
   const [form, setForm] = useState({ name: "", email: "", topic: TOPICS[0].id, message: "" });
@@ -46,6 +48,13 @@ export default function ContactForm() {
           ? "Web3Forms key isn't set yet — your email app just opened with the message ready."
           : "Access key Web3Forms belum dipasang — email kamu udah kebuka dengan pesan siap kirim."
       );
+      toast({
+        title: en ? "Email app opened" : "Aplikasi email kebuka",
+        description: en
+          ? "The Web3Forms key isn't set yet, so the message was prepared in your mail app."
+          : "Access key Web3Forms belum diisi, jadi pesannya disiapin di aplikasi email kamu.",
+        variant: "info",
+      });
       return;
     }
 
@@ -72,6 +81,11 @@ export default function ContactForm() {
       setStatus("success");
       setNote(en ? "Message sent. I'll reply soon!" : "Pesan terkirim. Nanti aku bales ya!");
       setForm({ name: "", email: "", topic: TOPICS[0].id, message: "" });
+      toast({
+        title: en ? "Message sent!" : "Pesan terkirim!",
+        description: en ? "I'll reply as soon as I can." : "Nanti aku bales secepatnya ya.",
+        variant: "success",
+      });
     } catch {
       setStatus("error");
       setNote(
@@ -79,6 +93,11 @@ export default function ContactForm() {
           ? "Couldn't send it. Try email or WhatsApp on the left — both are live."
           : "Gagal kirim. Coba email atau WhatsApp di sebelah kiri — dua-duanya aktif."
       );
+      toast({
+        title: en ? "Message failed to send" : "Pesan gagal terkirim",
+        description: en ? "Use email or WhatsApp from the contact panel." : "Pakai email atau WhatsApp di panel kontak.",
+        variant: "error",
+      });
     }
   };
 

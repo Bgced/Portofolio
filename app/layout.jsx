@@ -5,6 +5,7 @@ import Navbar from "@/components/chrome/Navbar";
 import Footer from "@/components/chrome/Footer";
 import ScrollProgress from "@/components/chrome/ScrollProgress";
 import BackToTop from "@/components/chrome/BackToTop";
+import CommandPalette from "@/components/chrome/CommandPalette";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -22,9 +23,9 @@ const jetbrains = JetBrains_Mono({
 
 export const metadata = {
   metadataBase: new URL("https://cekael.vercel.app"),
-  title: "Cekael HQ — Cedric Kilian · Software Engineer & 3D Web",
+  title: "Cekael — Cedric Kilian · Software Engineer & 3D Web",
   description:
-    "Markas digital Cedric Kilian (Cekael) — Software Engineer & mahasiswa Teknik Elektro UNY. Kode, sirkuit, dan visual 3D ketemu di sini.",
+    "Portfolio Cedric Kilian (Cekael). Bikin website, ngulik 3D di browser, dan kuliah Teknik Elektro UNY.",
   keywords: [
     "Cedric Kilian",
     "Cekael",
@@ -37,16 +38,16 @@ export const metadata = {
   ],
   authors: [{ name: "Cedric Kilian Lasmana" }],
   openGraph: {
-    title: "Cekael HQ — Cedric Kilian",
-    description: "Kode, sirkuit, dan visual 3D ketemu di satu markas digital.",
+    title: "Cekael — Cedric Kilian",
+    description: "Ngoding, ngulik sirkuit, dan main 3D di satu layar.",
     type: "website",
     locale: "id_ID",
     url: "https://cekael.vercel.app",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cekael HQ — Cedric Kilian",
-    description: "Kode, sirkuit, dan visual 3D ketemu di satu markas digital.",
+    title: "Cekael — Cedric Kilian",
+    description: "Ngoding, ngulik sirkuit, dan main 3D di satu layar.",
   },
   icons: {
     icon: [
@@ -79,6 +80,7 @@ export default function RootLayout({ children }) {
           <main className="relative z-10">{children}</main>
           <Footer />
           <BackToTop />
+          <CommandPalette />
         </Providers>
       </body>
     </html>

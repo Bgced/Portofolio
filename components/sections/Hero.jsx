@@ -41,12 +41,18 @@ export default function Hero() {
       id="home"
       className="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-20 lg:pt-24"
     >
-      {/* 3D scene transparan — bukan kartu, beneran jadi latar belakang */}
+      {/* 3D scene transparan — jadi latar belakang beneran, tanpa panel solid */}
       <div
         ref={sceneRef}
         role="img"
         aria-label={t("hero.sceneLabel")}
-        className="pointer-events-auto absolute inset-y-0 right-0 z-0 w-full opacity-40 sm:opacity-50 lg:w-[62%] lg:opacity-100"
+        className="pointer-events-auto absolute inset-0 z-0 opacity-55 sm:opacity-70 lg:opacity-95"
+        style={{
+          maskImage:
+            "radial-gradient(ellipse 68% 72% at 66% 46%, #000 42%, transparent 82%)",
+          WebkitMaskImage:
+            "radial-gradient(ellipse 68% 72% at 66% 46%, #000 42%, transparent 82%)",
+        }}
       >
         <HeroScene inView={sceneInView} className="absolute inset-0" />
         <div
@@ -54,7 +60,7 @@ export default function Hero() {
           className="pointer-events-none absolute inset-0"
           style={{
             background:
-              "linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 78%, transparent) 30%, transparent 66%)",
+              "linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 34%, transparent 58%)",
           }}
         />
         <div

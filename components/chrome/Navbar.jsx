@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { Menu, Search, X } from "lucide-react";
 import { NAV_LINKS, PROFILE, SECTION_IDS } from "@/lib/content";
 import { useActiveSection, useScrollLock } from "@/lib/hooks";
 import ThemeToggle from "@/components/chrome/ThemeToggle";
@@ -82,6 +82,18 @@ export default function Navbar() {
         </nav>
 
         <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event("cekael:command"))}
+            aria-label="Buka command palette (Ctrl + K)"
+            title="Command palette · Ctrl/⌘ + K"
+            className="group inline-flex h-9 items-center gap-1.5 rounded-lg border border-line bg-surface-2 px-2 text-muted transition-colors hover:border-accent hover:text-accent sm:px-2.5"
+          >
+            <Search size={15} strokeWidth={1.9} aria-hidden="true" />
+            <kbd className="hidden rounded border border-line-soft px-1 py-0.5 font-mono text-[0.52rem] tracking-[0.04em] text-muted/70 group-hover:text-accent lg:inline-block">
+              ⌘K
+            </kbd>
+          </button>
           <LanguageToggle />
           <ThemeToggle />
 

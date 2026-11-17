@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Bot, Calculator, HeartPulse, QrCode } from "lucide-react";
 import CyberCalc from "@/components/playground/CyberCalc";
 import BmiCalc from "@/components/playground/BmiCalc";
@@ -19,6 +19,15 @@ export default function PlaygroundTabs() {
   const [activeId, setActiveId] = useState(TABS[0].id);
   const tabRefs = useRef({});
   const { t } = useLang();
+
+  useEffect(() => {
+    const onPlaygroundRequest = (event) => {
+      const requested = event?.detail?.tab;
+      if (TABS.some((tab) => tab.id === requested)) setActiveId(requested);
+    };
+    window.addEventListener("cekael:playground", onPlaygroundRequest);
+    return () => window.removeEventListener("cekael:playground", onPlaygroundRequest);
+  }, []);
 
   const focusTab = useCallback((index) => {
     const next = TABS[index];

@@ -1,6 +1,7 @@
 "use client";
 
-import { Briefcase, Camera, Mail, MessageCircle } from "lucide-react";
+import { useEffect, useState } from "react";
+import { ArrowUp, Briefcase, Camera, Mail, MessageCircle } from "lucide-react";
 import { NAV_LINKS, PROFILE, SOCIALS } from "@/lib/content";
 import { useLang } from "@/components/providers";
 
@@ -12,9 +13,19 @@ const ICONS = {
 };
 
 export default function Footer() {
-  const year = new Date().getFullYear();
+  // Render tahun build dulu, lalu sinkronkan di client → nggak ada hydration mismatch saat ganti tahun.
+  const [year, setYear] = useState(2026);
   const { t, lang } = useLang();
   const en = lang === "en";
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
+  const backToTop = () => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.scrollTo({ top: 0, behavior: reduced ? "auto" : "smooth" });
+  };
 
   return (
     <footer className="relative z-10 mt-4 border-t border-line-soft bg-canvas">
@@ -33,10 +44,13 @@ export default function Footer() {
               </div>
             </div>
             <p className="mt-4 text-[0.82rem] leading-relaxed text-muted">
-              Kode, sirkuit, dan visual 3D di satu markas digital.
+              {en
+                ? "Code, circuits and 3D visuals, all on one screen."
+                : "Ngoding, ngulik sirkuit, dan main 3D di satu layar."}
             </p>
-            <p className="mono-label mt-4 text-[0.58rem] leading-relaxed">
-              {PROFILE.location}
+            <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-ok/30 bg-ok/5 px-2.5 py-1 font-mono text-[0.54rem] uppercase tracking-[0.12em] text-ok">
+              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
+              All Systems Operational
             </p>
           </div>
 
@@ -98,8 +112,18 @@ export default function Footer() {
         </div>
 
         <div className="mt-4 flex flex-col gap-1 text-[0.66rem] text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p className="mono-label text-[0.55rem]">© {year} CEK-2026 · All systems nominal</p>
-          <p className="mono-label text-[0.55rem]">{t("footer.built")}</p>
+          <p className="mono-label text-[0.55rem]">© {year} CEK · {en ? "All systems operational" : "Semua sistem normal"}</p>
+          <div className="flex items-center justify-between gap-4 sm:justify-end">
+            <p className="mono-label text-[0.55rem]">{t("footer.built")}</p>
+            <button
+              type="button"
+              onClick={backToTop}
+              className="group inline-flex items-center gap-1 font-mono text-[0.55rem] uppercase tracking-[0.12em] text-muted transition-colors hover:text-accent"
+            >
+              {en ? "Back to Top" : "Balik ke Atas"}
+              <ArrowUp size={11} aria-hidden="true" className="transition-transform group-hover:-translate-y-0.5" />
+            </button>
+          </div>
         </div>
       </div>
     </footer>
