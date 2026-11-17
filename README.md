@@ -1,14 +1,19 @@
-# Portofolio — Cedric Kilian (Next.js + Tailwind)
+# CEKAEL HQ — Portofolio 3D Cedric Kilian
 
-Konversi penuh dari situs statis `cekael.vercel.app` (HTML/CSS/JS) ke **Next.js 15 (App Router) + Tailwind CSS v4**, plus 3 fitur interaktif baru:
+Redesign total `cekael.vercel.app` jadi portofolio 3D interaktif bertema **industrial cyber-futuristic**. Next.js 15 (App Router) + React 19 + Tailwind CSS v4 + Three.js / React Three Fiber.
 
-1. **Karakter 3D interaktif di hero** — `components/InteractiveMascot3D.jsx`
-2. **Maskot 2D floating companion** — `components/Mascot2D.jsx`
-3. **Portfolio Arcade** (Tic-Tac-Toe Minimax, Circuit Memory, Reaction Test) — `components/PortfolioArcade.jsx`
+Dark mode default (pitch black + electric cyan), light mode off-white + deep cyan. Toggle tema memakai `next-themes` dengan class di `<html>` dan `suppressHydrationWarning`, jadi tidak ada flicker atau hydration mismatch. Scene 3D ikut berubah warna saat tema diganti.
 
-Arsip versi statis lama disimpan di `legacy/` (bukan dihapus).
+## Fitur
 
----
+- **Hero 3D** — matriks kubus 3×3×3 matte dengan edge cyan menyala. Auto-rotate, parallax mengikuti kursor, drag untuk memutar. Ada fallback CSS cube kalau WebGL tidak tersedia dan error boundary kalau context hilang.
+- **Bento project** — featured *Electrical Cekael — Interactive Engineering Lab* + project lama (Portofolio 3D, SELA Coffee, Portofolio v1) dalam card seragam. Semua card punya efek 3D tilt.
+- **Playground & Mini Tools** — tiga tools fungsional:
+  - **Cyber Calc** — operasi dasar, persen, desimal, DEL/AC, validasi operator ganda, anti pembagian nol, input keyboard.
+  - **BMI Check** — validasi angka positif, bar indikator, kategori bahasa gaul.
+  - **Cekael AI** — chat hybrid: Gemini/OpenAI lewat `/api/chat` kalau API key tersedia, fallback rule-based lokal kalau tidak ada key/offline. Efek typing.
+- **Responsive** — mobile, tablet, desktop. Tidak ada horizontal overflow; keypad calculator tetap nyaman di layar HP.
+- **Performa** — Canvas di-`dynamic(..., { ssr: false })`, dibungkus `<Suspense>`, rendering dipause saat keluar viewport, semua animasi per-frame memakai ref (tanpa `setState` di `useFrame`). Komponen 3D di-`React.memo`.
 
 ## Instalasi
 
@@ -19,85 +24,77 @@ npm run build    # production build
 npm start
 ```
 
-### Package yang dibutuhkan
+### Dependency utama
 
 ```bash
-npm install three @react-three/fiber @react-three/drei framer-motion
-npm install -D tailwindcss @tailwindcss/postcss
+npm install three @react-three/fiber @react-three/drei next-themes lucide-react framer-motion
+npm install -D tailwindcss @tailwindcss/postcss @types/three
 ```
 
-| Package | Untuk apa |
+| Package | Dipakai untuk |
 | --- | --- |
-| `three` | geometri & renderer primitif robot |
-| `@react-three/fiber` | renderer React untuk scene 3D |
-| `@react-three/drei` | `RoundedBox`, `OrbitControls`, `ContactShadows` |
-| `framer-motion` | animasi masuk, scroll reveal, gesture maskot |
-| `tailwindcss` + `@tailwindcss/postcss` | utility classes (`bg-slate-950`, `cyan-400`, …) |
+| `three` | geometri, material, dan edge kubus 3D |
+| `@react-three/fiber` | renderer React untuk scene Three.js |
+| `@react-three/drei` | `Float`, `Edges`, `RoundedBox` |
+| `next-themes` | tema dark/light tanpa flicker |
+| `lucide-react` | ikon UI |
+| `framer-motion` | reveal on scroll & animasi section |
+| `tailwindcss` + `@tailwindcss/postcss` | utility CSS (Tailwind v4) |
 
----
+> Project ini memakai **JavaScript modular (JSX)** — bukan TypeScript. `@types/three` disertakan supaya aman kalau nanti dimigrasi bertahap ke TS.
+
+## Environment variables (opsional)
+
+Cekael AI tetap jalan tanpa API key (local rule-based engine). Untuk mengaktifkan mode online, buat `.env.local`:
+
+```bash
+# Pilih salah satu (Gemini diprioritaskan)
+GEMINI_API_KEY=...
+GEMINI_MODEL=gemini-2.0-flash
+
+# atau
+OPENAI_API_KEY=...
+OPENAI_MODEL=gpt-4o-mini
+```
+
+Contoh lengkap ada di `.env.example`. Endpoint `POST /api/chat` menerima `{ messages: [{ role, content }] }` dan mengembalikan `{ reply, source }`. Kalau provider error/timeout, server otomatis mengembalikan jawaban lokal dengan `source: "local"` (HTTP 200, bukan error).
 
 ## Struktur
 
 ```
 app/
-  layout.jsx        # font, provider, chrome (nav/footer/maskot/arcade/preloader)
-  page.jsx          # Hero → About → Skills → Projects → Journey → Marquee → Insight → Arcade → Contact
-  globals.css       # token Tailwind v4, surface panel, grid texture, marquee, mascot bubble
+  layout.jsx                 # font, metadata, next-themes provider, chrome
+  page.jsx                   # Hero → Marquee → About → Projects → Playground → Stack → Contact
+  globals.css                # design token dark/light, panel, tilt, marquee, scanline
+  api/chat/route.js          # Gemini/OpenAI + fallback lokal
 components/
-  InteractiveMascot3D.jsx   # maskot 3D (dynamic, ssr:false)
-  Mascot2D.jsx              # companion 2D, pose per section, tombol arcade
-  PortfolioArcade.jsx       # modal #arcade + <ArcadeSection />
-  Navbar.jsx Footer.jsx Chrome.jsx Starfield.jsx Marquee.jsx
-  sections/ (Hero, About, Skills, Projects, Journey, Insight, Contact)
-  arcade/ (TechTicTacToe, CircuitMemory, ReactionTest, useMute)
+  providers.jsx              # next-themes (class strategy)
+  chrome/                    # Navbar, ThemeToggle, Footer, ScrollProgress, BackToTop
+  sections/                  # Hero, About, Projects, Playground, Stack, Contact
+  three/HeroScene.jsx        # Canvas + cube matrix + WebGL fallback
+  playground/                # CyberCalc, BmiCalc, CekaelAI, PlaygroundTabs
+  ui/                        # TiltCard, SectionHeading, Reveal, Marquee
 lib/
-  i18n.js content.js hooks.js sfx.js bgSettings.js
-public/  profile.jpg, favicon*
-legacy/  arsip situs statis lama
+  content.js                 # profil, project, skill, tools, notes (single source of truth)
+  cekael-brain.js            # local rule-based AI
+  hooks.js                   # useInView, useWebGLSupport, useActiveSection, dll
+public/                      # profile.jpg, favicon*
+legacy/                      # arsip situs statis lama (tidak dipakai app)
 ```
 
----
+## Catatan teknis
 
-## Integrasi (semua sudah terpasang)
-
-Navigasi lama tetap utuh — `Tentang, Skill, Project, Daily Driver, Insight, Kontak` — dengan `Arcade` ditambahkan sebelum `Kontak`.
-
-- **Nav**: `components/Navbar.jsx` → array `LINKS` (tambah/hapus item di satu tempat).
-- **Section**: `app/page.jsx` → urutan komponen.
-- **Hero 3D**:
-  ```jsx
-  const InteractiveMascot3D = dynamic(() => import("@/components/InteractiveMascot3D"), { ssr: false });
-  ```
-  Render di `components/sections/Hero.jsx`.
-- **Maskot 2D**: dirender sekali di `app/layout.jsx` (`<Mascot2D />`).
-- **Arcade**: `<ArcadeSection />` ada di `app/page.jsx` (anchor `#arcade`) dan `<PortfolioArcade />` di `layout.jsx` (modal yang dibuka nav / maskot / CTA).
-
-### Optimasi 60 FPS yang dipakai
-
-- Semua animasi `useFrame` memakai `useRef` + `delta` (`THREE.MathUtils.damp`) — **tidak ada `setState` di dalam `useFrame`**.
-- `<Canvas dpr={[1, 2]} shadows={false}>`, `gl.powerPreference="high-performance"`.
-- `frameloop="never"` saat elemen keluar viewport (IntersectionObserver **+** fallback scroll-based, karena IO bisa mati di tab background).
-- `<ContactShadows frames={1}>` — tanpa shadow map real-time.
-- `next/dynamic({ ssr: false })` untuk 3D.
-
-### Aksesibilitas & suara
-
-- Maskot 3D punya tombol keyboard **"Sapa 👋"** sebagai alternatif klik canvas.
-- Arcade modal: `role="dialog"`, `aria-modal`, fokus awal ke tombol tutup, `Esc` menutup, restore fokus, scroll terkunci saat terbuka.
-- SFX memakai **WebAudio sintetis** (tanpa file), tombol mute tersimpan di `localStorage`.
-
----
+- **Tema**: token warna ada di `app/globals.css` (`:root` = dark, `html.light` = light). Semua komponen memakai token (`bg-surface`, `text-ink`, `text-accent`, dst.) supaya light mode tidak perlu `dark:` satu per satu.
+- **3D**: scene membaca `resolvedTheme` dari `next-themes`, jadi warna kubus, edge, dan lighting menyesuaikan tema. Canvas hanya di-render di client.
+- **Isolasi state**: Playground adalah subtree terpisah dari Hero 3D. Mengetik di calculator/AI tidak memicu re-render Canvas.
+- **Aksesibilitas**: nav mobile mendukung Escape + scroll lock, tab playground mendukung panah keyboard, calculator punya `aria-live`, tombol punya label, reduced-motion dihormati.
 
 ## Deployment
 
-```bash
-npm run build && npm start   # atau push ke Vercel — auto-detect Next.js
-```
-
-Catatan: repo ini dulu mendeploy `index.html` statis. Kalau Vercel project lama punya *Output Directory* preset dengan *Framework: Other*, ganti ke **Framework: Next.js** (Output Directory kosong).
+Push ke GitHub lalu import di Vercel — framework terdeteksi otomatis sebagai Next.js. `vercel.json` sudah diset `framework: nextjs`. Tambahkan environment variable AI di dashboard Vercel kalau ingin mode online.
 
 ## Troubleshooting
 
-- **Maskot 3D tidak muncul**: cek WebGL di browser; komponen sengaja di-`ssr:false`.
-- **Animasi keluar (`exit`) tidak jalan**: project ini sengaja **tidak** memakai `AnimatePresence` exit — unmount langsung dipakai supaya overlay modal tidak pernah tertinggal menutupi halaman.
-- **Tema terang**: `globals.css` → `html[data-theme="light"]` (toggle di navbar).
+- **Kubus 3D tidak muncul** → cek WebGL di browser. Komponen akan menampilkan CSS cube fallback, bukan crash.
+- **AI selalu mode lokal** → API key belum diset atau provider timeout. Cek `.env.local` lalu restart dev server.
+- **Tema tidak berubah** → pastikan `next-themes` provider ada di `app/layout.jsx` dan `suppressHydrationWarning` terpasang di `<html>`.

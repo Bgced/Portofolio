@@ -1,24 +1,20 @@
 import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
-import Skills from "@/components/sections/Skills";
 import Projects from "@/components/sections/Projects";
-import Journey from "@/components/sections/Journey";
-import Insight from "@/components/sections/Insight";
+import Playground from "@/components/sections/Playground";
+import Stack from "@/components/sections/Stack";
 import Contact from "@/components/sections/Contact";
-import Marquee from "@/components/Marquee";
-import { ArcadeSection } from "@/components/PortfolioArcade";
+import Marquee from "@/components/ui/Marquee";
 
 export default function Page() {
   return (
     <>
       <Hero />
-      <About />
-      <Skills />
-      <Projects />
-      <Journey />
       <Marquee />
-      <Insight />
-      <ArcadeSection />
+      <About />
+      <Projects />
+      <Playground />
+      <Stack />
       <Contact />
     </>
   );
