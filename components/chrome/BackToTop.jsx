@@ -7,11 +7,24 @@ import { ArrowUp } from "lucide-react";
 export default function BackToTop() {
   const [visible, setVisible] = useState(false);
 
+  // rAF-throttled: setState cuma dipanggil saat status benar-benar berubah.
   useEffect(() => {
-    const onScroll = () => setVisible(window.scrollY > 500);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    let raf = 0;
+    const apply = () => {
+      raf = 0;
+      setVisible(window.scrollY > 500);
+    };
+    const request = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(apply);
+    };
+
+    apply();
+    window.addEventListener("scroll", request, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", request);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
   }, []);
 
   const toTop = () => {
@@ -26,7 +39,7 @@ export default function BackToTop() {
       aria-label="Balik ke atas"
       title="Balik ke atas"
       tabIndex={visible ? 0 : -1}
-      className={`fixed bottom-5 right-4 z-50 grid h-10 w-10 place-items-center rounded-full border border-line bg-surface/90 text-accent backdrop-blur transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-ink sm:bottom-7 sm:right-6 ${
+      className={`fixed bottom-5 right-4 z-50 grid h-10 w-10 place-items-center rounded-full border border-line bg-surface text-accent  transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-ink sm:bottom-7 sm:right-6 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
       }`}
     >

@@ -1,4 +1,4 @@
-import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import Navbar from "@/components/chrome/Navbar";
@@ -9,18 +9,22 @@ import CommandPalette from "@/components/chrome/CommandPalette";
 import UiSandbox from "@/components/chrome/UiSandbox";
 import ScrollScene from "@/components/three/ScrollScene";
 
-const jakarta = Plus_Jakarta_Sans({
-  subsets: ["latin"],
+// Font di-host sendiri (variable, subset latin) supaya build tidak pernah
+// gagal karena request ke fonts.googleapis.com, dan first paint lebih cepat.
+const jakarta = localFont({
+  src: "./fonts/plus-jakarta-sans-latin.woff2",
   variable: "--font-jakarta",
   display: "swap",
-  weight: ["400", "500", "600", "700", "800"],
+  weight: "200 800",
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
+const jetbrains = localFont({
+  src: "./fonts/jetbrains-mono-latin.woff2",
   variable: "--font-jetbrains",
   display: "swap",
-  weight: ["400", "500", "600"],
+  weight: "100 800",
+  fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
 });
 
 export const metadata = {
@@ -62,10 +66,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#f7f4ef" },
-    { media: "(prefers-color-scheme: dark)", color: "#161412" },
-  ],
+  themeColor: "#12100e",
   width: "device-width",
   initialScale: 1,
 };
@@ -74,7 +75,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="id"
-      className={`${jakarta.variable} ${jetbrains.variable}`}
+      className={`dark ${jakarta.variable} ${jetbrains.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen overflow-x-hidden bg-canvas text-ink antialiased">

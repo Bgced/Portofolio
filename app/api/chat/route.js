@@ -22,7 +22,7 @@ Fakta (satu-satunya sumber):
 - Status: ${PROFILE.status}
 - Portfolio: ${PROFILE.portfolio}
 - Project unggulan Electrical Cekael: https://electricalcekael.vercel.app (6 modul kalkulasi kelistrikan, visualisasi 3D, referensi PUIL 2021 / IEC)
-- Project lain: Cekael HQ (${PROFILE.portfolio}) portfolio 3D; SELA Coffee (https://selakopi.vercel.app) website kedai kopi 24 jam
+- Project lain: portfolio 3D ini (${PROFILE.portfolio}); SELA Coffee (https://selakopi.vercel.app) website kedai kopi 24 jam
 - Stack: Next.js, React, Tailwind CSS, Three.js / React Three Fiber, JavaScript, dasar Arduino/ESP32 & IoT
 - Email: ${PROFILE.email} | WhatsApp: ${PROFILE.phone} (${PROFILE.whatsapp}) | LinkedIn: ${PROFILE.linkedin} | Instagram: ${PROFILE.instagram}
 

@@ -1,7 +1,6 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { translate } from "@/lib/site-copy";
 import { ToastProvider } from "@/components/ui/ToastProvider";
 
@@ -59,22 +58,14 @@ export function useLang() {
 
 
 /**
- * next-themes dipakai supaya theme sudah dipasang sebelum paint
- * (script inline di <head>) — jadi nggak ada flicker / hydration mismatch.
- * attribute="class" -> <html class="dark"> atau <html class="light">.
+ * Satu tema saja: Editorial Warm Dark.
+ * <html> sudah membawa class="dark" dari server (app/layout.jsx), jadi nggak
+ * ada script tema, nggak ada flicker, dan nggak mungkin hydration mismatch.
  */
 export function Providers({ children }) {
   return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="light"
-      enableSystem={false}
-      storageKey="cekael-theme"
-      disableTransitionOnChange={false}
-    >
-      <LanguageProvider>
-        <ToastProvider>{children}</ToastProvider>
-      </LanguageProvider>
-    </NextThemesProvider>
+    <LanguageProvider>
+      <ToastProvider>{children}</ToastProvider>
+    </LanguageProvider>
   );
 }

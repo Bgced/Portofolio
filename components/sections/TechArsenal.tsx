@@ -131,8 +131,8 @@ export default function TechArsenal() {
               <span
                 className={`grid h-7 w-7 shrink-0 place-items-center rounded-md border transition-colors ${
                   activeTile
-                    ? "border-accent/40 bg-canvas/40 text-accent"
-                    : "border-line-soft bg-canvas/30 text-muted group-hover:text-ink"
+                    ? "border-accent/40 bg-canvas text-accent"
+                    : "border-line-soft bg-canvas text-muted group-hover:text-ink"
                 }`}
               >
                 <Icon size={13} strokeWidth={1.9} aria-hidden="true" />
@@ -162,7 +162,7 @@ export default function TechArsenal() {
       <div
         key={active.id}
         aria-live="polite"
-        className="mt-3 flex-1 rounded-lg border border-line-soft bg-canvas/45 p-3"
+        className="mt-3 flex-1 rounded-lg border border-line-soft bg-canvas p-3"
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-accent">{active.name}</p>

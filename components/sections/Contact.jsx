@@ -222,7 +222,7 @@ export default function Contact() {
       {/* modal QR kontak */}
       {qrOpen ? (
         <div
-          className="fixed inset-0 z-[80] flex items-center justify-center bg-black/75 p-4 backdrop-blur-sm"
+          className="fixed inset-0 z-[80] flex items-center justify-center bg-canvas p-4 "
           role="dialog"
           aria-modal="true"
           aria-label={en ? "Contact QR code" : "QR kontak Cekael"}

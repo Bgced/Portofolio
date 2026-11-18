@@ -11,9 +11,9 @@ import { useLang } from "@/components/providers";
 import TechArsenal from "@/components/sections/TechArsenal";
 
 const BIO_STATS = [
-  { value: "3+", idLabel: "Project jadi", enLabel: "Projects built" },
-  { value: "480+", idLabel: "Cangkir kopi", enLabel: "Cups of coffee" },
-  { value: "12+", idLabel: "Tech stack", enLabel: "Tech stack" },
+  { value: "4", idLabel: "Project jadi", enLabel: "Projects built" },
+  { value: "6", idLabel: "Modul elektro", enLabel: "Electro modules" },
+  { value: "2", idLabel: "Tahun ngulik web", enLabel: "Years on the web" },
 ];
 
 const TERMINAL_LINES = [
@@ -44,16 +44,13 @@ export default function About() {
             <div className="relative h-full min-h-[360px] sm:min-h-[430px]">
               <Image
                 src="/profile.jpg"
-                alt="Foto Cedric Kilian, software engineer dan mahasiswa Teknik Elektro UNY"
+                alt="Foto Cedric Kilian, front-end developer dan mahasiswa Electrical Engineering UNY"
                 fill
                 sizes="(min-width: 1024px) 380px, (min-width: 640px) 60vw, 92vw"
                 className="object-cover object-center opacity-90"
                 priority={false}
               />
-              <div
-                aria-hidden="true"
-                className="absolute inset-0 bg-gradient-to-t from-canvas via-canvas/25 to-transparent"
-              />
+              <div aria-hidden="true" className="photo-scrim" />
 
               <div className="absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-3">
                 <span className="pill pill-accent">ID / CEK-2026</span>
@@ -97,7 +94,6 @@ export default function About() {
                 ))}
               </div>
               <div className="mt-2 flex flex-wrap gap-1.5">
-                <span className="pill">S1 Teknik Elektro</span>
                 <span className="pill">UNY · Electrical Engineering</span>
                 <span className="pill pill-accent">open to work</span>
               </div>

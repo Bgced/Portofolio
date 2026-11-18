@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 import { Menu, Search, X } from "lucide-react";
 import { NAV_LINKS, PROFILE, SECTION_IDS } from "@/lib/content";
 import { useActiveSection, useScrollLock } from "@/lib/hooks";
-import ThemeToggle from "@/components/chrome/ThemeToggle";
 import LanguageToggle from "@/components/chrome/LanguageToggle";
 import { useLang } from "@/components/providers";
 
@@ -16,11 +15,25 @@ export default function Navbar() {
 
   useScrollLock(open);
 
+  // rAF-throttled + cuma setState saat nilai berubah (hindari re-render tiap tick).
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 24);
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    let raf = 0;
+    const apply = () => {
+      raf = 0;
+      const next = window.scrollY > 24;
+      setScrolled((prev) => (prev === next ? prev : next));
+    };
+    const request = () => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(apply);
+    };
+
+    apply();
+    window.addEventListener("scroll", request, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", request);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
   }, []);
 
   useEffect(() => {
@@ -33,7 +46,7 @@ export default function Navbar() {
   }, [open]);
 
   const shellClass = scrolled
-    ? "border-b border-line-soft bg-canvas/80 backdrop-blur-xl"
+    ? "border-b border-line-soft bg-canvas "
     : "border-b border-transparent bg-transparent";
 
   return (
@@ -98,7 +111,6 @@ export default function Navbar() {
             </kbd>
           </button>
           <LanguageToggle />
-          <ThemeToggle />
 
           <button
             type="button"
@@ -117,7 +129,7 @@ export default function Navbar() {
       <div
         id="mobile-nav"
         hidden={!open}
-        className="border-t border-line-soft bg-canvas/95 backdrop-blur-xl lg:hidden"
+        className="border-t border-line-soft bg-canvas  lg:hidden"
       >
         <nav aria-label={t("nav.mobile")} className="mx-auto w-full max-w-[1180px] px-4 py-4 sm:px-7">
           <ul className="flex flex-col">
@@ -144,7 +156,6 @@ export default function Navbar() {
           </ul>
           <div className="mt-4 flex items-center justify-between gap-3">
             <LanguageToggle />
-            <ThemeToggle />
           </div>
         </nav>
       </div>

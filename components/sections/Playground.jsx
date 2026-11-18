@@ -41,7 +41,7 @@ export default function Playground() {
       <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
         {notes.map((note, index) => (
           <Reveal key={note.code} delay={0.05 + index * 0.05}>
-            <div className="h-full rounded-xl border border-line-soft bg-surface/40 p-3">
+            <div className="h-full rounded-xl border border-line-soft bg-surface p-3">
               <p className="mono-label">tool_{note.code}</p>
               <p className="mt-1.5 text-[0.82rem] font-semibold text-ink">{note.title}</p>
               <p className="mt-1 text-[0.72rem] leading-relaxed text-muted">{note.body}</p>

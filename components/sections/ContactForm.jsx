@@ -12,7 +12,7 @@ const TOPICS = [
 ];
 
 const inputClass =
-  "w-full rounded-lg border border-line-soft bg-canvas/60 px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
+  "w-full rounded-lg border border-line-soft bg-canvas px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
 
 export default function ContactForm() {
   const { lang } = useLang();

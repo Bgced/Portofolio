@@ -112,7 +112,7 @@ export default function PlaygroundTabs() {
       <div className="mt-3 flex items-center justify-between gap-3 rounded-t-xl border border-line-soft border-b-0 bg-surface-2/60 px-3 py-2">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-danger/60" aria-hidden="true" />
-          <span className="h-2 w-2 rounded-full bg-[#fbbf24]/60" aria-hidden="true" />
+          <span className="h-2 w-2 rounded-full bg-[#D48C55]/60" aria-hidden="true" />
           <span className="h-2 w-2 rounded-full bg-ok/60" aria-hidden="true" />
           <span className="mono-label ml-1.5">
             tool_{activeTab.code} // {activeTab.id}
@@ -124,7 +124,7 @@ export default function PlaygroundTabs() {
       </div>
 
       {/* semua panel tetap mounted biar state nggak ilang */}
-      <div className="rounded-b-xl border border-line-soft bg-canvas/40 p-3 sm:p-4">
+      <div className="rounded-b-xl border border-line-soft bg-canvas p-3 sm:p-4">
         {TABS.map((tab) => {
           const Panel = tab.Component;
           return (

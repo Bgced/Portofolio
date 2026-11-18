@@ -4,13 +4,6 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { ACCENTS, RADII, SCENE_MOODS, applyPrefs, loadPrefs, savePrefs } from "@/lib/ui-prefs";
 import { useLang } from "@/components/providers";
 
-const SWATCH: Record<string, { light: string; dark: string }> = {
-  terracotta: { light: "#7C4A2D", dark: "#C88A55" },
-  espresso: { light: "#5C3A21", dark: "#B9764A" },
-  olive: { light: "#5E6B3F", dark: "#A8B878" },
-  slate: { light: "#4A5568", dark: "#9FB3C8" },
-};
-
 function Choice({
   label,
   active,
@@ -78,9 +71,9 @@ export default function UiSandbox() {
   );
 
   return (
-    <div className="fixed bottom-20 left-4 z-40 print:hidden sm:bottom-6 sm:left-6">
+    <div className="fixed bottom-20 right-4 z-40 print:hidden sm:bottom-6 sm:right-6">
       {open ? (
-        <div className="panel w-[min(19rem,calc(100vw-2rem))] p-3 shadow-[0_24px_60px_-30px_rgba(35,31,32,0.55)] backdrop-blur">
+        <div className="panel w-[min(19rem,calc(100vw-2rem))] p-3 border-line bg-surface">
           <div className="flex items-start justify-between gap-2">
             <div>
               <p className="mono-label text-accent">{en ? "ui sandbox" : "sandbox ui"}</p>
@@ -111,7 +104,7 @@ export default function UiSandbox() {
                   >
                     <span
                       className="h-2.5 w-2.5 rounded-full border border-black/10"
-                      style={{ backgroundColor: SWATCH[item.id].light }}
+                      style={{ backgroundColor: item.dark }}
                       aria-hidden="true"
                     />
                     {accentLabel(item.id)}
@@ -164,7 +157,7 @@ export default function UiSandbox() {
           onClick={() => setOpen(true)}
           aria-label={en ? "Open UI sandbox" : "Buka sandbox UI"}
           title={en ? "UI sandbox — try accent, radius, 3D" : "Sandbox UI — coba aksen, radius, 3D"}
-          className="flex items-center gap-2 rounded-full border border-line bg-surface/90 px-3 py-2 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-muted backdrop-blur transition-colors hover:border-accent hover:text-accent"
+          className="flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-muted  transition-colors hover:border-accent hover:text-accent"
         >
           <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
           {en ? "ui sandbox" : "sandbox ui"}

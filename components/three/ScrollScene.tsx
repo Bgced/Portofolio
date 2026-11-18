@@ -14,7 +14,6 @@
 
 import { Component, Suspense, memo, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { useTheme } from "next-themes";
 import * as THREE from "three";
 import { usePrefersReducedMotion, useWebGLSupport } from "@/lib/hooks";
 import { loadPrefs } from "@/lib/ui-prefs";
@@ -31,12 +30,12 @@ const PALETTES = {
     ambient: 1.15,
   },
   dark: {
-    clay: "#2B2521",
-    clayEdge: "#4A3F36",
-    wire: "#C88A55",
-    ring: "#8A6242",
-    light: 1.35,
-    ambient: 0.55,
+    clay: "#2A2521",
+    clayEdge: "#3B342D",
+    wire: "#9C948A",
+    ring: "#D48C55",
+    light: 1.5,
+    ambient: 0.42,
   },
 } as const;
 
@@ -183,15 +182,23 @@ function Rig({
   }, [invalidate]);
 
   useEffect(() => {
+    let raf = 0;
     const onMove = (event: PointerEvent) => {
       pointerTarget.current = {
         x: (event.clientX / Math.max(window.innerWidth, 1)) * 2 - 1,
         y: (event.clientY / Math.max(window.innerHeight, 1)) * 2 - 1,
       };
-      invalidate();
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        invalidate();
+      });
     };
     window.addEventListener("pointermove", onMove, { passive: true });
-    return () => window.removeEventListener("pointermove", onMove);
+    return () => {
+      window.removeEventListener("pointermove", onMove);
+      if (raf) cancelAnimationFrame(raf);
+    };
   }, [invalidate]);
 
   useFrame((_, delta) => {
@@ -296,15 +303,14 @@ class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode
 /* ------------------------------------------------------------------ */
 
 export default function ScrollScene() {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
   const [mood, setMood] = useState<Mood>("clay");
   const [tabHidden, setTabHidden] = useState(false);
+  const [inView, setInView] = useState(true);
+  const hostRef = useRef<HTMLDivElement | null>(null);
   const webgl = useWebGLSupport();
   const reduced = usePrefersReducedMotion();
 
   useEffect(() => {
-    setMounted(true);
     setMood(loadPrefs().scene as Mood);
 
     const onPrefs = (event: Event) => {
@@ -322,23 +328,40 @@ export default function ScrollScene() {
     };
   }, []);
 
-  const isDark = mounted && resolvedTheme === "dark";
-  const palette = isDark ? PALETTES.dark : PALETTES.light;
+  // IntersectionObserver: hentikan loop saat canvas di luar viewport,
+  // dan otomatis hidup lagi begitu balik ke layar (nggak freeze).
+  useEffect(() => {
+    const node = hostRef.current;
+    if (!node || typeof IntersectionObserver === "undefined") return undefined;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry) setInView(entry.isIntersecting);
+      },
+      { threshold: 0 }
+    );
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  // Satu tema saja (dark), jadi palet scene nggak perlu nunggu tema client.
+  const palette = PALETTES.dark;
 
   if (webgl === null) return null;
   if (!webgl || mood === "off") return null;
 
-  const frameloop = tabHidden ? "never" : reduced ? "demand" : "always";
+  const frameloop = tabHidden || !inView ? "never" : reduced ? "demand" : "always";
 
   return (
-    <div className="scene-layer" aria-hidden="true">
+    <div ref={hostRef} className="scene-layer" aria-hidden="true">
       <SceneBoundary fallback={null}>
         <Canvas
-          dpr={[1, 1.6]}
+          dpr={[1, 1.5]}
           frameloop={frameloop}
           shadows={false}
           camera={{ position: [0, 0, 9.2], fov: 42 }}
-          gl={{ antialias: true, alpha: true, powerPreference: "low-power", preserveDrawingBuffer: false }}
+          gl={{ antialias: true, alpha: true, powerPreference: "high-performance", preserveDrawingBuffer: false }}
           style={{ width: "100%", height: "100%" }}
         >
           <Suspense fallback={null}>
@@ -347,7 +370,7 @@ export default function ScrollScene() {
             <directionalLight position={[-6, -3, -5]} intensity={palette.light * 0.35} color={palette.ring} />
             <Rig mood={mood} palette={palette} reduced={reduced} />
             <CanvasSizer />
-            <ThemeInvalidator token={`${isDark ? "dark" : "light"}-${mood}`} />
+            <ThemeInvalidator token={mood} />
           </Suspense>
         </Canvas>
       </SceneBoundary>

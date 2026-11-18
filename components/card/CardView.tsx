@@ -47,18 +47,18 @@ function EmptyState({ en }: { en: boolean }) {
   return (
     <div className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-5 py-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/3 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#7C4A2D]/10 blur-[130px]" />
+        <div className="absolute left-1/2 top-1/3 h-[380px] w-[380px] -translate-x-1/2 rounded-full bg-accent/[0.06]" />
       </div>
-      <div className="relative w-full max-w-md rounded-2xl border border-[#7C4A2D]/25 bg-[#EFECE6]/95 p-7 text-center backdrop-blur-xl">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-[#7C4A2D]/30 bg-[#7C4A2D]/10">
-          <Sparkles size={20} className="text-[#7C4A2D]" aria-hidden="true" />
+      <div className="relative w-full max-w-md rounded-2xl border border-line bg-surface p-7 text-center">
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-surface-2">
+          <Sparkles size={20} className="text-accent" aria-hidden="true" />
         </span>
-        <h1 className="mt-5 text-xl font-semibold tracking-tight text-[#231F20]">
+        <h1 className="mt-5 text-xl font-semibold tracking-tight text-ink">
           {en ? "Card not found" : "Kartunya belum ketemu"}
         </h1>
-        <p className="mt-2 text-sm leading-relaxed text-[#6E665F]">
+        <p className="mt-2 text-sm leading-relaxed text-muted">
           {en
-            ? "The QR link is empty or broken. No worries — you can make a new greeting card in seconds."
+            ? "The QR link is empty or broken. No worries, you can make a new greeting card in seconds."
             : "Link QR-nya kosong atau rusak. Tenang, kamu bisa bikin kartu ucapan baru dalam hitungan detik."}
         </p>
         <Link href="/#playground" className="btn btn-primary mt-6 w-full">
@@ -87,14 +87,14 @@ function ThemeSwatch({
       title={theme.label}
       className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 font-mono text-[0.56rem] uppercase tracking-[0.1em] transition-colors"
       style={{
-        borderColor: active ? theme.accent : "rgba(255,255,255,0.14)",
-        backgroundColor: active ? theme.soft : "rgba(255,255,255,0.03)",
-        color: active ? theme.accent : "#94A3B8",
+        borderColor: active ? theme.accent : "rgba(244,241,234,0.14)",
+        backgroundColor: active ? theme.soft : "rgba(244,241,234,0.04)",
+        color: active ? theme.accent : "var(--muted)",
       }}
     >
       <span
         className="h-2.5 w-2.5 rounded-full"
-        style={{ backgroundColor: theme.accent, boxShadow: `0 0 8px ${theme.glow}` }}
+        style={{ backgroundColor: theme.accent }}
         aria-hidden="true"
       />
       {theme.label}
@@ -129,7 +129,7 @@ export default function CardView() {
     if (!data || done.current) return undefined;
     done.current = true;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    return fireConfetti(reduced, [theme.accent, theme.accent2, "#F8FAFC"]);
+    return fireConfetti(reduced, [theme.accent, theme.accent2]);
   }, [data, theme]);
 
   const selectTheme = useCallback(
@@ -205,11 +205,11 @@ export default function CardView() {
 
       <article
         ref={cardRef}
-        className="relative w-full max-w-[34rem] overflow-hidden rounded-[1.6rem] border p-1.5 backdrop-blur-2xl"
+        className="relative w-full max-w-[34rem] overflow-hidden rounded-[1.6rem] border p-1.5 "
         style={{
           borderColor: theme.border,
           backgroundColor: theme.cardBg,
-          boxShadow: `0 40px 120px -40px ${theme.glow}`,
+          boxShadow: "0 18px 40px -32px rgba(0, 0, 0, 0.9)",
         }}
       >
         <div
@@ -245,7 +245,7 @@ export default function CardView() {
           >
             {en ? "To" : "Untuk"}
           </p>
-          <h1 className="mt-2 break-words text-[clamp(2rem,8vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#F8FAFC]">
+          <h1 className="mt-2 break-words text-[clamp(2rem,8vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#F4F1EA]">
             {data.name}
           </h1>
 
@@ -255,7 +255,7 @@ export default function CardView() {
             aria-hidden="true"
           />
 
-          <p className="whitespace-pre-wrap break-words text-[0.98rem] leading-relaxed text-[#E2E8F0] sm:text-[1.05rem]">
+          <p className="whitespace-pre-wrap break-words text-[0.98rem] leading-relaxed text-[#F4F1EA] sm:text-[1.05rem]">
             {data.message}
           </p>
 
@@ -270,7 +270,7 @@ export default function CardView() {
               >
                 {en ? "From" : "Dari"}
               </p>
-              <p className="mt-1 break-words text-sm font-semibold text-[#F8FAFC]">
+              <p className="mt-1 break-words text-sm font-semibold text-[#F4F1EA]">
                 {data.sender || "Cekael"}
               </p>
             </div>
@@ -285,7 +285,7 @@ export default function CardView() {
       </article>
 
       {/* toolbar: theme + save */}
-      <div className="relative mt-4 flex w-full max-w-[34rem] flex-col gap-2.5 rounded-xl border border-white/10 bg-black/25 p-2.5 backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative mt-4 flex w-full max-w-[34rem] flex-col gap-2.5 rounded-xl border border-line bg-canvas p-2.5  sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap items-center gap-1.5">
           {CARD_THEME_LIST.map((item) => (
             <ThemeSwatch key={item.id} theme={item} active={item.id === theme.id} onSelect={selectTheme} />
@@ -309,7 +309,7 @@ export default function CardView() {
 
       <Link
         href="/#playground"
-        className="relative mt-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/30 px-4 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-[#94A3B8] backdrop-blur-xl transition-colors hover:text-[#F8FAFC]"
+        className="relative mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-canvas px-4 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
       >
         {en ? "Make your own QR card" : "Bikin QR kartu kamu sendiri"}
         <ArrowRight size={12} aria-hidden="true" style={{ color: theme.accent }} />

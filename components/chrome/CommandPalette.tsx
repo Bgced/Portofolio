@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState, type KeyboardEvent as ReactKeyboardEvent } from "react";
-import { useTheme } from "next-themes";
 import {
   ArrowUp,
   Calculator,
@@ -12,12 +11,10 @@ import {
   HeartPulse,
   Home,
   Mail,
-  Moon,
   QrCode,
   Search,
   SlidersHorizontal,
   Sparkles,
-  Sun,
   UserRound,
   Wrench,
   type LucideIcon,
@@ -84,11 +81,9 @@ export default function CommandPalette() {
   const panelRef = useRef<HTMLDivElement>(null);
   const lastFocused = useRef<HTMLElement | null>(null);
   const { lang } = useLang();
-  const { resolvedTheme, setTheme } = useTheme();
   const { toast } = useToast();
 
   const en = lang === "en";
-  const isDark = resolvedTheme === "dark";
 
   const rememberFocus = useCallback(() => {
     lastFocused.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -278,28 +273,6 @@ export default function CommandPalette() {
 
     const actions: PaletteItem[] = [
       {
-        id: "action-theme",
-        label: isDark
-          ? en
-            ? "Switch to Light Mode"
-            : "Ganti ke Mode Terang"
-          : en
-            ? "Switch to Dark Mode"
-            : "Ganti ke Mode Gelap",
-        hint: isDark ? "sun" : "moon",
-        keywords: "theme tema dark light gelap terang mode",
-        group: "actions",
-        icon: isDark ? Sun : Moon,
-        run: () => {
-          const next = isDark ? "light" : "dark";
-          setTheme(next);
-          toast({
-            title: en ? `${next === "light" ? "Light" : "Dark"} mode on` : `Mode ${next === "light" ? "terang" : "gelap"} aktif`,
-            variant: "success",
-          });
-        },
-      },
-      {
         id: "action-sandbox",
         label: en ? "Open UI Sandbox" : "Buka Sandbox UI",
         hint: "⌘.",
@@ -364,7 +337,7 @@ export default function CommandPalette() {
     return [...navigate, ...tools, ...actions];
     // `t` bukan dipakai langsung di sini, tapi perubahan bahasa harus rebuild label.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [en, isDark, goSection, goTool, setTheme, toast, close]);
+  }, [en, goSection, goTool, toast, close]);
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();
@@ -434,7 +407,7 @@ export default function CommandPalette() {
 
   return (
     <div
-      className="fixed inset-0 z-[85] flex items-start justify-center bg-canvas/72 px-3 pt-[10vh] backdrop-blur-md sm:pt-[14vh]"
+      className="fixed inset-0 z-[85] flex items-start justify-center bg-canvas px-3 pt-[10vh]  sm:pt-[14vh]"
       role="presentation"
       onMouseDown={(event) => {
         if (event.target === event.currentTarget) close();
@@ -446,7 +419,7 @@ export default function CommandPalette() {
         aria-modal="true"
         aria-label={en ? "Command palette" : "Command palette"}
         onKeyDown={onPanelKeyDown}
-        className="palette-panel relative w-full max-w-[580px] overflow-hidden rounded-2xl border border-line bg-surface/95 shadow-[0_40px_120px_-35px_rgba(0,0,0,0.85)] backdrop-blur-2xl"
+        className="palette-panel relative w-full max-w-[580px] overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_120px_-35px_rgba(0,0,0,0.85)] "
       >
         {/* title bar */}
         <div className="flex items-center justify-between border-b border-line-soft px-3.5 py-2">
@@ -514,7 +487,7 @@ export default function CommandPalette() {
                           <span
                             className={`grid h-7 w-7 shrink-0 place-items-center rounded-md border ${
                               active
-                                ? "border-accent/50 bg-canvas/40 text-accent"
+                                ? "border-accent/50 bg-canvas text-accent"
                                 : "border-line-soft bg-surface-2 text-muted"
                             }`}
                           >

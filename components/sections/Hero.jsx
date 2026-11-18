@@ -102,7 +102,6 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.2, ease: EASE }}
         >
-          <div className="absolute -inset-3 -z-10 rounded-[var(--radius-card)] border border-line bg-surface-2/60" aria-hidden="true" />
           <div className="photo-editorial relative aspect-[4/5] rounded-[var(--radius-card)]">
             <Image
               src="/profile.jpg"
@@ -113,13 +112,13 @@ export default function Hero() {
               priority
             />
             <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
-              <span className="font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[#fdfaf6]">
+              <span className="font-mono text-[0.58rem] uppercase tracking-[0.18em] text-ink">
                 {PROFILE.name}
-                <span className="mt-1 block text-[0.52rem] tracking-[0.16em] text-[#fdfaf6]/70">
+                <span className="mt-1 block text-[0.52rem] tracking-[0.16em] text-ink/70">
                   {t("hero.photoCaption")}
                 </span>
               </span>
-              <span className="font-mono text-[0.52rem] uppercase tracking-[0.18em] text-[#fdfaf6]/70">
+              <span className="font-mono text-[0.52rem] uppercase tracking-[0.18em] text-ink/70">
                 ck · 2026
               </span>
             </figcaption>

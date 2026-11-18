@@ -37,7 +37,7 @@ const MODES = [
 ];
 
 const inputClass =
-  "w-full rounded-lg border border-line-soft bg-canvas/60 px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
+  "w-full rounded-lg border border-line-soft bg-canvas px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
 
 function Field({ label, hint, children }) {
   return (
@@ -266,7 +266,7 @@ export default function QrStudio() {
                 className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-2 font-mono text-[0.64rem] uppercase tracking-[0.1em] transition-colors ${
                   active
                     ? "border-line bg-accent-soft text-accent"
-                    : "border-line-soft bg-surface/40 text-muted hover:text-ink"
+                    : "border-line-soft bg-surface text-muted hover:text-ink"
                 }`}
               >
                 <Icon size={12} aria-hidden="true" />
@@ -324,7 +324,7 @@ export default function QrStudio() {
                         className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 text-[0.68rem] transition-colors ${
                           active
                             ? "border-accent/70 bg-accent-soft text-ink"
-                            : "border-line-soft bg-surface/40 text-muted hover:text-ink"
+                            : "border-line-soft bg-surface text-muted hover:text-ink"
                         }`}
                       >
                         <span
@@ -460,7 +460,7 @@ export default function QrStudio() {
                   className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 text-[0.7rem] transition-colors ${
                     color === option.value
                       ? "border-accent/70 bg-accent-soft text-ink"
-                      : "border-line-soft bg-surface/40 text-muted hover:text-ink"
+                      : "border-line-soft bg-surface text-muted hover:text-ink"
                   }`}
                 >
                   <span
@@ -501,9 +501,9 @@ export default function QrStudio() {
               className="h-auto max-w-full"
             />
           ) : (
-            <div className="flex h-[196px] w-[196px] flex-col items-center justify-center gap-2 rounded-md border border-dashed border-slate-300 text-center">
-              <QrCode size={26} className="text-slate-400" aria-hidden="true" />
-              <p className="px-4 font-mono text-[0.6rem] uppercase leading-relaxed tracking-[0.1em] text-slate-500">
+            <div className="flex h-[196px] w-[196px] flex-col items-center justify-center gap-2 rounded-md border border-dashed border-muted text-center">
+              <QrCode size={26} className="text-muted" aria-hidden="true" />
+              <p className="px-4 font-mono text-[0.6rem] uppercase leading-relaxed tracking-[0.1em] text-muted">
                 {en ? "fill the form first" : "isi form dulu ya"}
               </p>
             </div>
