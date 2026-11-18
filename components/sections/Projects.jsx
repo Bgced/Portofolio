@@ -26,7 +26,7 @@ function CubeStack() {
               layer === 0
                 ? "color-mix(in srgb, var(--accent) 12%, transparent)"
                 : "color-mix(in srgb, var(--surface-2) 82%, transparent)",
-            boxShadow: "0 0 26px color-mix(in srgb, var(--accent) 12%, transparent) inset",
+            boxShadow: "0 12px 24px -18px rgba(35,31,32,0.45)",
           }}
         />
       ))}
@@ -186,7 +186,7 @@ export default function Projects() {
                 <div className="mt-4 flex items-baseline justify-between gap-2">
                   <p className="mono-label text-[0.55rem]">{project.year}</p>
                   <span className="mono-label text-[0.52rem]" aria-hidden="true">
-                    ▚▚
+                    ↗
                   </span>
                 </div>
 

@@ -215,7 +215,7 @@ function keyClasses(key) {
   const base =
     "relative flex min-h-[48px] select-none items-center justify-center rounded-xl border font-mono text-[0.95rem] font-semibold transition-all duration-150 active:translate-y-px active:scale-[0.98]";
   if (key === "=") {
-    return `${base} border-accent/70 bg-accent text-accent-ink shadow-[0_10px_30px_-14px_var(--glow)] hover:brightness-110`;
+    return `${base} border-accent/70 bg-accent text-accent-ink hover:brightness-110`;
   }
   if (key === "AC" || key === "DEL") {
     return `${base} border-danger/35 bg-danger/10 text-danger hover:border-danger/60 hover:bg-danger/15`;
@@ -291,7 +291,7 @@ export default function CyberCalc({ active = true }) {
   }, [active]);
 
   const display = useMemo(
-    () => (state.error ? (en ? "Can't divide by 0, bro!" : "Nggak bisa dibagi 0 bro!") : pretty(state.display)),
+    () => (state.error ? (en ? "Can't divide by zero" : "Nggak bisa dibagi nol") : pretty(state.display)),
     [state.display, state.error, en]
   );
 
@@ -313,7 +313,7 @@ export default function CyberCalc({ active = true }) {
             <span className="h-2 w-2 rounded-full bg-danger/70" aria-hidden="true" />
             <span className="h-2 w-2 rounded-full bg-accent/60" aria-hidden="true" />
             <span className="h-2 w-2 rounded-full bg-ok/60" aria-hidden="true" />
-            <span className="mono-label ml-2">calc_terminal v2.1</span>
+            <span className="mono-label ml-2">kalkulator · v2.1</span>
           </div>
           <span className={`pill ${state.error ? "" : "pill-accent"}`}>{state.error ? "error" : "online"}</span>
         </div>
@@ -364,7 +364,7 @@ export default function CyberCalc({ active = true }) {
           <p className="mono-label">recent ops</p>
           {state.ticker.length === 0 ? (
             <p className="mt-3 font-mono text-[0.72rem] leading-relaxed text-muted">
-              {en ? "no operations yet." : "belum ada operasi."}
+              {en ? "no operations yet." : "belum ada hitungan."}
               <br />
               {en ? "try 12 × 8 then hit =." : "coba 12 × 8 terus pencet =."}
             </p>
@@ -386,13 +386,13 @@ export default function CyberCalc({ active = true }) {
         </div>
 
         <div className="panel p-4">
-          <p className="mono-label">{en ? "machine notes" : "catatan mesin"}</p>
+          <p className="mono-label">{en ? "how it works" : "cara kerjanya"}</p>
           <ul className="mt-3 space-y-2 text-[0.78rem] leading-relaxed text-muted">
             <li className="flex gap-2">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
               {en
-                ? "Precision is capped at 12 digits, so 0.1 + 0.2 = 0.3 — not 0.30000000000000004."
-                : "Presisi dipangkas ke 12 digit, jadi 0.1 + 0.2 = 0.3 — bukan 0.30000000000000004."}
+                ? "Precision is capped at 12 digits, so 0.1 + 0.2 = 0.3, not 0.30000000000000004."
+                : "Presisi dipangkas ke 12 digit, jadi 0.1 + 0.2 = 0.3, bukan 0.30000000000000004."}
             </li>
             <li className="flex gap-2">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
@@ -403,8 +403,8 @@ export default function CyberCalc({ active = true }) {
             <li className="flex gap-2">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-accent" aria-hidden="true" />
               {en
-                ? "Dividing by 0 locks the machine. Press AC or DEL to wake it up."
-                : "Bagi 0 bikin mesin kunci. Tekan AC atau DEL buat bangunin."}
+                ? "Dividing by zero locks it. Press AC or DEL to start again."
+                : "Bagi nol bikin kalkulator terkunci. Tekan AC atau DEL buat mulai lagi."}
             </li>
           </ul>
         </div>

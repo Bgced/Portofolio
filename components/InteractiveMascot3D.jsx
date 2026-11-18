@@ -386,8 +386,8 @@ function Robot({ scrollRef, reduced, onSpeak }) {
 function LoadingPlaceholder() {
   return (
     <div className="flex h-full w-full items-center justify-center">
-      <div className="flex flex-col items-center gap-3 text-[11px] tracking-[0.24em] text-slate-500 uppercase">
-        <span className="h-10 w-10 animate-spin rounded-full border border-slate-700 border-t-cyan-400" />
+      <div className="flex flex-col items-center gap-3 text-[11px] tracking-[0.24em] text-muted uppercase">
+        <span className="h-10 w-10 animate-spin rounded-full border border-line border-t-accent" />
         booting mascot
       </div>
     </div>
@@ -486,7 +486,7 @@ export default function InteractiveMascot3D({ className = "" }) {
         }`}
       >
         {bubble && (
-          <div className="mascot-bubble relative rounded-xl border border-cyan-400/30 bg-slate-950/90 px-4 py-3 text-center text-[13px] leading-snug text-slate-200 shadow-[0_0_40px_-12px_rgba(0,210,255,0.6)] backdrop-blur">
+          <div className="mascot-bubble relative rounded-xl border border-line bg-surface/95 px-4 py-3 text-center text-[13px] leading-snug text-ink shadow-[0_0_40px_-12px_rgba(0,210,255,0.6)] backdrop-blur">
             {bubble}
             <span className="mascot-bubble-tail" aria-hidden="true" />
           </div>
@@ -538,7 +538,7 @@ export default function InteractiveMascot3D({ className = "" }) {
       <button
         type="button"
         onClick={speak}
-        className="absolute bottom-0 right-0 z-20 rounded-full border border-slate-700/80 bg-slate-950/70 px-3 py-1 text-[10px] font-medium tracking-[0.2em] text-slate-400 uppercase backdrop-blur transition hover:border-cyan-400/50 hover:text-cyan-300 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400"
+        className="absolute bottom-0 right-0 z-20 rounded-full border border-line bg-surface/90 px-3 py-1 text-[10px] font-medium tracking-[0.2em] text-muted uppercase backdrop-blur transition hover:border-accent/50 hover:text-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
       >
         {lang === "en" ? "Say hi" : "Sapa"} 👋
       </button>

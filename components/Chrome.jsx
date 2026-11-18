@@ -112,17 +112,17 @@ export function Preloader() {
     <motion.div
       initial={{ opacity: 1 }}
       animate={{ opacity: 1 }}
-      className="fixed inset-0 z-[90] grid place-items-center bg-slate-950"
+      className="fixed inset-0 z-[90] grid place-items-center bg-surface"
       aria-hidden="true"
     >
           <div className="flex flex-col items-center gap-4">
-            <span className="font-mono text-2xl font-bold tracking-tight text-cyan-300">CK</span>
+            <span className="font-mono text-2xl font-bold tracking-tight text-accent">CK</span>
             <div className="h-0.5 w-40 overflow-hidden rounded-full bg-slate-800">
               <motion.div
                 initial={{ x: "-100%" }}
                 animate={{ x: "100%" }}
                 transition={{ duration: 0.85, ease: "easeInOut" }}
-                className="h-full w-1/2 bg-cyan-400"
+                className="h-full w-1/2 bg-accent"
               />
             </div>
             <span className="font-mono text-[9px] tracking-[0.3em] text-slate-600 uppercase">initialising</span>
@@ -153,7 +153,7 @@ export function BackToTop() {
             window.scrollTo({ top: 0, behavior: "smooth" });
           }}
           aria-label={t("ui.backToTop")}
-          className="fixed bottom-4 left-4 z-40 grid h-9 w-9 place-items-center rounded-full border border-slate-700/80 bg-slate-950/80 text-slate-400 backdrop-blur transition hover:border-cyan-400/50 hover:text-cyan-300 sm:bottom-6 sm:left-6"
+          className="fixed bottom-4 left-4 z-40 grid h-9 w-9 place-items-center rounded-full border border-line bg-surface/95 text-muted backdrop-blur transition hover:border-accent/50 hover:text-accent sm:bottom-6 sm:left-6"
         >
           <ArrowUpIcon width={15} height={15} />
         </motion.button>
@@ -189,13 +189,13 @@ export function ThankYouToast() {
       initial={{ opacity: 0, y: 16, scale: 0.97 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed bottom-20 left-4 z-50 max-w-[280px] rounded-xl border border-slate-700/80 bg-slate-950/95 p-3.5 shadow-2xl backdrop-blur sm:bottom-24 sm:left-6"
+      className="fixed bottom-20 left-4 z-50 max-w-[280px] rounded-xl border border-line bg-surface/95 p-3.5 shadow-2xl backdrop-blur sm:bottom-24 sm:left-6"
       role="status"
     >
           <div className="flex items-start gap-2.5">
-            <span className="mt-0.5 text-cyan-300">♥</span>
+            <span className="mt-0.5 text-accent">♥</span>
             <div>
-              <p className="flex flex-wrap gap-x-1 text-xs font-semibold text-slate-100">
+              <p className="flex flex-wrap gap-x-1 text-xs font-semibold text-ink">
                 {words(t("ui.thanksTitle")).map((word, index) => (
                   <motion.span
                     key={`${word}-${index}`}
@@ -207,7 +207,7 @@ export function ThankYouToast() {
                   </motion.span>
                 ))}
               </p>
-              <p className="mt-1 flex flex-wrap gap-x-1 text-[11px] leading-relaxed text-slate-400">
+              <p className="mt-1 flex flex-wrap gap-x-1 text-[11px] leading-relaxed text-muted">
                 {words(t("ui.thanksSub")).map((word, index) => (
                   <motion.span
                     key={`${word}-${index}`}
@@ -224,7 +224,7 @@ export function ThankYouToast() {
               type="button"
               onClick={() => setVisible(false)}
               aria-label="close"
-              className="ml-auto text-slate-600 transition hover:text-slate-300"
+              className="ml-auto text-slate-600 transition hover:text-ink"
             >
               <CloseIcon width={13} height={13} />
             </button>

@@ -1,4 +1,4 @@
-export type CardThemeId = "cyan" | "purple" | "matrix";
+export type CardThemeId = "clay" | "espresso" | "olive";
 
 export type CardTheme = {
   id: CardThemeId;
@@ -16,47 +16,47 @@ export type CardTheme = {
 };
 
 export const CARD_THEMES: Record<CardThemeId, CardTheme> = {
-  cyan: {
-    id: "cyan",
-    label: "Cyber Cyan",
-    accent: "#00F0FF",
-    accent2: "#7DF9FF",
-    border: "rgba(0, 240, 255, 0.30)",
-    borderSoft: "rgba(255, 255, 255, 0.08)",
-    soft: "rgba(0, 240, 255, 0.12)",
-    glow: "rgba(0, 240, 255, 0.45)",
-    cardBg: "rgba(11, 14, 17, 0.80)",
-    pageBg: "#050505",
-    grid: "rgba(0, 240, 255, 0.045)",
-    muted: "#94A3B8",
+  clay: {
+    id: "clay",
+    label: "Terracotta Clay",
+    accent: "#C88A55",
+    accent2: "#E0A878",
+    border: "rgba(200, 138, 85, 0.34)",
+    borderSoft: "rgba(242, 239, 233, 0.10)",
+    soft: "rgba(200, 138, 85, 0.14)",
+    glow: "rgba(200, 138, 85, 0.35)",
+    cardBg: "rgba(31, 28, 25, 0.92)",
+    pageBg: "#161412",
+    grid: "rgba(200, 138, 85, 0.06)",
+    muted: "#A39B91",
   },
-  purple: {
-    id: "purple",
-    label: "Neon Purple",
-    accent: "#B26BFF",
-    accent2: "#E879F9",
-    border: "rgba(178, 107, 255, 0.36)",
-    borderSoft: "rgba(255, 255, 255, 0.08)",
-    soft: "rgba(178, 107, 255, 0.15)",
-    glow: "rgba(178, 107, 255, 0.50)",
-    cardBg: "rgba(17, 12, 24, 0.84)",
-    pageBg: "#08050D",
-    grid: "rgba(178, 107, 255, 0.055)",
-    muted: "#A9A3B8",
+  espresso: {
+    id: "espresso",
+    label: "Espresso Cream",
+    accent: "#7C4A2D",
+    accent2: "#B9764A",
+    border: "rgba(124, 74, 45, 0.34)",
+    borderSoft: "rgba(35, 31, 32, 0.10)",
+    soft: "rgba(124, 74, 45, 0.10)",
+    glow: "rgba(124, 74, 45, 0.28)",
+    cardBg: "rgba(247, 244, 239, 0.96)",
+    pageBg: "#F7F4EF",
+    grid: "rgba(92, 58, 33, 0.06)",
+    muted: "#6E665F",
   },
-  matrix: {
-    id: "matrix",
-    label: "Emerald Matrix",
-    accent: "#34D399",
-    accent2: "#A7F3D0",
-    border: "rgba(52, 211, 153, 0.34)",
-    borderSoft: "rgba(255, 255, 255, 0.08)",
-    soft: "rgba(52, 211, 153, 0.13)",
-    glow: "rgba(52, 211, 153, 0.45)",
-    cardBg: "rgba(7, 17, 13, 0.84)",
-    pageBg: "#030B07",
-    grid: "rgba(52, 211, 153, 0.055)",
-    muted: "#9CB8AB",
+  olive: {
+    id: "olive",
+    label: "Olive Sand",
+    accent: "#5E6B3F",
+    accent2: "#A8B878",
+    border: "rgba(94, 107, 63, 0.32)",
+    borderSoft: "rgba(35, 31, 32, 0.10)",
+    soft: "rgba(94, 107, 63, 0.12)",
+    glow: "rgba(94, 107, 63, 0.25)",
+    cardBg: "rgba(249, 247, 241, 0.96)",
+    pageBg: "#F5F2EA",
+    grid: "rgba(94, 107, 63, 0.06)",
+    muted: "#6B6A5C",
   },
 };
 
@@ -68,5 +68,5 @@ export function isCardThemeId(value: unknown): value is CardThemeId {
 }
 
 export function resolveCardTheme(value: string | null | undefined): CardTheme {
-  return isCardThemeId(value) ? CARD_THEMES[value] : CARD_THEMES.cyan;
+  return isCardThemeId(value) ? CARD_THEMES[value] : CARD_THEMES.clay;
 }

@@ -70,7 +70,7 @@ export default function QrStudio() {
   const [waMessage, setWaMessage] = useState("");
   const [rawText, setRawText] = useState("");
   const [color, setColor] = useState(QR_COLORS[0].value);
-  const [cardTheme, setCardTheme] = useState("cyan");
+  const [cardTheme, setCardTheme] = useState("clay");
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -241,7 +241,7 @@ export default function QrStudio() {
     setWaMessage("");
     setRawText("");
     setColor(QR_COLORS[0].value);
-    setCardTheme("cyan");
+    setCardTheme("clay");
   };
 
   const openPreview = () => {
@@ -468,7 +468,7 @@ export default function QrStudio() {
                     style={{ backgroundColor: option.value }}
                     aria-hidden="true"
                   />
-                  {option.id === "black" ? (en ? "Classic black" : "Hitam Klasik") : "Deep Cyan"}
+                  {option.id === "black" ? (en ? "Classic black" : "Hitam Klasik") : en ? "Espresso brown" : "Cokelat espresso"}
                 </button>
               ))}
             </div>

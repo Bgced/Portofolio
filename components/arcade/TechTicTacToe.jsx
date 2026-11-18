@@ -150,7 +150,7 @@ export default function TechTicTacToe() {
   }, [result, turn, t]);
 
   const Symbol = ({ value }) => {
-    if (value === PLAYER) return <BoltIcon width={30} height={30} className="text-cyan-300" />;
+    if (value === PLAYER) return <BoltIcon width={30} height={30} className="text-accent" />;
     if (value === AI) return <GroundIcon width={30} height={30} className="text-amber-300" />;
     return null;
   };
@@ -160,7 +160,7 @@ export default function TechTicTacToe() {
       <div>
         {/* difficulty */}
         <div className="mb-3 flex items-center justify-between gap-3">
-          <div className="inline-flex rounded-lg border border-slate-700/80 bg-slate-900/60 p-0.5">
+          <div className="inline-flex rounded-lg border border-line bg-surface-2/70 p-0.5">
             {["easy", "hard"].map((level) => (
               <button
                 key={level}
@@ -169,8 +169,8 @@ export default function TechTicTacToe() {
                 aria-pressed={mode === level}
                 className={`rounded-md px-3 py-1.5 text-[11px] font-semibold tracking-wide uppercase transition ${
                   mode === level
-                    ? "bg-cyan-400/15 text-cyan-300 shadow-[inset_0_0_0_1px_rgba(34,211,238,0.35)]"
-                    : "text-slate-500 hover:text-slate-300"
+                    ? "bg-accent/15 text-accent shadow-[inset_0_0_0_1px_rgba(34,211,238,0.35)]"
+                    : "text-muted hover:text-ink"
                 }`}
               >
                 {t(`arcade.${level}`)}
@@ -181,7 +181,7 @@ export default function TechTicTacToe() {
           <button
             type="button"
             onClick={() => reset()}
-            className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700/80 px-2.5 py-1.5 text-[11px] text-slate-400 transition hover:border-slate-500 hover:text-slate-200"
+            className="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1.5 text-[11px] text-muted transition hover:border-slate-500 hover:text-ink"
           >
             <RotateIcon width={13} height={13} />
             {t("arcade.replay")}
@@ -202,8 +202,8 @@ export default function TechTicTacToe() {
                 aria-label={`cell ${index + 1}${cell ? `, ${cell === PLAYER ? "voltage" : "ground"}` : ""}`}
                 className={`group relative grid aspect-square place-items-center rounded-xl border transition-all duration-200 ${
                   isWinning
-                    ? "border-emerald-400/70 bg-emerald-400/10 shadow-[0_0_24px_-6px_rgba(52,211,153,0.65)]"
-                    : "border-slate-700/70 bg-slate-900/50 hover:border-cyan-400/40 hover:bg-slate-800/50"
+                    ? "border-emerald-400/70 bg-ok/10 shadow-[0_0_24px_-6px_rgba(52,211,153,0.65)]"
+                    : "border-line bg-surface-2/60 hover:border-accent/40 hover:bg-surface-2/70"
                 } ${!cell && playing && turn === "player" ? "cursor-pointer" : "cursor-default"}`}
               >
                 <span className="absolute inset-0 rounded-xl opacity-0 transition group-hover:opacity-100 group-hover:[background:radial-gradient(circle_at_50%_50%,rgba(0,210,255,0.08),transparent_70%)]" />
@@ -213,10 +213,10 @@ export default function TechTicTacToe() {
           })}
         </div>
 
-        <div className="mt-3 flex min-h-[24px] items-center justify-center gap-2 text-center text-xs text-slate-400" aria-live="polite">
+        <div className="mt-3 flex min-h-[24px] items-center justify-center gap-2 text-center text-xs text-muted" aria-live="polite">
           <span
             className={`h-1.5 w-1.5 rounded-full ${
-              result.winner === PLAYER ? "bg-emerald-400" : result.winner === AI ? "bg-rose-400" : "bg-cyan-400 animate-pulse"
+              result.winner === PLAYER ? "bg-ok" : result.winner === AI ? "bg-danger" : "bg-accent animate-pulse"
             }`}
           />
           {status}
@@ -235,26 +235,26 @@ export default function TechTicTacToe() {
       </div>
 
       {/* scoreboard */}
-      <aside className="rounded-xl border border-slate-700/70 bg-slate-900/40 p-4">
-        <p className="mb-3 flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.22em] text-slate-500 uppercase">
+      <aside className="rounded-xl border border-line bg-surface-2/40 p-4">
+        <p className="mb-3 flex items-center gap-1.5 text-[10px] font-semibold tracking-[0.22em] text-muted uppercase">
           <TrophyIcon width={13} height={13} /> {t("arcade.score")}
         </p>
         <dl className="space-y-2 text-xs">
           {[
             ["wins", score.wins, "text-emerald-300"],
-            ["draws", score.draws, "text-slate-300"],
+            ["draws", score.draws, "text-ink"],
             ["losses", score.losses, "text-rose-300"],
           ].map(([key, value, color]) => (
             <div key={key} className="flex items-center justify-between gap-2">
-              <dt className="text-slate-500">{t(`arcade.${key}`)}</dt>
+              <dt className="text-muted">{t(`arcade.${key}`)}</dt>
               <dd className={`font-mono text-sm font-semibold ${color}`}>{value}</dd>
             </div>
           ))}
         </dl>
 
-        <div className="mt-4 space-y-2 rounded-lg border border-slate-800 bg-slate-950/50 p-2.5 text-[11px] text-slate-400">
+        <div className="mt-4 space-y-2 rounded-lg border border-line bg-surface/50 p-2.5 text-[11px] text-muted">
           <p className="flex items-center gap-2">
-            <BoltIcon width={14} height={14} className="text-cyan-300" /> {t("arcade.yourTurn")} = ⚡
+            <BoltIcon width={14} height={14} className="text-accent" /> {t("arcade.yourTurn")} = ⚡
           </p>
           <p className="flex items-center gap-2">
             <GroundIcon width={14} height={14} className="text-amber-300" /> AI = ⏚
@@ -267,7 +267,7 @@ export default function TechTicTacToe() {
             setScore({ wins: 0, draws: 0, losses: 0 });
             sfx.play("click");
           }}
-          className="mt-3 w-full rounded-lg border border-slate-800 px-2 py-1.5 text-[10px] tracking-wide text-slate-500 uppercase transition hover:border-slate-600 hover:text-slate-300"
+          className="mt-3 w-full rounded-lg border border-line px-2 py-1.5 text-[10px] tracking-wide text-muted uppercase transition hover:border-slate-600 hover:text-ink"
         >
           {t("arcade.resetScore")}
         </button>

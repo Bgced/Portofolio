@@ -44,7 +44,7 @@ export default function ScrollProgress() {
     <div className="pointer-events-none fixed inset-x-0 top-0 z-[60] h-[2px]" aria-hidden="true">
       <span
         ref={barRef}
-        className="block h-full w-full origin-left bg-gradient-to-r from-accent-2 via-accent to-accent shadow-[0_0_14px_var(--glow)]"
+        className="block h-full w-full origin-left bg-gradient-to-r from-accent-2 via-accent to-accent"
         style={{ transform: "scaleX(0)", opacity: 0, transition: "opacity 200ms ease" }}
       />
     </div>

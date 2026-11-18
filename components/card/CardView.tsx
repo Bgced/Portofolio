@@ -47,16 +47,16 @@ function EmptyState({ en }: { en: boolean }) {
   return (
     <div className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-5 py-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/3 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#00F0FF]/12 blur-[130px]" />
+        <div className="absolute left-1/2 top-1/3 h-[420px] w-[420px] -translate-x-1/2 rounded-full bg-[#7C4A2D]/10 blur-[130px]" />
       </div>
-      <div className="relative w-full max-w-md rounded-2xl border border-[#00F0FF]/25 bg-[#0d1013]/80 p-7 text-center backdrop-blur-xl">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-[#00F0FF]/30 bg-[#00F0FF]/10">
-          <Sparkles size={20} className="text-[#00F0FF]" aria-hidden="true" />
+      <div className="relative w-full max-w-md rounded-2xl border border-[#7C4A2D]/25 bg-[#EFECE6]/95 p-7 text-center backdrop-blur-xl">
+        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-[#7C4A2D]/30 bg-[#7C4A2D]/10">
+          <Sparkles size={20} className="text-[#7C4A2D]" aria-hidden="true" />
         </span>
-        <h1 className="mt-5 text-xl font-semibold tracking-tight text-[#F8FAFC]">
+        <h1 className="mt-5 text-xl font-semibold tracking-tight text-[#231F20]">
           {en ? "Card not found" : "Kartunya belum ketemu"}
         </h1>
-        <p className="mt-2 text-sm leading-relaxed text-[#94A3B8]">
+        <p className="mt-2 text-sm leading-relaxed text-[#6E665F]">
           {en
             ? "The QR link is empty or broken. No worries — you can make a new greeting card in seconds."
             : "Link QR-nya kosong atau rusak. Tenang, kamu bisa bikin kartu ucapan baru dalam hitungan detik."}

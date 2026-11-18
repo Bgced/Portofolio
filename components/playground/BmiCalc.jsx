@@ -23,8 +23,8 @@ function categorize(bmi, en) {
       border: "border-[#fbbf24]/40",
       bg: "bg-[#fbbf24]/10",
       msg: en
-        ? "Pretty light — time to eat more nutritious meals!"
-        : "Kurus banget bro, gas perbanyak makan bergizi!",
+        ? "Under the healthy range. Add more nutritious meals."
+        : "Masih di bawah rentang sehat. Tambah porsi makan bergizi.",
     };
   }
   if (bmi < 25) {
@@ -35,8 +35,8 @@ function categorize(bmi, en) {
       border: "border-ok/40",
       bg: "bg-ok/10",
       msg: en
-        ? "Nice! Your body is right in the ideal range — keep it up!"
-        : "Mantap! Badan kamu udah ideal abis, pertahanin!",
+        ? "You're in the ideal range. Keep the routine going."
+        : "Badan kamu di rentang ideal. Pertahankan polanya.",
     };
   }
   if (bmi < 30) {
@@ -47,8 +47,8 @@ function categorize(bmi, en) {
       border: "border-[#fb923c]/40",
       bg: "bg-[#fb923c]/10",
       msg: en
-        ? "A little over the range — start with a short run now and then!"
-        : "Agak berisi nih (Overweight), yuk mulai rutin lari!",
+        ? "A bit above the range. Start with a short run now and then."
+        : "Sedikit di atas rentang. Mulai jalan kaki atau lari rutin.",
     };
   }
   return {
@@ -290,7 +290,7 @@ export default function BmiCalc() {
                     ))}
                   </div>
                   <span
-                    className="absolute top-1/2 z-10 h-5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink shadow-[0_0_12px_var(--glow)] ring-2 ring-canvas"
+                    className="absolute top-1/2 z-10 h-5 w-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-ink ring-2 ring-canvas"
                     style={{ left: `${result.position}%` }}
                     aria-hidden="true"
                   />

@@ -1,54 +1,59 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   CEKAEL // CYBER BLACK — design tokens
-   Dark adalah default; next-themes menambahkan class `.light` di <html>.
+   CEKAEL — WARM EDITORIAL
+   Light (warm alabaster) adalah default; next-themes menambah class `.dark`
+   di <html>. Nama token lama (--bg, --surface, ...) dipertahankan supaya
+   semua komponen yang sudah ada tetap jalan tanpa disentuh satu per satu.
 ------------------------------------------------------------------- */
 :root {
-  /* Cyber black: obsidian, graphite, electric cyan. */
-  --bg: #050505;
-  --bg-soft: #0a0b0d;
-  --surface: #0d1013;
-  --surface-2: #111318;
-  --text: #f8fafc;
-  --muted: #94a3b8;
-  --line: rgba(0, 240, 255, 0.22);
-  --line-soft: rgba(248, 250, 252, 0.1);
-  --accent: #00f0ff;
-  --accent-2: #7df9ff;
-  --accent-ink: #021014;
-  --accent-soft: rgba(0, 240, 255, 0.08);
-  --glow: rgba(0, 240, 255, 0.4);
-  --grid: rgba(0, 240, 255, 0.055);
-  --danger: #fb7185;
-  --ok: #5eead4;
-  --font-sans: var(--font-space), ui-sans-serif, system-ui, sans-serif;
+  --bg: #f7f4ef;
+  --bg-soft: #f1ece4;
+  --surface: #efece6;
+  --surface-2: #e9e4db;
+  --text: #231f20;
+  --muted: #6e665f;
+  --line: #dcd6cc;
+  --line-soft: #e4ded4;
+  --accent-light: #7c4a2d;
+  --accent-dark: #c88a55;
+  --accent: var(--accent-light);
+  --accent-2: #5c3a21;
+  --accent-ink: #fdfaf6;
+  --accent-soft: color-mix(in srgb, var(--accent) 10%, transparent);
+  --glow: transparent;
+  --grid: rgba(92, 58, 33, 0.06);
+  --danger: #a53f2b;
+  --ok: #4f6b47;
+  --radius-card: 14px;
+  --radius-sm: 8px;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
-  color-scheme: dark;
-}
-
-html.light {
-  --bg: #f8fafc;
-  --bg-soft: #eef2f7;
-  --surface: #ffffff;
-  --surface-2: #f1f5f9;
-  --text: #0f172a;
-  --muted: #57647a;
-  --line: rgba(2, 132, 199, 0.26);
-  --line-soft: #e2e8f0;
-  --accent: #0284c7;
-  --accent-2: #0369a1;
-  --accent-ink: #ffffff;
-  --accent-soft: rgba(2, 132, 199, 0.07);
-  --glow: rgba(2, 132, 199, 0.22);
-  --grid: rgba(15, 23, 42, 0.05);
-  --danger: #be123c;
-  --ok: #0f766e;
   color-scheme: light;
 }
 
+html.dark {
+  --bg: #161412;
+  --bg-soft: #1a1815;
+  --surface: #1f1c19;
+  --surface-2: #262220;
+  --text: #f2efe9;
+  --muted: #a39b91;
+  --line: #332e29;
+  --line-soft: #2b2622;
+  --accent: var(--accent-dark);
+  --accent-2: #e0a878;
+  --accent-ink: #1a1512;
+  --accent-soft: color-mix(in srgb, var(--accent) 14%, transparent);
+  --glow: transparent;
+  --grid: rgba(200, 138, 85, 0.06);
+  --danger: #e08a72;
+  --ok: #9dba8f;
+  color-scheme: dark;
+}
+
 @theme inline {
-  --font-sans: var(--font-space), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
 
   --color-canvas: var(--bg);
@@ -73,6 +78,7 @@ html {
   scroll-behavior: smooth;
   scroll-padding-top: 92px;
   background: var(--bg);
+  overflow-x: hidden;
 }
 
 body {
@@ -86,8 +92,25 @@ body {
   transition: background-color 300ms ease, color 300ms ease;
 }
 
+/* grain halus ala kertas — bukan glow, bukan gradient neon */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.3;
+  background-image: radial-gradient(color-mix(in srgb, var(--text) 10%, transparent) 0.5px, transparent 0.5px);
+  background-size: 3px 3px;
+  mix-blend-mode: multiply;
+}
+html.dark body::before {
+  opacity: 0.22;
+  mix-blend-mode: screen;
+}
+
 ::selection {
-  background: color-mix(in srgb, var(--accent) 35%, transparent);
+  background: color-mix(in srgb, var(--accent) 26%, transparent);
   color: var(--text);
 }
 
@@ -99,12 +122,12 @@ body {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: color-mix(in srgb, var(--accent) 22%, var(--surface));
+  background: color-mix(in srgb, var(--muted) 40%, var(--bg));
   border-radius: 999px;
   border: 2px solid var(--bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: color-mix(in srgb, var(--accent) 40%, var(--surface));
+  background: color-mix(in srgb, var(--accent) 55%, var(--bg));
 }
 
 :focus-visible {
@@ -136,7 +159,7 @@ body {
   gap: 0.55rem;
   font-family: var(--font-mono);
   font-size: 0.66rem;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
   color: var(--accent);
 }
@@ -146,26 +169,25 @@ body {
   width: 1.6rem;
   height: 1px;
   background: var(--accent);
-  box-shadow: 0 0 8px var(--glow);
 }
 
 .panel {
   position: relative;
-  border: 1px solid var(--line-soft);
-  border-radius: 1.1rem;
-  background: color-mix(in srgb, var(--surface) 94%, transparent);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-card);
+  background: var(--surface);
   transition: border-color 300ms ease, background-color 300ms ease, box-shadow 300ms ease;
 }
 
 .panel-hover:hover {
-  border-color: var(--line);
-  box-shadow: 0 24px 70px -42px var(--glow), 0 0 0 1px color-mix(in srgb, var(--accent) 12%, transparent) inset;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow: 0 18px 40px -30px rgba(35, 31, 32, 0.45);
 }
 
 .hairline {
   height: 1px;
   width: 100%;
-  background: linear-gradient(90deg, transparent, color-mix(in srgb, var(--accent) 65%, transparent), transparent);
+  background: var(--line);
 }
 
 /* Toast + command palette micro-interactions */
@@ -206,71 +228,26 @@ body {
   }
 }
 
-
-/* Industrial grid + vignette, murni CSS supaya tidak menahan paint */
-.grid-backdrop {
+/* Canvas 3D persistent: fixed, z-0, pointer-events-none, nggak pernah nahan klik */
+.scene-layer {
   position: fixed;
   inset: 0;
-  z-index: -20;
+  z-index: 0;
   pointer-events: none;
-  background-color: var(--bg);
-  background-image:
-    linear-gradient(to right, var(--grid) 1px, transparent 1px),
-    linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-  background-size: 54px 54px;
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 10%, transparent 78%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 10%, transparent 78%);
-  transition: background-color 300ms ease;
+  overflow: hidden;
 }
 
-.ambient-glow {
+.scene-vignette {
   position: fixed;
   inset: 0;
-  z-index: -19;
+  z-index: 0;
   pointer-events: none;
-  background:
-    radial-gradient(ellipse 42% 38% at 78% 8%, color-mix(in srgb, var(--accent) 13%, transparent), transparent 70%),
-    radial-gradient(ellipse 38% 32% at 8% 42%, color-mix(in srgb, var(--accent-2) 9%, transparent), transparent 72%);
-  transition: opacity 300ms ease;
-}
-
-.scanlines::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.35;
-  background: repeating-linear-gradient(
-    to bottom,
-    transparent 0 3px,
-    color-mix(in srgb, var(--text) 3%, transparent) 3px 4px
+  background: linear-gradient(
+    to right,
+    color-mix(in srgb, var(--bg) 82%, transparent) 0%,
+    color-mix(in srgb, var(--bg) 45%, transparent) 42%,
+    transparent 68%
   );
-  mix-blend-mode: overlay;
-}
-
-.corner-frame {
-  position: relative;
-}
-.corner-frame::before,
-.corner-frame::after {
-  content: "";
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
-  pointer-events: none;
-}
-.corner-frame::before {
-  top: -1px;
-  left: -1px;
-  border-top: 1px solid;
-  border-left: 1px solid;
-}
-.corner-frame::after {
-  bottom: -1px;
-  right: -1px;
-  border-bottom: 1px solid;
-  border-right: 1px solid;
 }
 
 /* ------------------------------------------------------------------
@@ -281,7 +258,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border-radius: 0.8rem;
+  border-radius: var(--radius-sm);
   padding: 0.78rem 1.15rem;
   font-size: 0.82rem;
   font-weight: 600;
@@ -298,31 +275,30 @@ body {
 .btn-primary {
   background: var(--accent);
   color: var(--accent-ink);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 40%, transparent), 0 14px 40px -18px var(--glow);
+  box-shadow: 0 10px 24px -18px rgba(35, 31, 32, 0.7);
 }
 .btn-primary:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent) 55%, transparent), 0 20px 55px -18px var(--glow);
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--accent) 88%, var(--text));
 }
 
 .btn-ghost {
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--surface) 55%, transparent);
+  background: color-mix(in srgb, var(--surface) 80%, transparent);
   color: var(--text);
 }
 .btn-ghost:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--accent) 60%, transparent);
-  box-shadow: 0 16px 40px -30px var(--glow);
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
 }
 
 .pill {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  border: 1px solid var(--line-soft);
+  border: 1px solid var(--line);
   border-radius: 999px;
-  background: color-mix(in srgb, var(--surface) 70%, transparent);
+  background: color-mix(in srgb, var(--surface) 85%, transparent);
   padding: 0.28rem 0.6rem;
   font-family: var(--font-mono);
   font-size: 0.62rem;
@@ -332,9 +308,43 @@ body {
 }
 
 .pill-accent {
-  border-color: var(--line);
+  border-color: color-mix(in srgb, var(--accent) 40%, var(--line));
   background: var(--accent-soft);
   color: var(--accent);
+}
+
+/* ------------------------------------------------------------------
+   Editorial photo: duotone hangat saat idle, warna asli saat hover/fokus
+------------------------------------------------------------------- */
+.photo-editorial {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: var(--surface-2);
+}
+.photo-editorial img {
+  filter: grayscale(1) sepia(0.3) contrast(1.05) brightness(0.98);
+  transition: filter 700ms cubic-bezier(0.22, 1, 0.36, 1), transform 900ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.photo-editorial:hover img,
+.photo-editorial:focus-within img {
+  filter: grayscale(0) sepia(0) contrast(1) brightness(1);
+  transform: scale(1.015);
+}
+.photo-editorial::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(to top, rgba(35, 31, 32, 0.62), transparent 58%),
+    radial-gradient(circle at 50% 32%, transparent 52%, rgba(92, 58, 33, 0.28));
+  opacity: 0.9;
+  transition: opacity 600ms ease;
+}
+.photo-editorial:hover::after,
+.photo-editorial:focus-within::after {
+  opacity: 0.45;
 }
 
 /* ------------------------------------------------------------------
@@ -363,9 +373,9 @@ body {
   opacity: 0;
   transition: opacity 300ms ease;
   background: radial-gradient(
-    340px circle at var(--mx) var(--my),
-    color-mix(in srgb, var(--accent) 16%, transparent),
-    transparent 65%
+    320px circle at var(--mx) var(--my),
+    rgba(253, 250, 246, 0.16),
+    transparent 62%
   );
 }
 .tilt-card:hover .tilt-glare {
@@ -382,7 +392,7 @@ body {
 .marquee-track {
   display: flex;
   width: max-content;
-  animation: marquee-x 34s linear infinite;
+  animation: marquee-x 42s linear infinite;
 }
 .marquee-track:hover {
   animation-play-state: paused;
@@ -397,8 +407,8 @@ body {
 }
 
 @keyframes pulse-dot {
-  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--glow); }
-  50% { opacity: 0.55; box-shadow: 0 0 0 5px transparent; }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.45; }
 }
 .pulse-dot {
   animation: pulse-dot 2.4s ease-in-out infinite;
@@ -439,28 +449,6 @@ body {
   animation: spin-slow 14s linear infinite;
 }
 
-/* CSS fallback cube (dipakai kalau WebGL tidak tersedia) */
-.cube-fallback {
-  position: relative;
-  width: 150px;
-  height: 150px;
-  transform-style: preserve-3d;
-  animation: spin-slow 18s linear infinite;
-}
-.cube-fallback span {
-  position: absolute;
-  inset: 0;
-  border: 1px solid var(--accent);
-  background: color-mix(in srgb, var(--surface) 82%, transparent);
-  box-shadow: 0 0 18px color-mix(in srgb, var(--accent) 18%, transparent) inset;
-}
-.cube-fallback span:nth-child(1) { transform: rotateY(0deg) translateZ(75px); }
-.cube-fallback span:nth-child(2) { transform: rotateY(90deg) translateZ(75px); }
-.cube-fallback span:nth-child(3) { transform: rotateY(180deg) translateZ(75px); }
-.cube-fallback span:nth-child(4) { transform: rotateY(-90deg) translateZ(75px); }
-.cube-fallback span:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
-.cube-fallback span:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
-
 /* ------------------------------------------------------------------
    Utilities
 ------------------------------------------------------------------- */
@@ -471,15 +459,16 @@ body {
   display: none;
 }
 
+/* Aksen teks editorial: tanpa gradient neon, cukup warna aksen + italic */
 .text-gradient {
-  background: linear-gradient(120deg, var(--accent), color-mix(in srgb, var(--accent) 45%, var(--text)) 70%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  color: var(--accent);
+  font-style: italic;
+  letter-spacing: -0.02em;
 }
 
+/* Hook kompatibilitas: sengaja tanpa glow neon */
 .glow-text {
-  text-shadow: 0 0 24px color-mix(in srgb, var(--accent) 35%, transparent);
+  color: inherit;
 }
 
 .mono-label {

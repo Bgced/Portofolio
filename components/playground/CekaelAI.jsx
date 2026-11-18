@@ -13,10 +13,10 @@ const REQUEST_TIMEOUT_MS = 8000;
 const MAX_CONTEXT = 10;
 
 const WELCOME =
-  "Yo! Aku Cekael AI — asisten lokal di portfolio Cedric Kilian.\nTanya apa aja soal profil, project, skill, atau kontak. Kalau server lagi offline, aku tetep jawab pakai brain lokal.";
+  "Halo, aku Cekael AI, asisten kecil di portfolio ini.\nTanya soal profil, project, skill, atau kontak. Kalau server lagi mati, aku jawab pakai brain lokal.";
 
 const WELCOME_EN =
-  "Yo! I'm Cekael AI — the local assistant inside Cedric Kilian's portfolio.\nAsk me anything about his profile, projects, skills, or how to get in touch. If the server is offline, I'll still answer from the local brain.";
+  "Hi, I'm Cekael AI, the little assistant inside this portfolio.\nAsk about the profile, projects, skills, or how to get in touch. If the server is down, I answer from the local brain.";
 
 function nextId() {
   return `m-${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 7)}`;
@@ -177,7 +177,7 @@ export default function CekaelAI() {
               <Bot className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
               Cekael AI
             </p>
-            <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted">local-hybrid</p>
+            <p className="font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted">brain lokal</p>
           </div>
         </div>
         <div className="flex items-center gap-2">

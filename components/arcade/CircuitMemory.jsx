@@ -130,11 +130,11 @@ export default function CircuitMemory() {
   return (
     <div>
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <p className="text-xs text-slate-400">{t("arcade.memoryHint")}</p>
+        <p className="text-xs text-muted">{t("arcade.memoryHint")}</p>
         <button
           type="button"
           onClick={reset}
-          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-700/80 px-2.5 py-1.5 text-[11px] text-slate-400 transition hover:border-slate-500 hover:text-slate-200"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-line px-2.5 py-1.5 text-[11px] text-muted transition hover:border-slate-500 hover:text-ink"
         >
           <RotateIcon width={13} height={13} />
           {t("arcade.replay")}
@@ -142,18 +142,18 @@ export default function CircuitMemory() {
       </div>
 
       <div className="mb-4 grid grid-cols-3 gap-2 text-center sm:max-w-sm">
-        <div className="rounded-lg border border-slate-800 bg-slate-900/40 px-2 py-1.5">
-          <p className="text-[9px] tracking-[0.18em] text-slate-500 uppercase">{t("arcade.moves")}</p>
-          <p className="font-mono text-sm text-cyan-300">{moves}</p>
+        <div className="rounded-lg border border-line bg-surface-2/40 px-2 py-1.5">
+          <p className="text-[9px] tracking-[0.18em] text-muted uppercase">{t("arcade.moves")}</p>
+          <p className="font-mono text-sm text-accent">{moves}</p>
         </div>
-        <div className="rounded-lg border border-slate-800 bg-slate-900/40 px-2 py-1.5">
-          <p className="flex items-center justify-center gap-1 text-[9px] tracking-[0.18em] text-slate-500 uppercase">
+        <div className="rounded-lg border border-line bg-surface-2/40 px-2 py-1.5">
+          <p className="flex items-center justify-center gap-1 text-[9px] tracking-[0.18em] text-muted uppercase">
             <ClockIcon width={9} height={9} /> {t("arcade.time")}
           </p>
-          <p className="font-mono text-sm text-slate-200">{seconds(elapsed)}s</p>
+          <p className="font-mono text-sm text-ink">{seconds(elapsed)}s</p>
         </div>
-        <div className="rounded-lg border border-slate-800 bg-slate-900/40 px-2 py-1.5">
-          <p className="flex items-center justify-center gap-1 text-[9px] tracking-[0.18em] text-slate-500 uppercase">
+        <div className="rounded-lg border border-line bg-surface-2/40 px-2 py-1.5">
+          <p className="flex items-center justify-center gap-1 text-[9px] tracking-[0.18em] text-muted uppercase">
             <TrophyIcon width={9} height={9} /> {t("arcade.best")}
           </p>
           <p className="font-mono text-sm text-amber-300">{best ? `${best.moves}/${seconds(best.time)}s` : "—"}</p>
@@ -181,7 +181,7 @@ export default function CircuitMemory() {
                 }`}
               >
                 {/* back */}
-                <div className="absolute inset-0 grid place-items-center rounded-xl border border-slate-700/70 bg-slate-900/60 [backface-visibility:hidden] transition group-hover:border-cyan-400/40 group-hover:bg-slate-800/60">
+                <div className="absolute inset-0 grid place-items-center rounded-xl border border-line bg-surface-2/70 [backface-visibility:hidden] transition group-hover:border-accent/40 group-hover:bg-surface-2/80">
                   <svg viewBox="0 0 60 60" className="h-8 w-8 text-slate-600" aria-hidden="true">
                     <path d="M12 30h8l4-9 8 18 6-12 4 6h6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
                   </svg>
@@ -191,12 +191,12 @@ export default function CircuitMemory() {
                 <div
                   className={`absolute inset-0 flex flex-col items-center justify-center gap-1 rounded-xl border [backface-visibility:hidden] [transform:rotateY(180deg)] ${
                     isMatched
-                      ? "border-emerald-400/60 bg-emerald-400/10 text-emerald-300"
-                      : "border-cyan-400/40 bg-slate-900/80 text-cyan-200"
+                      ? "border-emerald-400/60 bg-ok/10 text-emerald-300"
+                      : "border-accent/40 bg-surface-2 text-accent"
                   }`}
                 >
                   <Glyph width={26} height={26} />
-                  <span className="text-[9px] font-medium tracking-wide text-slate-400 uppercase">{card.label}</span>
+                  <span className="text-[9px] font-medium tracking-wide text-muted uppercase">{card.label}</span>
                 </div>
               </div>
             </button>
@@ -208,18 +208,18 @@ export default function CircuitMemory() {
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-emerald-400/40 bg-emerald-400/10 px-4 py-3"
+          className="mt-4 flex flex-wrap items-center justify-between gap-3 rounded-xl border border-ok/40 bg-ok/10 px-4 py-3"
         >
           <div>
             <p className="text-sm font-semibold text-emerald-300">{t("arcade.memoryWin")}</p>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-muted">
               {moves} {t("arcade.moves").toLowerCase()} · {seconds(elapsed)}s
             </p>
           </div>
           <button
             type="button"
             onClick={reset}
-            className="rounded-lg border border-emerald-400/40 bg-emerald-400/10 px-3 py-1.5 text-xs font-semibold text-emerald-200 transition hover:bg-emerald-400/20"
+            className="rounded-lg border border-ok/40 bg-ok/10 px-3 py-1.5 text-xs font-semibold text-emerald-200 transition hover:bg-ok/20"
           >
             {t("arcade.replay")}
           </button>

@@ -1,31 +1,17 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import Image from "next/image";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowUpRight, Move3D, Play } from "lucide-react";
+import { ArrowUpRight, ArrowDown, Play } from "lucide-react";
 import { PROFILE } from "@/lib/content";
-import { useInView } from "@/lib/hooks";
 import { useLang } from "@/components/providers";
-
-const HeroScene = dynamic(() => import("@/components/three/HeroScene"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-      <span className="h-10 w-10 animate-spin rounded-full border border-line border-t-accent" />
-      <span className="mono-label">nyiapin scene 3d</span>
-    </div>
-  ),
-});
 
 const EASE = [0.22, 1, 0.36, 1];
 
 export default function Hero() {
   const reduced = useReducedMotion();
-  const [sceneRef, sceneInView] = useInView({ threshold: 0.05, rootMargin: "180px" });
   const { t } = useLang();
 
-  // Selalu render initial style yang sama di server & client; reduced motion
-  // cuma memangkas durasi. Ini yang bikin hydration bersih.
   const fade = (delay = 0) => ({
     initial: { opacity: 0, y: 16 },
     animate: { opacity: 1, y: 0 },
@@ -39,73 +25,34 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-20 lg:pt-24"
+      className="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-20 lg:pt-28"
     >
-      {/* 3D scene transparan — jadi latar belakang beneran, tanpa panel solid */}
-      <div
-        ref={sceneRef}
-        role="img"
-        aria-label={t("hero.sceneLabel")}
-        className="pointer-events-auto absolute inset-0 z-0 opacity-55 sm:opacity-70 lg:opacity-95"
-        style={{
-          maskImage:
-            "radial-gradient(ellipse 68% 72% at 66% 46%, #000 42%, transparent 82%)",
-          WebkitMaskImage:
-            "radial-gradient(ellipse 68% 72% at 66% 46%, #000 42%, transparent 82%)",
-        }}
-      >
-        <HeroScene inView={sceneInView} className="absolute inset-0" />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0"
-          style={{
-            background:
-              "linear-gradient(90deg, var(--bg) 0%, color-mix(in srgb, var(--bg) 62%, transparent) 34%, transparent 58%)",
-          }}
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-canvas to-transparent"
-        />
-      </div>
-
-      {/* glow ambien tipis */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/4 top-1/4 h-[460px] w-[460px] -translate-x-1/2 rounded-full bg-accent/10 blur-[150px]"
-      />
-
-      <div className="relative z-10 mx-auto grid w-full max-w-[1180px] items-center gap-10 px-5 sm:px-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.7fr)] lg:gap-8">
-        <div className="pointer-events-none min-w-0 max-w-[36rem]">
-          <motion.div className="pointer-events-auto flex flex-wrap items-center gap-2" {...fade(0)}>
+      <div className="relative z-10 mx-auto grid w-full max-w-[1180px] items-center gap-10 px-5 sm:px-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.85fr)] lg:gap-12">
+        {/* copy */}
+        <div className="min-w-0 max-w-[36rem]">
+          <motion.div className="flex flex-wrap items-center gap-2" {...fade(0)}>
             <span className="pill pill-accent">
               <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
               {t("hero.status")}
             </span>
+            <span className="mono-label text-[0.55rem]">{t("hero.eyebrow")}</span>
           </motion.div>
 
-          <motion.p className="eyebrow mt-7" {...fade(0.06)}>
-            {t("hero.eyebrow")}
-          </motion.p>
-
           <motion.h1
-            className="mt-3 text-[clamp(2.5rem,7vw,4.75rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-balance text-ink [overflow-wrap:break-word]"
-            {...fade(0.12)}
+            className="mt-6 text-[clamp(2.4rem,6.4vw,4.4rem)] font-semibold leading-[0.98] tracking-[-0.045em] text-balance text-ink [overflow-wrap:break-word]"
+            {...fade(0.08)}
           >
-            {t("hero.greeting")} <span className="text-gradient glow-text">Cekael</span>!
+            {t("hero.greeting")} <span className="text-gradient">Cekael</span>.
           </motion.h1>
 
           <motion.p
             className="mt-6 max-w-xl text-[1rem] leading-relaxed text-ink/85 sm:text-[1.08rem]"
-            {...fade(0.18)}
+            {...fade(0.16)}
           >
             {t("hero.intro")}
           </motion.p>
 
-          <motion.p
-            className="mt-3 max-w-xl text-[0.9rem] leading-relaxed text-muted"
-            {...fade(0.24)}
-          >
+          <motion.p className="mt-3 max-w-xl text-[0.9rem] leading-relaxed text-muted" {...fade(0.22)}>
             {t("hero.bio", {
               name: PROFILE.name,
               role: PROFILE.role,
@@ -114,7 +61,7 @@ export default function Hero() {
             })}
           </motion.p>
 
-          <motion.div className="pointer-events-auto mt-8 flex flex-wrap items-center gap-3" {...fade(0.3)}>
+          <motion.div className="mt-8 flex flex-wrap items-center gap-3" {...fade(0.28)}>
             <a href="#projects" className="btn btn-primary group">
               {t("hero.viewWork")}
               <ArrowUpRight
@@ -130,17 +77,17 @@ export default function Hero() {
           </motion.div>
 
           <motion.div
-            className="mt-10 grid max-w-sm grid-cols-2 gap-3 border-t border-line-soft pt-5"
-            {...fade(0.36)}
+            className="mt-10 grid max-w-sm grid-cols-2 gap-3 border-t border-line pt-5"
+            {...fade(0.34)}
           >
             <div className="min-w-0">
-              <p className="font-mono text-[1.35rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.5rem]">
-                3+
+              <p className="font-mono text-[1.3rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.45rem]">
+                4
               </p>
               <p className="mono-label mt-2 leading-tight">{t("hero.statProjects")}</p>
             </div>
             <div className="min-w-0">
-              <p className="font-mono text-[1.35rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.5rem]">
+              <p className="font-mono text-[1.3rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.45rem]">
                 6
               </p>
               <p className="mono-label mt-2 leading-tight">{t("hero.statModules")}</p>
@@ -148,15 +95,45 @@ export default function Hero() {
           </motion.div>
         </div>
 
-        {/* ruang kosong di kanan biar kubus bisa bernapas + HUD minimal */}
-        <div className="pointer-events-none relative hidden min-h-[440px] lg:block">
-          <span className="mono-label absolute right-0 top-0 text-accent">ck-01 / cube matrix</span>
-          <span className="absolute bottom-6 right-0 flex items-center gap-1.5">
-            <Move3D size={11} className="text-accent" aria-hidden="true" />
-            <span className="mono-label">{t("hero.scrollHint")}</span>
-          </span>
-        </div>
+        {/* foto editorial */}
+        <motion.figure
+          className="relative mx-auto w-full max-w-[26rem] lg:mx-0 lg:ml-auto"
+          initial={{ opacity: 0, y: 24 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: reduced ? 0 : 0.7, delay: reduced ? 0 : 0.2, ease: EASE }}
+        >
+          <div className="absolute -inset-3 -z-10 rounded-[var(--radius-card)] border border-line bg-surface-2/60" aria-hidden="true" />
+          <div className="photo-editorial relative aspect-[4/5] rounded-[var(--radius-card)]">
+            <Image
+              src="/profile.jpg"
+              alt="Foto Cedric Kilian, front-end developer"
+              fill
+              sizes="(min-width: 1024px) 400px, 88vw"
+              className="object-cover object-center"
+              priority
+            />
+            <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 p-4">
+              <span className="font-mono text-[0.58rem] uppercase tracking-[0.18em] text-[#fdfaf6]">
+                {PROFILE.name}
+                <span className="mt-1 block text-[0.52rem] tracking-[0.16em] text-[#fdfaf6]/70">
+                  {t("hero.photoCaption")}
+                </span>
+              </span>
+              <span className="font-mono text-[0.52rem] uppercase tracking-[0.18em] text-[#fdfaf6]/70">
+                ck · 2026
+              </span>
+            </figcaption>
+          </div>
+        </motion.figure>
       </div>
+
+      <a
+        href="#about"
+        className="mono-label absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-1.5 text-[0.55rem] transition-colors hover:text-accent sm:flex"
+      >
+        <ArrowDown size={11} aria-hidden="true" />
+        {t("hero.scrollHint")}
+      </a>
     </section>
   );
 }

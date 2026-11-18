@@ -50,14 +50,14 @@ export default function Footer() {
             </p>
             <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-ok/30 bg-ok/5 px-2.5 py-1 font-mono text-[0.54rem] uppercase tracking-[0.12em] text-ok">
               <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
-              All Systems Operational
+              {en ? "Open to work" : "Buka buat kerja bareng"}
             </p>
           </div>
 
           {/* nav + social */}
           <div className="grid grid-cols-2 gap-8 sm:gap-14">
             <nav aria-label="Navigasi footer">
-              <p className="mono-label mb-3">{en ? "Map" : "Peta"}</p>
+              <p className="mono-label mb-3">{en ? "Sections" : "Section"}</p>
               <ul className="flex flex-col gap-2">
                 {NAV_LINKS.map((link) => (
                   <li key={link.id}>
@@ -73,7 +73,7 @@ export default function Footer() {
             </nav>
 
             <div>
-              <p className="mono-label mb-3">{en ? "Signals" : "Sinyal"}</p>
+              <p className="mono-label mb-3">{en ? "Elsewhere" : "Di tempat lain"}</p>
               <ul className="flex flex-col gap-2">
                 {SOCIALS.map((social) => {
                   const Icon = ICONS[social.icon] ?? Mail;
@@ -102,7 +102,7 @@ export default function Footer() {
 
         {/* terminal sign-off */}
         <p className="font-mono text-[0.62rem] leading-relaxed text-muted">
-          <span className="text-accent">$</span> echo &quot;mksh udah mampir&quot;
+          {en ? "Thanks for scrolling this far." : "Makasih udah scroll sampai sini."}
           <span className="caret" aria-hidden="true" />
         </p>
 
@@ -112,7 +112,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-4 flex flex-col gap-1 text-[0.66rem] text-muted sm:flex-row sm:items-center sm:justify-between">
-          <p className="mono-label text-[0.55rem]">© {year} CEK · {en ? "All systems operational" : "Semua sistem normal"}</p>
+          <p className="mono-label text-[0.55rem]">© {year} Cedric Kilian</p>
           <div className="flex items-center justify-between gap-4 sm:justify-end">
             <p className="mono-label text-[0.55rem]">{t("footer.built")}</p>
             <button

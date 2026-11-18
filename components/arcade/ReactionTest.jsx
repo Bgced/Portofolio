@@ -51,16 +51,16 @@ export default function ReactionTest() {
   };
 
   const panelStyles = {
-    idle: "border-slate-700/70 bg-slate-900/50 text-slate-400",
+    idle: "border-line bg-surface-2/60 text-muted",
     wait: "border-amber-400/40 bg-amber-400/5 text-amber-300",
-    go: "border-emerald-400/70 bg-emerald-400/20 text-emerald-200 shadow-[0_0_60px_-10px_rgba(52,211,153,0.8)]",
+    go: "border-emerald-400/70 bg-ok/20 text-emerald-200 shadow-[0_0_60px_-10px_rgba(52,211,153,0.8)]",
     early: "border-rose-500/60 bg-rose-500/10 text-rose-300",
-    result: "border-cyan-400/40 bg-cyan-400/5 text-cyan-200",
+    result: "border-accent/40 bg-accent/5 text-accent",
   }[phase];
 
   return (
     <div>
-      <p className="mb-4 text-xs text-slate-400">{t("arcade.reactionHint")}</p>
+      <p className="mb-4 text-xs text-muted">{t("arcade.reactionHint")}</p>
 
       <button
         type="button"
@@ -98,25 +98,25 @@ export default function ReactionTest() {
               <>
                 <span className="text-3xl">🚫</span>
                 <span className="text-sm font-semibold">{t("arcade.reactionTooSoon")}</span>
-                <span className="text-[11px] text-slate-500">{t("arcade.reactionAgain")}</span>
+                <span className="text-[11px] text-muted">{t("arcade.reactionAgain")}</span>
               </>
             )}
             {phase === "result" && (
               <>
-                <span className="text-[10px] tracking-[0.25em] text-slate-500 uppercase">{t("arcade.reactionResult")}</span>
-                <span className="font-mono text-4xl font-bold text-cyan-300">{reflex}ms</span>
+                <span className="text-[10px] tracking-[0.25em] text-muted uppercase">{t("arcade.reactionResult")}</span>
+                <span className="font-mono text-4xl font-bold text-accent">{reflex}ms</span>
                 {reflex !== null && reflex < 220 && (
-                  <span className="rounded-full border border-emerald-400/40 bg-emerald-400/10 px-2 py-0.5 text-[10px] text-emerald-300">
+                  <span className="rounded-full border border-ok/40 bg-ok/10 px-2 py-0.5 text-[10px] text-emerald-300">
                     ⚡ inhuman
                   </span>
                 )}
-                <span className="text-[11px] text-slate-500">{t("arcade.reactionAgain")}</span>
+                <span className="text-[11px] text-muted">{t("arcade.reactionAgain")}</span>
               </>
             )}
         </motion.span>
       </button>
 
-      <div className="mt-3 flex items-center justify-between text-[11px] text-slate-500">
+      <div className="mt-3 flex items-center justify-between text-[11px] text-muted">
         <span>
           {t("arcade.best")}: <span className="font-mono text-amber-300">{best ? `${best}ms` : "—"}</span>
         </span>

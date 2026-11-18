@@ -9,10 +9,10 @@ import QrStudio from "@/components/playground/QrStudio";
 import { useLang } from "@/components/providers";
 
 const TABS = [
-  { id: "qr", labelKey: "playground.qr", code: "01", icon: QrCode, panel: "qr_panel", hint: "zero-database", Component: QrStudio },
-  { id: "ai", labelKey: "playground.ai", code: "02", icon: Bot, panel: "ai_panel", hint: "local-hybrid", Component: CekaelAI },
-  { id: "calc", labelKey: "playground.calc", code: "03", icon: Calculator, panel: "calc_panel", hint: "keyboard ready", Component: CyberCalc },
-  { id: "bmi", labelKey: "playground.bmi", code: "04", icon: HeartPulse, panel: "bmi_panel", hint: "body scan", Component: BmiCalc },
+  { id: "qr", labelKey: "playground.qr", code: "01", icon: QrCode, panel: "qr_panel", hint: "tanpa server", Component: QrStudio },
+  { id: "ai", labelKey: "playground.ai", code: "02", icon: Bot, panel: "ai_panel", hint: "brain lokal", Component: CekaelAI },
+  { id: "calc", labelKey: "playground.calc", code: "03", icon: Calculator, panel: "calc_panel", hint: "bisa keyboard", Component: CyberCalc },
+  { id: "bmi", labelKey: "playground.bmi", code: "04", icon: HeartPulse, panel: "bmi_panel", hint: "hitung badan", Component: BmiCalc },
 ];
 
 export default function PlaygroundTabs() {
@@ -101,7 +101,7 @@ export default function PlaygroundTabs() {
               <span
                 aria-hidden="true"
                 className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full transition-all duration-300 ${
-                  isActive ? "bg-accent opacity-100 shadow-[0_0_12px_var(--glow)]" : "bg-transparent opacity-0"
+                  isActive ? "bg-accent opacity-100" : "bg-transparent opacity-0"
                 }`}
               />
             </button>

@@ -204,7 +204,7 @@ export default function Mascot2D() {
             sfx.play("click");
           }}
           aria-label={lang === "en" ? "Show mascot" : "Tampilkan maskot"}
-          className="grid h-12 w-12 place-items-center rounded-full border border-cyan-400/40 bg-slate-950/90 text-cyan-300 shadow-[0_0_30px_-8px_rgba(0,210,255,0.7)] backdrop-blur transition hover:scale-105"
+          className="grid h-12 w-12 place-items-center rounded-full border border-accent/40 bg-surface/95 text-accent shadow-[0_0_30px_-8px_rgba(0,210,255,0.7)] backdrop-blur transition hover:scale-105"
         >
           <span className="text-lg">🤖</span>
         </button>
@@ -220,10 +220,10 @@ export default function Mascot2D() {
           initial={{ opacity: 0, y: 8, scale: 0.97 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-          className="relative mb-2 max-w-[200px] rounded-xl rounded-br-sm border border-slate-700/70 bg-slate-950/92 px-3 py-2 text-[11px] leading-snug text-slate-300 shadow-xl backdrop-blur sm:text-xs"
+          className="relative mb-2 max-w-[200px] rounded-xl rounded-br-sm border border-line bg-surface/92 px-3 py-2 text-[11px] leading-snug text-ink shadow-xl backdrop-blur sm:text-xs"
         >
           {line}
-          <span className="absolute -right-1 bottom-2 h-2.5 w-2.5 rotate-45 border-r border-b border-slate-700/70 bg-slate-950" />
+          <span className="absolute -right-1 bottom-2 h-2.5 w-2.5 rotate-45 border-r border-b border-line bg-surface" />
         </motion.div>
       )}
 
@@ -239,12 +239,12 @@ export default function Mascot2D() {
           type="button"
           onClick={handleOpen}
           aria-label={t("arcade.open")}
-          className="group relative block h-[118px] w-[110px] rounded-2xl border border-slate-800/60 bg-gradient-to-b from-slate-900/40 to-slate-950/70 p-1.5 backdrop-blur-sm transition hover:border-cyan-400/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-400 sm:h-[138px] sm:w-[128px]"
+          className="group relative block h-[118px] w-[110px] rounded-2xl border border-line/60 bg-gradient-to-b from-slate-900/40 to-surface/70 p-1.5 backdrop-blur-sm transition hover:border-accent/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:h-[138px] sm:w-[128px]"
         >
           <MascotArt pose={pose} waving={pose === "wave" || hovered} />
 
-          <span className="absolute -left-1 -top-1 flex items-center gap-1 rounded-full border border-emerald-400/40 bg-slate-950/90 px-1.5 py-0.5 text-[8px] font-medium tracking-wider text-emerald-300 uppercase">
-            <span className="h-1 w-1 animate-pulse rounded-full bg-emerald-400" />
+          <span className="absolute -left-1 -top-1 flex items-center gap-1 rounded-full border border-ok/40 bg-surface/95 px-1.5 py-0.5 text-[8px] font-medium tracking-wider text-emerald-300 uppercase">
+            <span className="h-1 w-1 animate-pulse rounded-full bg-ok" />
             online
           </span>
         </button>
@@ -256,7 +256,7 @@ export default function Mascot2D() {
             sfx.play("click");
           }}
           aria-label={lang === "en" ? "Hide mascot" : "Sembunyikan maskot"}
-          className="absolute -right-1 top-0 grid h-5 w-5 place-items-center rounded-full border border-slate-700 bg-slate-950 text-slate-500 transition hover:text-slate-200"
+          className="absolute -right-1 top-0 grid h-5 w-5 place-items-center rounded-full border border-line bg-surface text-muted transition hover:text-ink"
         >
           <CloseIcon width={11} height={11} />
         </button>
@@ -265,7 +265,7 @@ export default function Mascot2D() {
           type="button"
           onClick={handleOpen}
           whileTap={{ scale: 0.96 }}
-          className="mt-1.5 flex w-full items-center justify-center gap-1.5 rounded-lg border border-cyan-400/30 bg-cyan-400/10 px-2 py-1.5 text-[10px] font-semibold tracking-[0.12em] text-cyan-300 uppercase transition hover:border-cyan-300/60 hover:bg-cyan-400/15"
+          className="mt-1.5 flex w-full items-center justify-center gap-1.5 rounded-lg border border-line bg-accent/10 px-2 py-1.5 text-[10px] font-semibold tracking-[0.12em] text-accent uppercase transition hover:border-cyan-300/60 hover:bg-accent/15"
         >
           <GamepadIcon width={13} height={13} />
           {t("arcade.navLabel")}

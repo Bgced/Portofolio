@@ -195,7 +195,7 @@ export default function ContactForm() {
       <p className="font-mono text-[0.56rem] leading-relaxed text-muted/70">
         {en
           ? "No spam, no database. Goes straight to my inbox."
-          : "Nggak ada spam, nggak ada database. Langsung masuk ke inbox aku."}
+          : "Tanpa spam dan tanpa database. Pesan langsung masuk ke inbox aku."}
       </p>
     </form>
   );

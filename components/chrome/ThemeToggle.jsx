@@ -14,7 +14,7 @@ export default function ThemeToggle({ className = "" }) {
 
   useEffect(() => setMounted(true), []);
 
-  const isDark = resolvedTheme !== "light";
+  const isDark = resolvedTheme === "dark";
   const nextLabel = isDark ? "Aktifkan tema terang" : "Aktifkan tema gelap";
 
   if (!mounted) {

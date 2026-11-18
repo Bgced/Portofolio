@@ -15,6 +15,7 @@ import {
   Moon,
   QrCode,
   Search,
+  SlidersHorizontal,
   Sparkles,
   Sun,
   UserRound,
@@ -87,7 +88,7 @@ export default function CommandPalette() {
   const { toast } = useToast();
 
   const en = lang === "en";
-  const isDark = resolvedTheme !== "light";
+  const isDark = resolvedTheme === "dark";
 
   const rememberFocus = useCallback(() => {
     lastFocused.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
@@ -115,6 +116,14 @@ export default function CommandPalette() {
         }
         return;
       }
+
+      // Ctrl/⌘ + . -> UI sandbox. Selalu pakai modifier, jadi nggak nyerobot ketikan.
+      if ((event.metaKey || event.ctrlKey) && event.key === ".") {
+        event.preventDefault();
+        window.dispatchEvent(new Event("cekael:sandbox"));
+        return;
+      }
+
       if (event.key === "Escape" && open) close();
     };
 
@@ -291,6 +300,17 @@ export default function CommandPalette() {
         },
       },
       {
+        id: "action-sandbox",
+        label: en ? "Open UI Sandbox" : "Buka Sandbox UI",
+        hint: "⌘.",
+        keywords: "sandbox ui tema accent radius 3d playground",
+        group: "actions",
+        icon: SlidersHorizontal,
+        run: () => {
+          window.dispatchEvent(new Event("cekael:sandbox"));
+        },
+      },
+      {
         id: "action-copy-email",
         label: en ? "Copy Cekael's Email" : "Copy Email Cekael",
         hint: PROFILE.email,
@@ -431,7 +451,7 @@ export default function CommandPalette() {
         {/* title bar */}
         <div className="flex items-center justify-between border-b border-line-soft px-3.5 py-2">
           <div className="flex items-center gap-2 font-mono text-[0.58rem] uppercase tracking-[0.16em] text-muted">
-            <span className="h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_10px_var(--glow)]" aria-hidden="true" />
+            <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
             ck@command · /palette
           </div>
           <kbd className="rounded border border-line-soft bg-surface-2 px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.1em] text-muted">

@@ -22,11 +22,11 @@ const SECTION_IDS = ["home", ...LINKS.map((link) => link.id)];
 function Logo() {
   return (
     <a href="#home" className="nav-logo group flex items-center gap-2" aria-label="Cedric Kilian — home">
-      <span className="relative grid h-9 w-9 place-items-center rounded-lg border border-cyan-400/30 bg-slate-900/70">
-        <span className="font-mono text-[15px] font-bold tracking-tight text-cyan-300">CK</span>
-        <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-cyan-400 shadow-[0_0_8px_rgba(0,210,255,0.9)]" />
+      <span className="relative grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface-2">
+        <span className="font-mono text-[15px] font-bold tracking-tight text-accent">CK</span>
+        <span className="absolute -right-0.5 -top-0.5 h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_8px_rgba(0,210,255,0.9)]" />
       </span>
-      <span className="hidden text-xs font-semibold tracking-[0.18em] text-slate-300 uppercase transition group-hover:text-cyan-300 sm:block">
+      <span className="hidden text-xs font-semibold tracking-[0.18em] text-ink uppercase transition group-hover:text-accent sm:block">
         Cedric Kilian
       </span>
     </a>
@@ -67,7 +67,7 @@ export default function Navbar() {
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "border-b border-slate-800/80 bg-slate-950/85 backdrop-blur-xl"
+          ? "border-b border-line bg-surface/95 backdrop-blur-xl"
           : "border-b border-transparent bg-transparent"
       }`}
     >
@@ -84,14 +84,14 @@ export default function Navbar() {
                   aria-current={isActive ? "page" : undefined}
                   onClick={() => sfx.play("click")}
                   className={`relative rounded-md px-2.5 py-2 text-[11px] font-medium tracking-wide transition ${
-                    isActive ? "text-cyan-300" : "text-slate-400 hover:text-slate-100"
+                    isActive ? "text-accent" : "text-muted hover:text-ink"
                   }`}
                 >
                   {t(key)}
                   {isActive && (
                     <motion.span
                       layoutId="nav-active"
-                      className="absolute inset-x-2 -bottom-0.5 h-px bg-cyan-400 shadow-[0_0_8px_rgba(0,210,255,0.8)]"
+                      className="absolute inset-x-2 -bottom-0.5 h-px bg-accent shadow-[0_0_8px_rgba(0,210,255,0.8)]"
                       transition={{ type: "spring", stiffness: 380, damping: 32 }}
                     />
                   )}
@@ -106,7 +106,7 @@ export default function Navbar() {
             type="button"
             onClick={toggleLang}
             aria-label={t("ui.lang")}
-            className="grid h-8 min-w-8 place-items-center rounded-md border border-slate-700/80 px-1.5 font-mono text-[10px] font-semibold tracking-wide text-slate-400 transition hover:border-cyan-400/40 hover:text-cyan-300"
+            className="grid h-8 min-w-8 place-items-center rounded-md border border-line px-1.5 font-mono text-[10px] font-semibold tracking-wide text-muted transition hover:border-accent/40 hover:text-accent"
           >
             {lang === "id" ? "EN" : "ID"}
           </button>
@@ -117,7 +117,7 @@ export default function Navbar() {
               sfx.play("click");
             }}
             aria-label={t("ui.theme")}
-            className="grid h-8 w-8 place-items-center rounded-md border border-slate-700/80 text-slate-400 transition hover:border-cyan-400/40 hover:text-cyan-300"
+            className="grid h-8 w-8 place-items-center rounded-md border border-line text-muted transition hover:border-accent/40 hover:text-accent"
           >
             {theme === "dark" ? <MoonIcon width={14} height={14} /> : <SunIcon width={14} height={14} />}
           </button>
@@ -130,7 +130,7 @@ export default function Navbar() {
             aria-label={t("ui.menu")}
             aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            className="grid h-8 w-8 place-items-center rounded-md border border-slate-700/80 text-slate-300 transition hover:border-cyan-400/40 lg:hidden"
+            className="grid h-8 w-8 place-items-center rounded-md border border-line text-ink transition hover:border-accent/40 lg:hidden"
           >
             {menuOpen ? <CloseIcon width={15} height={15} /> : <MenuIcon width={15} height={15} />}
           </button>
@@ -143,7 +143,7 @@ export default function Navbar() {
           initial={{ height: 0, opacity: 0 }}
           animate={{ height: "auto", opacity: 1 }}
           transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-          className="overflow-hidden border-t border-slate-800 bg-slate-950/95 backdrop-blur-xl lg:hidden"
+          className="overflow-hidden border-t border-line bg-surface/95 backdrop-blur-xl lg:hidden"
         >
             <ul className="mx-auto grid max-w-6xl gap-1 px-4 py-3">
               {LINKS.map(({ id, key }) => (
@@ -155,7 +155,7 @@ export default function Navbar() {
                       sfx.play("click");
                     }}
                     className={`flex items-center justify-between rounded-lg px-3 py-2.5 text-sm transition ${
-                      active === id ? "bg-cyan-400/10 text-cyan-300" : "text-slate-300 hover:bg-slate-900"
+                      active === id ? "bg-accent/10 text-accent" : "text-ink hover:bg-surface-2"
                     }`}
                   >
                     {t(key)}

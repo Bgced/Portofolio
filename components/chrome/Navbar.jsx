@@ -48,7 +48,7 @@ export default function Navbar() {
         >
           <span className="relative grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface-2 font-mono text-[0.72rem] font-semibold tracking-[0.06em] text-accent transition-colors group-hover:border-accent">
             CK
-            <span className="absolute -right-1 -top-1 h-1.5 w-1.5 rounded-full bg-accent shadow-[0_0_10px_var(--glow)]" />
+            <span className="absolute -right-1 -top-1 h-1.5 w-1.5 rounded-full bg-accent" />
           </span>
           <span className="flex flex-col leading-none">
             <span className="text-[0.78rem] font-semibold tracking-[0.22em] text-ink">CEKAEL</span>
@@ -86,12 +86,15 @@ export default function Navbar() {
             type="button"
             onClick={() => window.dispatchEvent(new Event("cekael:command"))}
             aria-label="Buka command palette (Ctrl + K)"
-            title="Command palette · Ctrl/⌘ + K"
+            title="Command palette · Ctrl/⌘ + K · Sandbox · Ctrl/⌘ + ."
             className="group inline-flex h-9 items-center gap-1.5 rounded-lg border border-line bg-surface-2 px-2 text-muted transition-colors hover:border-accent hover:text-accent sm:px-2.5"
           >
             <Search size={15} strokeWidth={1.9} aria-hidden="true" />
-            <kbd className="hidden rounded border border-line-soft px-1 py-0.5 font-mono text-[0.52rem] tracking-[0.04em] text-muted/70 group-hover:text-accent lg:inline-block">
+            <kbd className="hidden rounded border border-line px-1 py-0.5 font-mono text-[0.52rem] tracking-[0.04em] text-muted/70 group-hover:text-accent lg:inline-block">
               ⌘K
+            </kbd>
+            <kbd className="hidden rounded border border-line px-1 py-0.5 font-mono text-[0.52rem] tracking-[0.04em] text-muted/70 group-hover:text-accent lg:inline-block">
+              ⌘.
             </kbd>
           </button>
           <LanguageToggle />

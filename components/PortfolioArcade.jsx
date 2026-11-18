@@ -82,7 +82,7 @@ export default function PortfolioArcade() {
   return (
     <div className="fixed inset-0 z-[60] flex items-end justify-center p-0 sm:items-center sm:p-6">
       <motion.div
-        className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm"
+        className="absolute inset-0 bg-surface/95 backdrop-blur-sm"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.2 }}
@@ -106,19 +106,19 @@ export default function PortfolioArcade() {
         initial={{ opacity: 0, y: 26, scale: 0.985 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.26, ease: [0.22, 1, 0.36, 1] }}
-        className="relative z-10 flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl border border-slate-700/80 bg-slate-950 shadow-[0_30px_120px_-30px_rgba(0,210,255,0.45)] sm:max-h-[88vh] sm:rounded-2xl"
+        className="relative z-10 flex max-h-[92vh] w-full max-w-3xl flex-col overflow-hidden rounded-t-2xl border border-line bg-surface shadow-[0_30px_120px_-30px_rgba(0,210,255,0.45)] sm:max-h-[88vh] sm:rounded-2xl"
       >
             {/* header */}
-            <div className="flex items-start justify-between gap-3 border-b border-slate-800 bg-gradient-to-br from-slate-900/80 to-slate-950 px-4 py-3.5 sm:px-5">
+            <div className="flex items-start justify-between gap-3 border-b border-line bg-gradient-to-br from-surface-2 to-surface px-4 py-3.5 sm:px-5">
               <div className="flex items-center gap-3">
-                <span className="grid h-9 w-9 place-items-center rounded-lg border border-cyan-400/30 bg-cyan-400/10 text-cyan-300">
+                <span className="grid h-9 w-9 place-items-center rounded-lg border border-line bg-accent/10 text-accent">
                   <GamepadIcon width={18} height={18} />
                 </span>
                 <div>
-                  <h2 id="arcade-title" className="text-sm font-semibold tracking-wide text-slate-100 sm:text-base">
+                  <h2 id="arcade-title" className="text-sm font-semibold tracking-wide text-ink sm:text-base">
                     {t("arcade.title")}
                   </h2>
-                  <p className="hidden text-[11px] text-slate-500 sm:block">{t("arcade.subtitle")}</p>
+                  <p className="hidden text-[11px] text-muted sm:block">{t("arcade.subtitle")}</p>
                 </div>
               </div>
 
@@ -128,7 +128,7 @@ export default function PortfolioArcade() {
                   onClick={toggle}
                   aria-pressed={muted}
                   aria-label={muted ? t("arcade.unmute") : t("arcade.mute")}
-                  className="grid h-8 w-8 place-items-center rounded-lg border border-slate-700/80 text-slate-400 transition hover:border-slate-500 hover:text-slate-200"
+                  className="grid h-8 w-8 place-items-center rounded-lg border border-line text-muted transition hover:border-slate-500 hover:text-ink"
                 >
                   {muted ? <VolumeOffIcon width={15} height={15} /> : <VolumeOnIcon width={15} height={15} />}
                 </button>
@@ -140,7 +140,7 @@ export default function PortfolioArcade() {
                     closeArcade();
                   }}
                   aria-label={t("arcade.close")}
-                  className="grid h-8 w-8 place-items-center rounded-lg border border-slate-700/80 text-slate-400 transition hover:border-rose-400/50 hover:text-rose-300"
+                  className="grid h-8 w-8 place-items-center rounded-lg border border-line text-muted transition hover:border-rose-400/50 hover:text-rose-300"
                 >
                   <CloseIcon width={15} height={15} />
                 </button>
@@ -148,7 +148,7 @@ export default function PortfolioArcade() {
             </div>
 
             {/* tabs */}
-            <div role="tablist" aria-label={t("arcade.title")} className="flex gap-1 border-b border-slate-800 px-3 pt-2">
+            <div role="tablist" aria-label={t("arcade.title")} className="flex gap-1 border-b border-line px-3 pt-2">
               {TABS.map(({ id, label, icon: Icon }) => (
                 <button
                   key={id}
@@ -163,7 +163,7 @@ export default function PortfolioArcade() {
                     sfx.play("click");
                   }}
                   className={`relative flex items-center gap-1.5 rounded-t-lg px-3 py-2 text-[11px] font-medium transition sm:text-xs ${
-                    tab === id ? "text-cyan-300" : "text-slate-500 hover:text-slate-300"
+                    tab === id ? "text-accent" : "text-muted hover:text-ink"
                   }`}
                 >
                   <Icon width={14} height={14} />
@@ -171,7 +171,7 @@ export default function PortfolioArcade() {
                   {tab === id && (
                     <motion.span
                       layoutId="arcade-tab-underline"
-                      className="absolute inset-x-1 -bottom-px h-0.5 rounded-full bg-cyan-400"
+                      className="absolute inset-x-1 -bottom-px h-0.5 rounded-full bg-accent"
                     />
                   )}
                 </button>
@@ -199,7 +199,7 @@ export default function PortfolioArcade() {
               ))}
             </div>
 
-            <div className="border-t border-slate-800 px-4 py-2 text-center font-mono text-[9px] tracking-[0.18em] text-slate-600 uppercase">
+            <div className="border-t border-line px-4 py-2 text-center font-mono text-[9px] tracking-[0.18em] text-slate-600 uppercase">
               esc · close — sfx via webaudio
             </div>
       </motion.div>
@@ -216,12 +216,12 @@ export function ArcadeSection() {
     <section id="arcade" className="section-shell scroll-mt-24">
       <div className="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
-          <p className="mb-2 flex items-center gap-2 font-mono text-[10px] tracking-[0.28em] text-cyan-400/80 uppercase">
-            <span className="h-px w-6 bg-cyan-400/60" /> 07 / play
+          <p className="mb-2 flex items-center gap-2 font-mono text-[10px] tracking-[0.28em] text-accent/80 uppercase">
+            <span className="h-px w-6 bg-accent/60" /> 07 / play
           </p>
-          <h2 className="text-3xl font-semibold tracking-tight text-slate-100 sm:text-4xl">{t("arcade.title")}</h2>
+          <h2 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">{t("arcade.title")}</h2>
         </div>
-        <p className="max-w-sm text-sm text-slate-400">{t("arcade.subtitle")}</p>
+        <p className="max-w-sm text-sm text-muted">{t("arcade.subtitle")}</p>
       </div>
 
       <div className="panel relative overflow-hidden p-5 sm:p-8">
@@ -235,11 +235,11 @@ export function ArcadeSection() {
             ].map(({ icon: Icon, title, desc }) => (
               <div
                 key={title}
-                className="rounded-xl border border-slate-800/80 bg-slate-950/50 p-3 transition hover:border-cyan-400/30"
+                className="rounded-xl border border-line bg-surface/50 p-3 transition hover:border-line"
               >
-                <Icon width={18} height={18} className="text-cyan-400/80" />
-                <p className="mt-2 text-xs font-semibold text-slate-200">{title}</p>
-                <p className="text-[10px] text-slate-500">{desc}</p>
+                <Icon width={18} height={18} className="text-accent/80" />
+                <p className="mt-2 text-xs font-semibold text-ink">{title}</p>
+                <p className="text-[10px] text-muted">{desc}</p>
               </div>
             ))}
           </div>
@@ -251,12 +251,12 @@ export function ArcadeSection() {
                 sfx.play("arcadeOpen");
                 openArcade();
               }}
-              className="group inline-flex items-center gap-2 rounded-lg border border-cyan-400/50 bg-cyan-400/10 px-4 py-2.5 text-xs font-semibold tracking-wide text-cyan-200 transition hover:bg-cyan-400/20 hover:shadow-[0_0_30px_-8px_rgba(0,210,255,0.7)]"
+              className="group inline-flex items-center gap-2 rounded-lg border border-accent/50 bg-accent/10 px-4 py-2.5 text-xs font-semibold tracking-wide text-accent transition hover:bg-accent/20 hover:shadow-[0_0_30px_-8px_rgba(0,210,255,0.7)]"
             >
               <GamepadIcon width={16} height={16} />
               {t("arcade.open")}
             </button>
-            <span className="text-[10px] text-slate-500">{t("arcade.openHint")}</span>
+            <span className="text-[10px] text-muted">{t("arcade.openHint")}</span>
           </div>
         </div>
       </div>

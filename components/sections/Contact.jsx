@@ -34,7 +34,7 @@ const VCARD = [
   "N:Lasmana;Cedric Kilian;;;",
   "FN:Cedric Kilian",
   "ORG:Universitas Negeri Yogyakarta",
-  "TITLE:Software Engineer & 3D Web Enthusiast",
+  "TITLE:Front-End Developer",
   "TEL;TYPE=CELL:+628972007113",
   "EMAIL:cekaell3@gmail.com",
   "URL:https://cekael.vercel.app",
@@ -230,7 +230,7 @@ export default function Contact() {
             if (event.target === event.currentTarget) setQrOpen(false);
           }}
         >
-          <div className="relative w-full max-w-sm rounded-2xl border border-line bg-surface p-5 text-center shadow-[0_40px_120px_-40px_var(--glow)]">
+          <div className="relative w-full max-w-sm rounded-2xl border border-line bg-surface p-5 text-center">
             <button
               type="button"
               onClick={() => setQrOpen(false)}
