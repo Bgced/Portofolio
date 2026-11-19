@@ -169,7 +169,7 @@ export default function CekaelAI() {
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line-soft px-4 py-2.5">
         <div className="flex items-center gap-2.5">
           <span className="relative flex h-2 w-2" aria-hidden="true">
-            <span className="absolute inset-0 rounded-full bg-ok opacity-70 pulse-dot" />
+            <span className="absolute inset-0 rounded-full bg-ok opacity-70" />
             <span className="relative h-2 w-2 rounded-full bg-ok" />
           </span>
           <div className="leading-tight">
@@ -200,17 +200,12 @@ export default function CekaelAI() {
             return (
               <div key={message.id} className={`flex ${isUser ? "justify-end" : "justify-start"}`}>
                 <div
-                  className={`max-w-[86%] rounded-2xl border px-3.5 py-2.5 text-[0.82rem] leading-relaxed whitespace-pre-wrap break-words sm:max-w-[78%] ${
+                  className={`max-w-[86%] rounded-[6px] border px-3.5 py-2.5 text-[0.82rem] leading-relaxed whitespace-pre-wrap break-words sm:max-w-[78%] ${
                     isUser
                       ? "border-accent/40 bg-accent/12 text-ink"
                       : "border-line-soft bg-surface-2 text-ink"
                   }`}
                 >
-                  {!isUser ? (
-                    <span className="mb-1 block font-mono text-[0.58rem] uppercase tracking-[0.2em] text-accent">
-                      cekael_ai
-                    </span>
-                  ) : null}
                   {isThinking ? (
                     <span className="flex items-center gap-1.5 py-1" aria-label={en ? "Cekael AI is typing" : "Cekael AI sedang mengetik"}>
                       <span className="typing-dot" />
@@ -240,7 +235,7 @@ export default function CekaelAI() {
             type="button"
             onClick={() => send(suggestion)}
             disabled={busy}
-            className="shrink-0 rounded-full border border-line-soft bg-surface px-3 py-1.5 font-mono text-[0.65rem] text-muted transition-colors hover:border-accent/50 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
+            className="shrink-0 rounded-[6px] border border-line-soft bg-surface px-3 py-1.5 font-mono text-[0.65rem] text-muted transition-colors hover:border-accent/50 hover:text-accent disabled:cursor-not-allowed disabled:opacity-40"
           >
             {suggestion}
           </button>
@@ -260,7 +255,7 @@ export default function CekaelAI() {
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={onKeyDown}
             placeholder={en ? "Ask me anything... (Enter to send, Shift+Enter for a new line)" : "Tanya apa aja... (Enter kirim, Shift+Enter baris baru)"}
-            className="max-h-28 min-h-[48px] w-full resize-none rounded-xl border border-line-soft bg-canvas px-3 py-3 text-[0.84rem] leading-relaxed text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-accent/70"
+            className="max-h-28 min-h-[48px] w-full resize-none rounded-[6px] border border-line-soft bg-canvas px-3 py-3 text-[0.84rem] leading-relaxed text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-accent/70"
           />
           <button
             type="submit"

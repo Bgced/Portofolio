@@ -15,7 +15,6 @@ import {
   X,
 } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
-import Reveal from "@/components/ui/Reveal";
 import ContactForm from "@/components/sections/ContactForm";
 import { PROFILE, SOCIALS } from "@/lib/content";
 import { useLang } from "@/components/providers";
@@ -119,31 +118,17 @@ export default function Contact() {
         intro={t("contact.intro")}
       />
 
-      <Reveal>
-        <div className="panel corner-frame relative overflow-hidden">
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute inset-0"
-            style={{
-              background:
-                "radial-gradient(ellipse 60% 80% at 12% 0%, color-mix(in srgb, var(--accent) 12%, transparent), transparent 70%)",
-            }}
-          />
+      <div className="panel relative overflow-hidden">
+        <div className="relative grid lg:grid-cols-[0.92fr_1.08fr]">
+          {/* kiri: direct + socials */}
+          <div className="flex flex-col p-5 sm:p-7 lg:p-9">
+            <p className="eyebrow">{en ? "Available" : "Terbuka ngobrol"}</p>
 
-          <div className="relative grid lg:grid-cols-[0.92fr_1.08fr]">
-            {/* kiri: direct + socials */}
-            <div className="flex flex-col p-5 sm:p-7 lg:p-9">
-              <p className="eyebrow">{t("contact.signal")}</p>
-
-              <div className="mt-5 flex items-center gap-2.5 rounded-lg border border-ok/30 bg-surface-2 px-3 py-3">
-                <span className="relative flex h-2 w-2" aria-hidden="true">
-                  <span className="pulse-dot absolute inset-0 rounded-full bg-ok" />
-                </span>
-                <div>
-                  <p className="text-[0.78rem] font-semibold text-ink">{t("contact.open")}</p>
-                  <p className="mt-0.5 text-[0.68rem] text-muted">{t("contact.openSub")}</p>
-                </div>
-              </div>
+            <p className="mt-4 text-[0.86rem] leading-relaxed text-muted">
+              {en
+                ? "I usually reply within a day, Monday to Saturday."
+                : "Biasanya aku bales dalam sehari, senin sampai sabtu."}
+            </p>
 
               <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                 <a href={`mailto:${PROFILE.email}`} className="btn btn-primary w-full sm:w-auto">
@@ -202,7 +187,7 @@ export default function Contact() {
                         <ArrowUpRight
                           size={12}
                           aria-hidden="true"
-                          className="shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:text-accent"
+                          className="shrink-0 text-muted transition-colors group-hover:text-accent"
                         />
                       </a>
                     </li>
@@ -215,9 +200,8 @@ export default function Contact() {
             <div className="border-t border-line-soft p-5 sm:p-7 lg:border-l lg:border-t-0 lg:p-9">
               <ContactForm />
             </div>
-          </div>
         </div>
-      </Reveal>
+      </div>
 
       {/* modal QR kontak */}
       {qrOpen ? (
@@ -230,7 +214,7 @@ export default function Contact() {
             if (event.target === event.currentTarget) setQrOpen(false);
           }}
         >
-          <div className="relative w-full max-w-sm rounded-2xl border border-line bg-surface p-5 text-center">
+          <div className="relative w-full max-w-sm border border-line bg-surface p-5 text-center">
             <button
               type="button"
               onClick={() => setQrOpen(false)}
@@ -240,11 +224,11 @@ export default function Contact() {
               <X size={14} aria-hidden="true" />
             </button>
 
-            <p className="mono-label text-accent">ck · contact card</p>
+            <p className="mono-label">{en ? "contact card" : "kartu kontak"}</p>
             <h3 className="mt-2 text-lg font-semibold text-ink">{PROFILE.name}</h3>
             <p className="mt-1 text-[0.76rem] text-muted">{PROFILE.role}</p>
 
-            <div className="mx-auto mt-4 w-fit rounded-xl bg-white p-3">
+            <div className="mx-auto mt-4 w-fit border border-line bg-white p-3">
               <QRCodeCanvas value={VCARD} size={208} level="M" marginSize={4} bgColor="#FFFFFF" fgColor="#000000" />
             </div>
 

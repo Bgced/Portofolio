@@ -39,7 +39,7 @@ export default function BackToTop() {
       aria-label="Balik ke atas"
       title="Balik ke atas"
       tabIndex={visible ? 0 : -1}
-      className={`fixed bottom-5 right-4 z-50 grid h-10 w-10 place-items-center rounded-full border border-line bg-surface text-accent  transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-ink sm:bottom-7 sm:right-6 ${
+      className={`fixed bottom-5 right-4 z-50 grid h-10 w-10 place-items-center rounded-[6px] border border-line bg-surface text-accent  transition-all duration-300 hover:border-accent hover:bg-accent hover:text-accent-ink sm:bottom-7 sm:right-6 ${
         visible ? "translate-y-0 opacity-100" : "pointer-events-none translate-y-3 opacity-0"
       }`}
     >

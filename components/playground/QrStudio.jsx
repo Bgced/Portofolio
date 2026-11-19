@@ -70,7 +70,7 @@ export default function QrStudio() {
   const [waMessage, setWaMessage] = useState("");
   const [rawText, setRawText] = useState("");
   const [color, setColor] = useState(QR_COLORS[0].value);
-  const [cardTheme, setCardTheme] = useState("clay");
+  const [cardTheme, setCardTheme] = useState("hitam");
   const [copied, setCopied] = useState(false);
   const [saved, setSaved] = useState(false);
 
@@ -241,7 +241,7 @@ export default function QrStudio() {
     setWaMessage("");
     setRawText("");
     setColor(QR_COLORS[0].value);
-    setCardTheme("clay");
+    setCardTheme("hitam");
   };
 
   const openPreview = () => {
@@ -468,7 +468,7 @@ export default function QrStudio() {
                     style={{ backgroundColor: option.value }}
                     aria-hidden="true"
                   />
-                  {option.id === "black" ? (en ? "Classic black" : "Hitam Klasik") : en ? "Espresso brown" : "Cokelat espresso"}
+                  {option.label}
                 </button>
               ))}
             </div>
@@ -482,7 +482,7 @@ export default function QrStudio() {
       </div>
 
       {/* preview */}
-      <aside className="order-first min-w-0 rounded-xl border border-line-soft bg-surface-2/50 p-3 lg:order-none">
+      <aside className="order-first min-w-0 border border-line-soft bg-surface-2/50 p-3 lg:order-none">
         <div className="flex items-center justify-between gap-2">
           <span className="mono-label text-accent">live preview</span>
           <span className="mono-label">{mode.toUpperCase()}</span>

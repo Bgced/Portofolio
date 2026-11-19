@@ -115,7 +115,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
             <div
               key={item.id}
               role="status"
-              className={`toast-item pointer-events-auto relative w-full overflow-hidden rounded-xl border bg-surface shadow-[0_24px_70px_-30px_rgba(0,0,0,0.8)]  ${tone.ring}`}
+              className={`toast-item pointer-events-auto relative w-full overflow-hidden rounded-[6px] border bg-surface ${tone.ring}`}
             >
               <span className={`absolute inset-y-0 left-0 w-[2px] ${tone.bar}`} aria-hidden="true" />
               <div className="flex items-start gap-3 px-3.5 py-3">
@@ -130,7 +130,7 @@ export function ToastProvider({ children }: { children: ReactNode }) {
                   type="button"
                   onClick={() => remove(item.id)}
                   aria-label="Tutup notifikasi"
-                  className="grid h-6 w-6 shrink-0 place-items-center rounded-md text-muted/70 transition-colors hover:bg-surface-2 hover:text-ink"
+                  className="grid h-6 w-6 shrink-0 place-items-center rounded-[4px] text-muted/70 transition-colors hover:bg-surface-2 hover:text-ink"
                 >
                   <X size={12} aria-hidden="true" />
                 </button>

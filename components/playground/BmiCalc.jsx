@@ -8,9 +8,9 @@ const MIN_BMI = 15;
 const MAX_BMI = 40;
 
 const BANDS = [
-  { from: 15, to: 18.5, label: "Kurus", bar: "bg-[#D48C55]" },
+  { from: 15, to: 18.5, label: "Kurus", bar: "bg-[#E0574F]" },
   { from: 18.5, to: 25, label: "Ideal", bar: "bg-ok" },
-  { from: 25, to: 30, label: "Overweight", bar: "bg-[#D48C55]" },
+  { from: 25, to: 30, label: "Overweight", bar: "bg-[#E0574F]" },
   { from: 30, to: 40, label: "Obesitas", bar: "bg-danger" },
 ];
 
@@ -19,9 +19,9 @@ function categorize(bmi, en) {
     return {
       key: "kurus",
       label: en ? "Underweight" : "Kurus",
-      tone: "text-[#D48C55]",
-      border: "border-[#D48C55]/40",
-      bg: "bg-[#D48C55]/10",
+      tone: "text-[#E0574F]",
+      border: "border-[#E0574F]/40",
+      bg: "bg-[#E0574F]/10",
       msg: en
         ? "Under the healthy range. Add more nutritious meals."
         : "Masih di bawah rentang sehat. Tambah porsi makan bergizi.",
@@ -43,9 +43,9 @@ function categorize(bmi, en) {
     return {
       key: "overweight",
       label: "Overweight",
-      tone: "text-[#D48C55]",
-      border: "border-[#D48C55]/40",
-      bg: "bg-[#D48C55]/10",
+      tone: "text-[#E0574F]",
+      border: "border-[#E0574F]/40",
+      bg: "bg-[#E0574F]/10",
       msg: en
         ? "A bit above the range. Start with a short run now and then."
         : "Sedikit di atas rentang. Mulai jalan kaki atau lari rutin.",
@@ -153,9 +153,7 @@ export default function BmiCalc() {
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
           <div className="flex items-center gap-2">
             <HeartPulse className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
-            <span className="mono-label">body_scan v1.4</span>
           </div>
-          <span className="pill pill-accent">bio-check</span>
         </div>
 
         <div className="space-y-4 p-4">
@@ -178,7 +176,7 @@ export default function BmiCalc() {
                 }}
                 aria-invalid={showHeightError}
                 aria-describedby={showHeightError ? "bmi-height-error" : undefined}
-                className={`w-full rounded-xl border bg-canvas px-3 py-3 pr-12 font-mono text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/70 ${
+                className={`w-full rounded-[6px] border bg-canvas px-3 py-3 pr-12 font-mono text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/70 ${
                   showHeightError ? "border-danger/60" : "border-line-soft"
                 }`}
               />
@@ -212,7 +210,7 @@ export default function BmiCalc() {
                 }}
                 aria-invalid={showWeightError}
                 aria-describedby={showWeightError ? "bmi-weight-error" : undefined}
-                className={`w-full rounded-xl border bg-canvas px-3 py-3 pr-12 font-mono text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/70 ${
+                className={`w-full rounded-[6px] border bg-canvas px-3 py-3 pr-12 font-mono text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/70 ${
                   showWeightError ? "border-danger/60" : "border-line-soft"
                 }`}
               />
@@ -265,7 +263,7 @@ export default function BmiCalc() {
                   </p>
                 </div>
                 <span
-                  className={`rounded-full border px-3 py-1 font-mono text-[0.65rem] uppercase tracking-widest ${result.category.border} ${result.category.bg} ${result.category.tone}`}
+                  className={`rounded-[6px] border px-3 py-1 font-mono text-[0.65rem] uppercase tracking-widest ${result.category.border} ${result.category.bg} ${result.category.tone}`}
                 >
                   {result.category.label}
                 </span>
@@ -276,11 +274,11 @@ export default function BmiCalc() {
               {/* bar */}
               <div className="mt-5">
                 <div
-                  className="relative h-3 w-full overflow-visible rounded-full"
+                  className="relative h-3 w-full overflow-visible rounded-[6px]"
                   role="img"
                   aria-label={en ? `BMI ${result.bmi.toFixed(1)}, category ${result.category.label}` : `BMI ${result.bmi.toFixed(1)}, kategori ${result.category.label}`}
                 >
-                  <div className="flex h-3 w-full overflow-hidden rounded-full border border-line-soft">
+                  <div className="flex h-3 w-full overflow-hidden rounded-[6px] border border-line-soft">
                     {BANDS.map((band) => (
                       <span
                         key={band.label}
@@ -304,7 +302,7 @@ export default function BmiCalc() {
                 </div>
               </div>
 
-              <div className="mt-5 rounded-xl border border-line-soft bg-surface-2 p-3">
+              <div className="mt-5 rounded-[6px] border border-line-soft bg-surface-2 p-3">
                 <p className="mono-label">{en ? `healthy weight range for ${heightParsed.value} cm` : `range berat sehat buat tinggi ${heightParsed.value} cm`}</p>
                 <p className="mt-1.5 font-mono text-[0.95rem] text-ink">
                   {result.healthyMin.toFixed(1)} kg <span className="text-muted">—</span>{" "}
@@ -319,7 +317,7 @@ export default function BmiCalc() {
             </div>
           ) : (
             <div className="flex min-h-[220px] flex-col items-center justify-center text-center">
-              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-full border border-line bg-accent/5">
+              <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-[6px] border border-line bg-accent/5">
                 <HeartPulse className="h-5 w-5 text-accent" aria-hidden="true" />
               </div>
               <p className="font-mono text-[0.78rem] text-ink">{en ? "waiting for data..." : "menunggu data..."}</p>

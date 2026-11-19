@@ -213,7 +213,7 @@ const KEY_LABEL = {
 
 function keyClasses(key) {
   const base =
-    "relative flex min-h-[48px] select-none items-center justify-center rounded-xl border font-mono text-[0.95rem] font-semibold transition-all duration-150 active:translate-y-px active:scale-[0.98]";
+    "relative flex min-h-[48px] select-none items-center justify-center rounded-[6px] border font-mono text-[0.95rem] font-semibold transition-all duration-150 active:translate-y-px active:scale-[0.98]";
   if (key === "=") {
     return `${base} border-accent/70 bg-accent text-accent-ink hover:brightness-110`;
   }
@@ -307,19 +307,18 @@ export default function CyberCalc({ active = true }) {
   return (
     <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
       {/* ---------------- calculator ---------------- */}
-      <div className="panel scanlines corner-frame overflow-hidden">
+      <div className="panel corner-frame overflow-hidden">
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-danger/70" aria-hidden="true" />
             <span className="h-2 w-2 rounded-full bg-accent/60" aria-hidden="true" />
             <span className="h-2 w-2 rounded-full bg-ok/60" aria-hidden="true" />
-            <span className="mono-label ml-2">kalkulator · v2.1</span>
           </div>
           <span className={`pill ${state.error ? "" : "pill-accent"}`}>{state.error ? "error" : "online"}</span>
         </div>
 
         <div className="px-4 pb-4 pt-3">
-          <div className="mb-3 flex min-h-[76px] flex-col items-end justify-end rounded-xl border border-line-soft bg-canvas px-3 py-2.5">
+          <div className="mb-3 flex min-h-[76px] flex-col items-end justify-end rounded-[6px] border border-line-soft bg-canvas px-3 py-2.5">
             <p className="max-w-full truncate font-mono text-[0.68rem] tracking-wide text-muted" aria-hidden="true">
               {expression}
             </p>

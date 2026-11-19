@@ -89,18 +89,17 @@ export default function PlaygroundTabs() {
               aria-controls={tab.panel}
               tabIndex={isActive ? 0 : -1}
               onClick={() => setActiveId(tab.id)}
-              className={`group relative shrink-0 rounded-t-lg px-3 py-3 font-mono text-[0.68rem] tracking-wide transition-colors sm:px-4 sm:text-[0.72rem] ${
+              className={`group relative shrink-0 rounded-t-[6px] px-3 py-3 font-mono text-[0.68rem] tracking-wide transition-colors sm:px-4 sm:text-[0.72rem] ${
                 isActive ? "text-accent" : "text-muted hover:text-ink"
               }`}
             >
               <span className="flex items-center gap-2 whitespace-nowrap">
                 <Icon className={`h-3.5 w-3.5 ${isActive ? "text-accent" : "text-muted"}`} aria-hidden="true" />
                 <span className="uppercase">{t(tab.labelKey)}</span>
-                <span className={`text-[0.58rem] ${isActive ? "text-accent/60" : "text-muted/50"}`}>{tab.code}</span>
               </span>
               <span
                 aria-hidden="true"
-                className={`absolute inset-x-2 -bottom-px h-[2px] rounded-full transition-all duration-300 ${
+                className={`absolute inset-x-2 -bottom-px h-[2px] rounded-[4px] transition-all duration-300 ${
                   isActive ? "bg-accent opacity-100" : "bg-transparent opacity-0"
                 }`}
               />
@@ -109,14 +108,11 @@ export default function PlaygroundTabs() {
         })}
       </div>
 
-      <div className="mt-3 flex items-center justify-between gap-3 rounded-t-xl border border-line-soft border-b-0 bg-surface-2/60 px-3 py-2">
+      <div className="mt-3 flex items-center justify-between gap-3 rounded-t-[6px] border border-line-soft border-b-0 bg-surface-2/60 px-3 py-2">
         <div className="flex items-center gap-2">
           <span className="h-2 w-2 rounded-full bg-danger/60" aria-hidden="true" />
-          <span className="h-2 w-2 rounded-full bg-[#D48C55]/60" aria-hidden="true" />
+          <span className="h-2 w-2 rounded-full bg-line" aria-hidden="true" />
           <span className="h-2 w-2 rounded-full bg-ok/60" aria-hidden="true" />
-          <span className="mono-label ml-1.5">
-            tool_{activeTab.code} // {activeTab.id}
-          </span>
         </div>
         <span className="hidden font-mono text-[0.6rem] uppercase tracking-[0.18em] text-muted sm:block">
           {activeTab.hint}
@@ -124,7 +120,7 @@ export default function PlaygroundTabs() {
       </div>
 
       {/* semua panel tetap mounted biar state nggak ilang */}
-      <div className="rounded-b-xl border border-line-soft bg-canvas p-3 sm:p-4">
+      <div className="rounded-b-[6px] border border-line-soft bg-canvas p-3 sm:p-4">
         {TABS.map((tab) => {
           const Panel = tab.Component;
           return (

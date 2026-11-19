@@ -100,20 +100,18 @@ export default function TechArsenal() {
     <div id="tech-arsenal" className="panel panel-hover flex h-full flex-col p-4 sm:p-5">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
-          <p className="mono-label text-accent">// toolkit</p>
           <h3 className="mt-1 text-[1.02rem] font-semibold leading-tight text-ink">
             {en ? "What I reach for" : "Yang aku pakai"}
           </h3>
         </div>
-        <span className="pill shrink-0 font-mono text-[0.52rem] uppercase tracking-[0.1em]">
-          {en ? "hover / tap" : "hover / tap"}
-        </span>
       </div>
 
-      <div className="mt-3.5 grid grid-cols-2 gap-1.5 sm:grid-cols-3">
-        {SKILLS.map((skill) => {
+      <div className="mt-3.5 grid auto-rows-[minmax(0,auto)] grid-cols-2 gap-1.5 sm:grid-cols-3">
+        {SKILLS.map((skill, idx) => {
           const Icon = skill.icon;
           const activeTile = skill.id === active.id;
+           // ukuran beda-beda biar grid nggak seragam
+           const span = idx === 0 ? "col-span-2 sm:col-span-2" : idx === 3 ? "row-span-2" : "";
           return (
             <button
               key={skill.id}
@@ -122,14 +120,14 @@ export default function TechArsenal() {
               onMouseEnter={() => setActiveId(skill.id)}
               onFocus={() => setActiveId(skill.id)}
               onClick={() => setActiveId(skill.id)}
-              className={`group relative flex min-w-0 items-center gap-2 overflow-hidden rounded-lg border px-2.5 py-2 text-left transition-all duration-200 hover:-translate-y-0.5 ${
+              className={`group relative flex min-w-0 items-center gap-2 overflow-hidden border px-2.5 py-2 text-left transition-colors duration-200 ${span} ${
                 activeTile
                   ? "border-accent/55 bg-accent-soft"
                   : "border-line-soft bg-surface-2/60 hover:border-line"
               }`}
             >
               <span
-                className={`grid h-7 w-7 shrink-0 place-items-center rounded-md border transition-colors ${
+                className={`grid h-6 w-6 shrink-0 place-items-center border transition-colors ${
                   activeTile
                     ? "border-accent/40 bg-canvas text-accent"
                     : "border-line-soft bg-canvas text-muted group-hover:text-ink"
@@ -146,14 +144,6 @@ export default function TechArsenal() {
                   {skill.name}
                 </span>
               </span>
-              <span
-                className={`shrink-0 font-mono text-[0.48rem] tracking-[0.08em] ${
-                  activeTile ? "text-accent/70" : "text-muted/40"
-                }`}
-                aria-hidden="true"
-              >
-                {skill.code}
-              </span>
             </button>
           );
         })}
@@ -162,7 +152,7 @@ export default function TechArsenal() {
       <div
         key={active.id}
         aria-live="polite"
-        className="mt-3 flex-1 rounded-lg border border-line-soft bg-canvas p-3"
+        className="mt-3 flex-1 border border-line-soft bg-canvas p-3"
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-accent">{active.name}</p>

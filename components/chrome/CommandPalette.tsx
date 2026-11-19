@@ -285,7 +285,7 @@ export default function CommandPalette() {
       },
       {
         id: "action-copy-email",
-        label: en ? "Copy Cekael's Email" : "Copy Email Cekael",
+        label: en ? "Copy email" : "Copy email",
         hint: PROFILE.email,
         keywords: `copy email salin ${PROFILE.email}`,
         group: "actions",
@@ -419,13 +419,12 @@ export default function CommandPalette() {
         aria-modal="true"
         aria-label={en ? "Command palette" : "Command palette"}
         onKeyDown={onPanelKeyDown}
-        className="palette-panel relative w-full max-w-[580px] overflow-hidden rounded-2xl border border-line bg-surface shadow-[0_40px_120px_-35px_rgba(0,0,0,0.85)] "
+        className="palette-panel relative w-full max-w-[580px] overflow-hidden rounded-[6px] border border-line bg-surface"
       >
         {/* title bar */}
         <div className="flex items-center justify-between border-b border-line-soft px-3.5 py-2">
           <div className="flex items-center gap-2 font-mono text-[0.58rem] uppercase tracking-[0.16em] text-muted">
             <span className="h-1.5 w-1.5 rounded-full bg-accent" aria-hidden="true" />
-            ck@command · /palette
           </div>
           <kbd className="rounded border border-line-soft bg-surface-2 px-1.5 py-0.5 font-mono text-[0.55rem] tracking-[0.1em] text-muted">
             ESC
@@ -445,9 +444,6 @@ export default function CommandPalette() {
             spellCheck={false}
             className="w-full bg-transparent text-[0.88rem] text-ink outline-none placeholder:text-muted/60"
           />
-          <span className="hidden shrink-0 font-mono text-[0.56rem] uppercase tracking-[0.12em] text-muted/60 sm:block">
-            {filtered.length} cmd
-          </span>
         </div>
 
         {/* results */}
@@ -480,12 +476,12 @@ export default function CommandPalette() {
                           onFocus={() => setActiveIndex(index)}
                           onClick={() => runItem(item)}
                           aria-current={active ? "true" : undefined}
-                          className={`flex w-full items-center gap-3 rounded-lg px-2.5 py-2 text-left transition-colors ${
+                          className={`flex w-full items-center gap-3 rounded-[6px] px-2.5 py-2 text-left transition-colors ${
                             active ? "bg-accent-soft text-ink" : "text-muted hover:bg-surface-2 hover:text-ink"
                           }`}
                         >
                           <span
-                            className={`grid h-7 w-7 shrink-0 place-items-center rounded-md border ${
+                            className={`grid h-7 w-7 shrink-0 place-items-center rounded-[4px] border ${
                               active
                                 ? "border-accent/50 bg-canvas text-accent"
                                 : "border-line-soft bg-surface-2 text-muted"

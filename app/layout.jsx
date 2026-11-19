@@ -11,19 +11,27 @@ import ScrollScene from "@/components/three/ScrollScene";
 
 // Font di-host sendiri (variable, subset latin) supaya build tidak pernah
 // gagal karena request ke fonts.googleapis.com, dan first paint lebih cepat.
-const jakarta = localFont({
-  src: "./fonts/plus-jakarta-sans-latin.woff2",
-  variable: "--font-jakarta",
+const instrument = localFont({
+  src: "./fonts/instrument-sans-latin.woff2",
+  variable: "--font-instrument",
   display: "swap",
-  weight: "200 800",
+  weight: "400 700",
   fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
 });
 
-const jetbrains = localFont({
-  src: "./fonts/jetbrains-mono-latin.woff2",
-  variable: "--font-jetbrains",
+const plex400 = localFont({
+  src: "./fonts/ibm-plex-mono-400-latin.woff2",
+  variable: "--font-plex-400",
   display: "swap",
-  weight: "100 800",
+  weight: "400",
+  fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
+});
+
+const plex600 = localFont({
+  src: "./fonts/ibm-plex-mono-600-latin.woff2",
+  variable: "--font-plex-600",
+  display: "swap",
+  weight: "600",
   fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
 });
 
@@ -43,7 +51,7 @@ export const metadata = {
     "Three.js",
     "React Three Fiber",
   ],
-  authors: [{ name: "Cedric Kilian Lasmana" }],
+  authors: [{ name: "Cedric Kilian" }],
   openGraph: {
     title: "Cedric Kilian — Front-End Developer",
     description: "Tampilan web yang cepat, rapi, dan interaktif.",
@@ -66,7 +74,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#12100e",
+  themeColor: "#0A0B0C",
   width: "device-width",
   initialScale: 1,
 };
@@ -75,7 +83,7 @@ export default function RootLayout({ children }) {
   return (
     <html
       lang="id"
-      className={`dark ${jakarta.variable} ${jetbrains.variable}`}
+      className={`dark ${instrument.variable} ${plex400.variable} ${plex600.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen overflow-x-hidden bg-canvas text-ink antialiased">

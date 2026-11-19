@@ -18,24 +18,24 @@ import * as THREE from "three";
 import { usePrefersReducedMotion, useWebGLSupport } from "@/lib/hooks";
 import { loadPrefs } from "@/lib/ui-prefs";
 
-type Mood = "clay" | "wire" | "off";
+type Mood = "wire" | "off";
 
 const PALETTES = {
   light: {
-    clay: "#E7DFD2",
-    clayEdge: "#C9BCA8",
-    wire: "#8A6A50",
-    ring: "#B08968",
+    clay: "#E9EAEA",
+    clayEdge: "#8C9399",
+    wire: "#1F7E9E",
+    ring: "#2AA9D6",
     light: 2.1,
     ambient: 1.15,
   },
   dark: {
-    clay: "#2A2521",
-    clayEdge: "#3B342D",
-    wire: "#9C948A",
-    ring: "#D48C55",
-    light: 1.5,
-    ambient: 0.42,
+    clay: "#111315",
+    clayEdge: "#2AA9D6",
+    wire: "#2AA9D6",
+    ring: "#4CC0E8",
+    light: 1.2,
+    ambient: 0.3,
   },
 } as const;
 
@@ -98,7 +98,7 @@ const ShapeMesh = memo(function ShapeMesh({
   }, [wire, palette.wire, palette.clay]);
 
   const edgeMaterial = useMemo(
-    () => new THREE.LineBasicMaterial({ color: palette.clayEdge, transparent: true, opacity: 0.5 }),
+    () => new THREE.LineBasicMaterial({ color: palette.clayEdge, transparent: true, opacity: 0.75 }),
     [palette.clayEdge]
   );
 
@@ -303,7 +303,7 @@ class SceneBoundary extends Component<{ children: ReactNode; fallback: ReactNode
 /* ------------------------------------------------------------------ */
 
 export default function ScrollScene() {
-  const [mood, setMood] = useState<Mood>("clay");
+  const [mood, setMood] = useState<Mood>("wire");
   const [tabHidden, setTabHidden] = useState(false);
   const [inView, setInView] = useState(true);
   const hostRef = useRef<HTMLDivElement | null>(null);
@@ -366,8 +366,8 @@ export default function ScrollScene() {
         >
           <Suspense fallback={null}>
             <ambientLight intensity={palette.ambient} />
-            <directionalLight position={[4, 6, 7]} intensity={palette.light} color="#FFF3E6" />
-            <directionalLight position={[-6, -3, -5]} intensity={palette.light * 0.35} color={palette.ring} />
+            <directionalLight position={[4, 6, 7]} intensity={palette.light} color="#FFFFFF" />
+            <directionalLight position={[-6, -3, -5]} intensity={palette.light * 0.3} color={palette.ring} />
             <Rig mood={mood} palette={palette} reduced={reduced} />
             <CanvasSizer />
             <ThemeInvalidator token={mood} />

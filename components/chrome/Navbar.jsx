@@ -59,13 +59,12 @@ export default function Navbar() {
           className="group flex items-center gap-3"
           aria-label={`${PROFILE.name} — ${t("nav.homeLabel")}`}
         >
-          <span className="relative grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface-2 font-mono text-[0.72rem] font-semibold tracking-[0.06em] text-accent transition-colors group-hover:border-accent">
+          <span className="grid h-9 w-9 place-items-center border border-line bg-surface-2 font-mono text-[0.72rem] font-semibold tracking-[0.06em] text-accent transition-colors group-hover:border-accent">
             CK
-            <span className="absolute -right-1 -top-1 h-1.5 w-1.5 rounded-full bg-accent" />
           </span>
           <span className="flex flex-col leading-none">
-            <span className="text-[0.78rem] font-semibold tracking-[0.22em] text-ink">CEKAEL</span>
-            <span className="mono-label mt-1 text-[0.55rem] tracking-[0.18em]">Cedric Kilian</span>
+            <span className="text-[0.9rem] font-semibold tracking-[0.01em] text-ink">Cedric Kilian</span>
+            <span className="mono-label mt-1 text-[0.55rem] tracking-[0.14em]">front-end · electrical</span>
           </span>
         </a>
 
@@ -78,7 +77,7 @@ export default function Navbar() {
                 key={link.id}
                 href={`#${link.id}`}
                 aria-current={isActive ? "true" : undefined}
-                className={`relative rounded-md px-3 py-2 text-[0.78rem] font-medium transition-colors duration-200 ${
+                className={`relative px-3 py-2 text-[0.78rem] font-medium transition-colors duration-200 ${
                   isActive ? "text-accent" : "text-muted hover:text-ink"
                 }`}
               >
@@ -100,7 +99,7 @@ export default function Navbar() {
             onClick={() => window.dispatchEvent(new Event("cekael:command"))}
             aria-label="Buka command palette (Ctrl + K)"
             title="Command palette · Ctrl/⌘ + K · Sandbox · Ctrl/⌘ + ."
-            className="group inline-flex h-9 items-center gap-1.5 rounded-lg border border-line bg-surface-2 px-2 text-muted transition-colors hover:border-accent hover:text-accent sm:px-2.5"
+            className="group inline-flex h-9 items-center gap-1.5 border border-line bg-surface-2 px-2 text-muted transition-colors hover:border-accent hover:text-accent sm:px-2.5"
           >
             <Search size={15} strokeWidth={1.9} aria-hidden="true" />
             <kbd className="hidden rounded border border-line px-1 py-0.5 font-mono text-[0.52rem] tracking-[0.04em] text-muted/70 group-hover:text-accent lg:inline-block">
@@ -118,7 +117,7 @@ export default function Navbar() {
             aria-label={open ? t("nav.close") : t("nav.open")}
             aria-expanded={open}
             aria-controls="mobile-nav"
-            className="grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface-2 text-ink transition-colors hover:border-accent hover:text-accent lg:hidden"
+            className="grid h-9 w-9 place-items-center border border-line bg-surface-2 text-ink transition-colors hover:border-accent hover:text-accent lg:hidden"
           >
             {open ? <X size={17} aria-hidden="true" /> : <Menu size={17} aria-hidden="true" />}
           </button>

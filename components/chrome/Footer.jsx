@@ -34,12 +34,11 @@ export default function Footer() {
           {/* identitas */}
           <div className="max-w-sm">
             <div className="flex items-center gap-3">
-              <span className="relative grid h-9 w-9 place-items-center rounded-lg border border-line bg-surface-2 font-mono text-[0.72rem] font-semibold text-accent">
+              <span className="grid h-9 w-9 place-items-center border border-line bg-surface-2 font-mono text-[0.72rem] font-semibold text-accent">
                 CK
-                <span className="absolute -right-1 -top-1 h-1.5 w-1.5 rounded-full bg-accent" />
               </span>
               <div className="flex flex-col leading-none">
-                <span className="text-[0.78rem] font-semibold tracking-[0.22em] text-ink">CEKAEL</span>
+                <span className="text-[0.9rem] font-semibold text-ink">Cedric Kilian</span>
                 <span className="mono-label mt-1 text-[0.55rem]">{PROFILE.major}</span>
               </div>
             </div>
@@ -48,8 +47,7 @@ export default function Footer() {
                 ? "Code, circuits and 3D visuals, all on one screen."
                 : "Ngoding, ngulik sirkuit, dan main 3D di satu layar."}
             </p>
-            <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-ok/30 bg-ok/5 px-2.5 py-1 font-mono text-[0.54rem] uppercase tracking-[0.12em] text-ok">
-              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-ok" aria-hidden="true" />
+            <p className="mt-3 inline-flex items-center gap-2 border border-line px-2.5 py-1 font-mono text-[0.56rem] uppercase tracking-[0.1em] text-muted">
               {en ? "Open to work" : "Buka buat kerja bareng"}
             </p>
           </div>
@@ -121,7 +119,7 @@ export default function Footer() {
               className="group inline-flex items-center gap-1 font-mono text-[0.55rem] uppercase tracking-[0.12em] text-muted transition-colors hover:text-accent"
             >
               {en ? "Back to Top" : "Balik ke Atas"}
-              <ArrowUp size={11} aria-hidden="true" className="transition-transform group-hover:-translate-y-0.5" />
+              <ArrowUp size={11} aria-hidden="true" className="transition-colors" />
             </button>
           </div>
         </div>

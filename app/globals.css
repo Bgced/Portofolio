@@ -1,38 +1,38 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   CEKAEL — EDITORIAL WARM DARK
+   FLAT BLACK + CYAN BLUE
    Satu tema saja (dark). Nama token lama (--bg, --surface, --text,
    --accent, ...) dipertahankan supaya komponen lama tetap jalan.
 ------------------------------------------------------------------- */
 :root {
-  --bg: #12100e;
-  --bg-soft: #16130f;
-  --surface: #1b1815;
-  --surface-2: #25211d;
-  --text: #f4f1ea;
-  --muted: #9c948a;
-  --line: #2e2924;
-  --line-soft: #2e2924;
-  --accent: #d48c55;
-  --accent-hover: #e29d68;
-  --accent-2: #d48c55;
-  --accent-ink: #17130f;
+  --bg: #0a0b0c;
+  --bg-soft: #0a0b0c;
+  --surface: #111315;
+  --surface-2: #171a1d;
+  --text: #e9eaea;
+  --muted: #8c9399;
+  --line: #22262a;
+  --line-soft: #22262a;
+  --accent: #2aa9d6;
+  --accent-hover: #4cc0e8;
+  --accent-2: #2aa9d6;
+  --accent-ink: #0a0b0c;
   --accent-soft: color-mix(in srgb, var(--accent) 12%, transparent);
   --glow: transparent;
-  --grid: rgba(244, 241, 234, 0.045);
-  --danger: #c96a55;
-  --ok: #9aa981;
-  --radius-card: 12px;
-  --radius-sm: 8px;
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+  --grid: rgba(233, 234, 234, 0.05);
+  --danger: #e0574f;
+  --ok: #8c9399;
+  --radius-card: 6px;
+  --radius-sm: 6px;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex), ui-monospace, SFMono-Regular, monospace;
   color-scheme: dark;
 }
 
 @theme inline {
-  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
-  --font-mono: var(--font-jetbrains), ui-monospace, SFMono-Regular, monospace;
+  --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex), ui-monospace, SFMono-Regular, monospace;
 
   --color-canvas: var(--bg);
   --color-surface: var(--surface);
@@ -69,18 +69,6 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-/* grain sangat halus, tanpa blend mode mahal */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  opacity: 0.16;
-  background-image: radial-gradient(rgba(244, 241, 234, 0.5) 0.5px, transparent 0.5px);
-  background-size: 3px 3px;
-}
-
 ::selection {
   background: color-mix(in srgb, var(--accent) 30%, transparent);
   color: var(--text);
@@ -94,12 +82,12 @@ body::before {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #3a332c;
-  border-radius: 999px;
+  background: #2b3034;
+  border-radius: 6px;
   border: 2px solid var(--bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #4a4139;
+  background: #3a4045;
 }
 
 :focus-visible {
@@ -131,7 +119,7 @@ body::before {
   gap: 0.55rem;
   font-family: var(--font-mono);
   font-size: 0.66rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -153,7 +141,7 @@ body::before {
 }
 
 .panel-hover:hover {
-  border-color: #3d3630;
+  border-color: #33393e;
   background: var(--surface-2);
 }
 
@@ -210,26 +198,21 @@ body::before {
   overflow: hidden;
 }
 
-/* scrim kiri supaya teks tetap kebaca di atas objek 3D */
+/* Scrim kiri: flat, supaya teks tetap kebaca di atas objek 3D. */
 .scene-vignette {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: linear-gradient(
-    to right,
-    color-mix(in srgb, var(--bg) 88%, transparent) 0%,
-    color-mix(in srgb, var(--bg) 55%, transparent) 44%,
-    transparent 70%
-  );
+  background: color-mix(in srgb, var(--bg) 45%, transparent);
 }
 
-/* scrim bawah untuk foto & caption (monokrom, bukan gradient warna) */
+/* Caption di atas foto: strip solid, bukan gradient. */
 .photo-scrim {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(18, 16, 14, 0.88), rgba(18, 16, 14, 0.12) 46%, transparent 68%);
+  background: rgba(10, 11, 12, 0.45);
 }
 
 /* ------------------------------------------------------------------
@@ -246,7 +229,7 @@ body::before {
   font-weight: 600;
   line-height: 1;
   letter-spacing: 0.01em;
-  transition: transform 160ms ease, background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
   cursor: pointer;
   white-space: nowrap;
 }
@@ -268,7 +251,7 @@ body::before {
   color: var(--text);
 }
 .btn-ghost:hover {
-  border-color: #3d3630;
+  border-color: #33393e;
   background: var(--surface-2);
 }
 
@@ -277,7 +260,7 @@ body::before {
   align-items: center;
   gap: 0.35rem;
   border: 1px solid var(--line);
-  border-radius: 999px;
+  border-radius: 4px;
   background: var(--surface);
   padding: 0.28rem 0.6rem;
   font-family: var(--font-mono);
@@ -294,7 +277,7 @@ body::before {
 }
 
 /* ------------------------------------------------------------------
-   Editorial photo: duotone hangat saat idle, warna asli saat hover/fokus
+   Editorial foto: monokrom saat idle, warna asli saat hover/fokus
 ------------------------------------------------------------------- */
 .photo-editorial {
   position: relative;
@@ -303,19 +286,20 @@ body::before {
   background: var(--surface);
 }
 .photo-editorial img {
-  filter: grayscale(1) sepia(0.35) contrast(1.05) brightness(0.9);
+  filter: grayscale(1) contrast(1.05) brightness(0.9);
   transition: filter 600ms ease;
 }
 .photo-editorial:hover img,
 .photo-editorial:focus-within img {
   filter: grayscale(0) sepia(0) contrast(1) brightness(1);
 }
+
 .photo-editorial::after {
   content: "";
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: linear-gradient(to top, rgba(18, 16, 14, 0.85), rgba(18, 16, 14, 0.05) 60%);
+  background: rgba(10, 11, 12, 0.28);
 }
 
 /* ------------------------------------------------------------------
@@ -350,14 +334,6 @@ body::before {
   animation-play-state: paused;
 }
 
-@keyframes pulse-dot {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
-}
-.pulse-dot {
-  animation: pulse-dot 2.6s ease-in-out infinite;
-}
-
 @keyframes blink {
   0%, 49% { opacity: 1; }
   50%, 100% { opacity: 0; }
@@ -386,13 +362,6 @@ body::before {
 .typing-dot:nth-child(2) { animation-delay: 0.15s; }
 .typing-dot:nth-child(3) { animation-delay: 0.3s; }
 
-@keyframes spin-slow {
-  to { transform: rotate(360deg); }
-}
-.spin-slow {
-  animation: spin-slow 16s linear infinite;
-}
-
 /* ------------------------------------------------------------------
    Utilities
 ------------------------------------------------------------------- */
@@ -403,11 +372,9 @@ body::before {
   display: none;
 }
 
-/* Aksen teks editorial: warna solid, tanpa gradient */
+/* Aksen teks: warna solid, tanpa gradient, tanpa italic */
 .text-gradient {
   color: var(--accent);
-  font-style: italic;
-  letter-spacing: -0.02em;
 }
 
 /* Hook kompatibilitas: sengaja tanpa glow */
@@ -418,7 +385,7 @@ body::before {
 .mono-label {
   font-family: var(--font-mono);
   font-size: 0.64rem;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
 }
@@ -436,8 +403,5 @@ body::before {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
-  }
-  .tilt-card {
-    transform: none !important;
   }
 }

@@ -47,10 +47,9 @@ function EmptyState({ en }: { en: boolean }) {
   return (
     <div className="relative flex min-h-[100svh] items-center justify-center overflow-hidden px-5 py-16">
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-1/2 top-1/3 h-[380px] w-[380px] -translate-x-1/2 rounded-full bg-accent/[0.06]" />
       </div>
-      <div className="relative w-full max-w-md rounded-2xl border border-line bg-surface p-7 text-center">
-        <span className="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-line bg-surface-2">
+      <div className="relative w-full max-w-md border border-line bg-surface p-7 text-left">
+        <span className="flex h-11 w-11 items-center justify-center border border-line bg-surface-2">
           <Sparkles size={20} className="text-accent" aria-hidden="true" />
         </span>
         <h1 className="mt-5 text-xl font-semibold tracking-tight text-ink">
@@ -85,10 +84,10 @@ function ThemeSwatch({
       onClick={() => onSelect(theme.id)}
       aria-pressed={active}
       title={theme.label}
-      className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1.5 font-mono text-[0.56rem] uppercase tracking-[0.1em] transition-colors"
+      className="inline-flex items-center gap-1.5 border px-2.5 py-1.5 font-mono text-[0.56rem] uppercase tracking-[0.1em] transition-colors"
       style={{
-        borderColor: active ? theme.accent : "rgba(244,241,234,0.14)",
-        backgroundColor: active ? theme.soft : "rgba(244,241,234,0.04)",
+        borderColor: active ? theme.accent : "rgba(233,234,234,0.14)",
+        backgroundColor: active ? theme.soft : "rgba(233,234,234,0.04)",
         color: active ? theme.accent : "var(--muted)",
       }}
     >
@@ -184,44 +183,26 @@ export default function CardView() {
       style={{ backgroundColor: theme.pageBg }}
     >
       <div className="pointer-events-none absolute inset-0" aria-hidden="true">
-        <div
-          className="absolute left-1/2 top-1/4 h-[520px] w-[520px] -translate-x-1/2 rounded-full blur-[150px]"
-          style={{ backgroundColor: theme.soft }}
-        />
-        <div
-          className="absolute -right-24 bottom-0 h-[360px] w-[360px] rounded-full blur-[130px]"
-          style={{ backgroundColor: theme.soft, opacity: 0.8 }}
-        />
-        <div
-          className="absolute inset-0"
-          style={{
-            backgroundImage: `linear-gradient(${theme.grid} 1px, transparent 1px), linear-gradient(90deg, ${theme.grid} 1px, transparent 1px)`,
-            backgroundSize: "54px 54px",
-            maskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 78%)",
-            WebkitMaskImage: "radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent 78%)",
-          }}
-        />
       </div>
 
       <article
         ref={cardRef}
-        className="relative w-full max-w-[34rem] overflow-hidden rounded-[1.6rem] border p-1.5 "
+        className="relative w-full max-w-[34rem] overflow-hidden border border-line p-1.5"
         style={{
           borderColor: theme.border,
           backgroundColor: theme.cardBg,
-          boxShadow: "0 18px 40px -32px rgba(0, 0, 0, 0.9)",
         }}
       >
         <div
-          className="rounded-[1.35rem] border px-5 py-7 sm:px-9 sm:py-9"
+          className="border px-5 py-7 sm:px-9 sm:py-9"
           style={{
             borderColor: theme.borderSoft,
-            background: `radial-gradient(120% 120% at 0% 0%, ${theme.soft}, transparent 55%)`,
+            backgroundColor: theme.soft,
           }}
         >
           <div className="flex items-center justify-between gap-3">
             <span
-              className="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[0.58rem] uppercase tracking-[0.16em]"
+              className="inline-flex items-center gap-1.5 border px-2.5 py-1 font-mono text-[0.58rem] uppercase tracking-[0.16em]"
               style={{ borderColor: theme.border, backgroundColor: theme.soft, color: theme.accent }}
             >
               <span
@@ -235,7 +216,7 @@ export default function CardView() {
               className="font-mono text-[0.58rem] uppercase tracking-[0.18em]"
               style={{ color: theme.muted }}
             >
-              ck · card
+              {en ? "card" : "kartu"}
             </span>
           </div>
 
@@ -245,17 +226,17 @@ export default function CardView() {
           >
             {en ? "To" : "Untuk"}
           </p>
-          <h1 className="mt-2 break-words text-[clamp(2rem,8vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#F4F1EA]">
+          <h1 className="mt-2 break-words text-[clamp(2rem,8vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#E9EAEA]">
             {data.name}
           </h1>
 
           <div
             className="my-6 h-px w-full"
-            style={{ background: `linear-gradient(90deg, ${theme.accent}99, ${theme.accent}26, transparent)` }}
+            style={{ backgroundColor: theme.borderSoft }}
             aria-hidden="true"
           />
 
-          <p className="whitespace-pre-wrap break-words text-[0.98rem] leading-relaxed text-[#F4F1EA] sm:text-[1.05rem]">
+          <p className="whitespace-pre-wrap break-words text-[0.98rem] leading-relaxed text-[#E9EAEA] sm:text-[1.05rem]">
             {data.message}
           </p>
 
@@ -270,8 +251,8 @@ export default function CardView() {
               >
                 {en ? "From" : "Dari"}
               </p>
-              <p className="mt-1 break-words text-sm font-semibold text-[#F4F1EA]">
-                {data.sender || "Cekael"}
+              <p className="mt-1 break-words text-sm font-semibold text-[#E9EAEA]">
+                {data.sender || "Cedric Kilian"}
               </p>
             </div>
             <p
@@ -285,7 +266,7 @@ export default function CardView() {
       </article>
 
       {/* toolbar: theme + save */}
-      <div className="relative mt-4 flex w-full max-w-[34rem] flex-col gap-2.5 rounded-xl border border-line bg-canvas p-2.5  sm:flex-row sm:items-center sm:justify-between">
+      <div className="relative mt-4 flex w-full max-w-[34rem] flex-col gap-2.5 border border-line bg-canvas p-2.5 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap items-center gap-1.5">
           {CARD_THEME_LIST.map((item) => (
             <ThemeSwatch key={item.id} theme={item} active={item.id === theme.id} onSelect={selectTheme} />
@@ -295,7 +276,7 @@ export default function CardView() {
           type="button"
           onClick={saveCard}
           disabled={saving}
-          className="inline-flex items-center justify-center gap-2 rounded-full px-3.5 py-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] transition-opacity disabled:opacity-60"
+          className="inline-flex items-center justify-center gap-2 border px-3.5 py-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] transition-opacity disabled:opacity-60"
           style={{ backgroundColor: theme.accent, color: "#050505" }}
         >
           {saving ? (
@@ -309,7 +290,7 @@ export default function CardView() {
 
       <Link
         href="/#playground"
-        className="relative mt-4 inline-flex items-center gap-2 rounded-full border border-line bg-canvas px-4 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
+        className="relative mt-4 inline-flex items-center gap-2 border border-line bg-canvas px-4 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
       >
         {en ? "Make your own QR card" : "Bikin QR kartu kamu sendiri"}
         <ArrowRight size={12} aria-hidden="true" style={{ color: theme.accent }} />

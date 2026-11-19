@@ -1,4 +1,4 @@
-export type CardThemeId = "clay" | "espresso" | "olive";
+export type CardThemeId = "hitam" | "cyan" | "putih";
 
 export type CardTheme = {
   id: CardThemeId;
@@ -15,44 +15,44 @@ export type CardTheme = {
 };
 
 export const CARD_THEMES: Record<CardThemeId, CardTheme> = {
-  clay: {
-    id: "clay",
-    label: "Copper",
-    accent: "#D48C55",
-    accent2: "#E29D68",
-    border: "rgba(212, 140, 85, 0.34)",
-    borderSoft: "rgba(244, 241, 234, 0.10)",
-    soft: "rgba(212, 140, 85, 0.14)",
-    cardBg: "#1B1815",
-    pageBg: "#12100E",
-    grid: "rgba(244, 241, 234, 0.05)",
-    muted: "#9C948A",
+  hitam: {
+    id: "hitam",
+    label: "Hitam",
+    accent: "#E9EAEA",
+    accent2: "#8C9399",
+    border: "rgba(233, 234, 234, 0.24)",
+    borderSoft: "rgba(233, 234, 234, 0.10)",
+    soft: "rgba(233, 234, 234, 0.08)",
+    cardBg: "#0A0B0C",
+    pageBg: "#0A0B0C",
+    grid: "rgba(233, 234, 234, 0.05)",
+    muted: "#8C9399",
   },
-  espresso: {
-    id: "espresso",
-    label: "Espresso",
-    accent: "#8A5535",
-    accent2: "#B9764A",
-    border: "rgba(138, 85, 53, 0.34)",
-    borderSoft: "rgba(35, 31, 32, 0.10)",
-    soft: "rgba(138, 85, 53, 0.10)",
-    cardBg: "#F7F4EF",
-    pageBg: "#EFEAE2",
-    grid: "rgba(92, 58, 33, 0.06)",
-    muted: "#6E665F",
+  cyan: {
+    id: "cyan",
+    label: "Cyan",
+    accent: "#2AA9D6",
+    accent2: "#4CC0E8",
+    border: "rgba(42, 169, 214, 0.36)",
+    borderSoft: "rgba(233, 234, 234, 0.10)",
+    soft: "rgba(42, 169, 214, 0.12)",
+    cardBg: "#111315",
+    pageBg: "#0A0B0C",
+    grid: "rgba(42, 169, 214, 0.06)",
+    muted: "#8C9399",
   },
-  olive: {
-    id: "olive",
-    label: "Olive",
-    accent: "#5E6B3F",
-    accent2: "#8C9A63",
-    border: "rgba(94, 107, 63, 0.32)",
-    borderSoft: "rgba(35, 31, 32, 0.10)",
-    soft: "rgba(94, 107, 63, 0.10)",
-    cardBg: "#F5F2EA",
-    pageBg: "#EDE9DF",
-    grid: "rgba(94, 107, 63, 0.06)",
-    muted: "#6B6A5C",
+  putih: {
+    id: "putih",
+    label: "Putih",
+    accent: "#0A0B0C",
+    accent2: "#4A5054",
+    border: "rgba(10, 11, 12, 0.20)",
+    borderSoft: "rgba(10, 11, 12, 0.10)",
+    soft: "rgba(10, 11, 12, 0.06)",
+    cardBg: "#FFFFFF",
+    pageBg: "#F4F4F3",
+    grid: "rgba(10, 11, 12, 0.06)",
+    muted: "#5A6165",
   },
 };
 
@@ -64,5 +64,5 @@ export function isCardThemeId(value: unknown): value is CardThemeId {
 }
 
 export function resolveCardTheme(value: string | null | undefined): CardTheme {
-  return isCardThemeId(value) ? CARD_THEMES[value] : CARD_THEMES.clay;
+  return isCardThemeId(value) ? CARD_THEMES[value] : CARD_THEMES.hitam;
 }

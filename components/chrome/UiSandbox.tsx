@@ -37,7 +37,7 @@ export default function UiSandbox() {
   const { lang } = useLang();
   const en = lang === "en";
 
-  const [prefs, setPrefs] = useState(() => ({ accent: "terracotta", radius: "soft", scene: "clay" }));
+  const [prefs, setPrefs] = useState(() => ({ accent: "cyan", radius: "soft", scene: "wire" }));
   const [open, setOpen] = useState(false);
 
   // Baca localStorage SETELAH mount — nggak boleh di initial state (hydration).
@@ -157,9 +157,9 @@ export default function UiSandbox() {
           onClick={() => setOpen(true)}
           aria-label={en ? "Open UI sandbox" : "Buka sandbox UI"}
           title={en ? "UI sandbox — try accent, radius, 3D" : "Sandbox UI — coba aksen, radius, 3D"}
-          className="flex items-center gap-2 rounded-full border border-line bg-surface px-3 py-2 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-muted  transition-colors hover:border-accent hover:text-accent"
+          className="flex items-center gap-2 border border-line bg-surface px-3 py-2 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-muted  transition-colors hover:border-accent hover:text-accent"
         >
-          <span className="h-2 w-2 rounded-full bg-accent" aria-hidden="true" />
+          
           {en ? "ui sandbox" : "sandbox ui"}
         </button>
       )}
