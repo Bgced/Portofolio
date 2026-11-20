@@ -393,12 +393,35 @@ body {
   overflow: hidden;
 }
 
+/* Scrim: scene 3D-nya rame, teks hero butuh ruang. Spotlight radial di belakang
+   kolom teks (bukan band vertikal), plus dim tipis rata biar scene tetap kebaca. */
 .scene-vignette {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: color-mix(in srgb, var(--bg) 28%, transparent);
+  background:
+    radial-gradient(
+      115% 85% at 6% 42%,
+      var(--bg) 0%,
+      color-mix(in srgb, var(--bg) 90%, transparent) 34%,
+      color-mix(in srgb, var(--bg) 46%, transparent) 60%,
+      transparent 78%
+    ),
+    color-mix(in srgb, var(--bg) 26%, transparent);
+}
+
+@media (max-width: 1023px) {
+  .scene-vignette {
+    background:
+      linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--bg) 90%, transparent) 0%,
+        color-mix(in srgb, var(--bg) 66%, transparent) 48%,
+        color-mix(in srgb, var(--bg) 44%, transparent) 100%
+      ),
+      color-mix(in srgb, var(--bg) 32%, transparent);
+  }
 }
 
 .photo-scrim {

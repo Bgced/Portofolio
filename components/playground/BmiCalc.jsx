@@ -148,7 +148,7 @@ export default function BmiCalc() {
   };
 
   return (
-    <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
+    <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-stretch">
       {/* ---------------- form ---------------- */}
       <FloatingCard as="form" onSubmit={handleSubmit} surfaceClassName="card-surface--flush">
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
