@@ -63,7 +63,7 @@ export default function GameModal({ openId, onClose }) {
       <div
         ref={panelRef}
         tabIndex={-1}
-        className="palette-panel relative max-h-[92svh] w-full max-w-[34rem] overflow-y-auto border border-line bg-surface p-4 outline-none sm:p-5"
+        className="palette-panel relative max-h-[92svh] w-full max-w-[34rem] overflow-y-auto rounded-[26px] border border-line bg-surface p-4 outline-none sm:p-5"
       >
         <div className="mb-3 flex items-start justify-between gap-3">
           <div className="min-w-0">

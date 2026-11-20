@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import { PROFILE } from "@/lib/content";
 import { useLang } from "@/components/providers";
 import TechArsenal from "@/components/sections/TechArsenal";
+import FloatingCard from "@/components/ui/FloatingCard";
 
 const FACTS = [
   { labelKey: "about.focus", valueKey: "about.focusValue" },
@@ -32,16 +33,19 @@ export default function About() {
         intro={t("about.intro")}
       />
 
-      <div className="grid gap-3 sm:gap-4 lg:grid-cols-12">
+      <div className="grid gap-4 sm:gap-5 lg:grid-cols-12">
         {/* foto + identitas */}
         <div className="lg:col-span-4">
-          <div className="cartridge mx-auto w-full max-w-[19rem] p-0 lg:mx-0">
-            <div className="relative aspect-[4/5] w-full overflow-hidden">
+          <FloatingCard
+            className="mx-auto w-full max-w-[19rem] lg:mx-0"
+            surfaceClassName="card-surface--flush aspect-[4/5] w-full"
+          >
+            <div className="relative h-full w-full overflow-hidden">
               <Image
                 src="/profile.jpg"
                 alt="Cedric Kilian, front-end developer and Electrical Engineering student"
                 fill
-                sizes="(min-width: 1024px) 304px, (min-width: 640px) 60vw, 92vw"
+                sizes="(min-width: 1024px) 292px, (min-width: 640px) 60vw, 92vw"
                 className="object-cover object-center"
               />
               <div aria-hidden="true" className="photo-scrim" />
@@ -53,12 +57,12 @@ export default function About() {
                 <p className="mt-1 text-[0.76rem] text-muted">{PROFILE.role}</p>
               </div>
             </div>
-          </div>
+          </FloatingCard>
         </div>
 
         {/* copy + facts */}
         <div className="lg:col-span-8">
-          <div className="cartridge h-full">
+          <FloatingCard className="h-full" surfaceClassName="h-full">
             <p className="text-[0.92rem] leading-relaxed text-ink">{t("about.p1")}</p>
             <p className="mt-3 text-[0.88rem] leading-relaxed text-muted">{t("about.p2")}</p>
             <p className="mt-3 text-[0.88rem] leading-relaxed text-muted">{t("about.p3")}</p>
@@ -73,12 +77,12 @@ export default function About() {
                 </div>
               ))}
             </dl>
-          </div>
+          </FloatingCard>
         </div>
 
         {/* cara kerja */}
         <div className="lg:col-span-7">
-          <div className="cartridge h-full">
+          <FloatingCard className="h-full" surfaceClassName="h-full">
             <p className="mono-label">{t("about.workLabel")}</p>
             <ul className="mt-3 flex flex-col gap-3">
               {HOW.map((row) => (
@@ -88,7 +92,7 @@ export default function About() {
                 </li>
               ))}
             </ul>
-          </div>
+          </FloatingCard>
         </div>
 
         {/* arsenal */}

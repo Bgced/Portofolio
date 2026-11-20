@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Bot, Boxes, Braces, Cpu, Layers, Wind, type LucideIcon } from "lucide-react";
 import { useLang } from "@/components/providers";
+import FloatingCard from "@/components/ui/FloatingCard";
 
 type Skill = {
   id: string;
@@ -97,7 +98,11 @@ export default function TechArsenal() {
   const active = SKILLS.find((skill) => skill.id === activeId) ?? SKILLS[0];
 
   return (
-    <div id="tech-arsenal" className="panel panel-hover flex h-full flex-col p-4 sm:p-5">
+    <FloatingCard
+      id="tech-arsenal"
+      className="h-full"
+      surfaceClassName="card-surface--tight flex h-full flex-col"
+    >
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="mt-1 text-[1.02rem] font-semibold leading-tight text-ink">
@@ -120,14 +125,14 @@ export default function TechArsenal() {
               onMouseEnter={() => setActiveId(skill.id)}
               onFocus={() => setActiveId(skill.id)}
               onClick={() => setActiveId(skill.id)}
-              className={`group relative flex min-w-0 items-center gap-2 overflow-hidden border px-2.5 py-2 text-left transition-colors duration-200 ${span} ${
+              className={`group relative flex min-w-0 items-center gap-2 overflow-hidden rounded-[12px] border px-2.5 py-2 text-left transition-colors duration-200 ${span} ${
                 activeTile
                   ? "border-accent/55 bg-accent-soft"
                   : "border-line-soft bg-surface-2/60 hover:border-line"
               }`}
             >
               <span
-                className={`grid h-6 w-6 shrink-0 place-items-center border transition-colors ${
+                className={`grid h-6 w-6 shrink-0 place-items-center rounded-md border transition-colors ${
                   activeTile
                     ? "border-accent/40 bg-canvas text-accent"
                     : "border-line-soft bg-canvas text-muted group-hover:text-ink"
@@ -152,7 +157,7 @@ export default function TechArsenal() {
       <div
         key={active.id}
         aria-live="polite"
-        className="mt-3 flex-1 border border-line-soft bg-canvas p-3"
+        className="mt-3 flex-1 rounded-xl border border-line-soft bg-canvas p-3"
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-accent">{active.name}</p>
@@ -162,6 +167,6 @@ export default function TechArsenal() {
         </div>
         <p className="mt-2 text-[0.78rem] leading-relaxed text-muted">{en ? active.enDesc : active.idDesc}</p>
       </div>
-    </div>
+    </FloatingCard>
   );
 }

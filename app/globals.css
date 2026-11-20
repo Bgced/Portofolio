@@ -23,8 +23,14 @@
   --grid: rgba(126, 150, 161, 0.07);
   --danger: #ff5d5d;
   --ok: #35d6a4;
-  --radius-card: 10px;
+  --radius-card: 24px;
   --radius-sm: 6px;
+  /* Kartu mengambang: radius ganda + garis rambut turunan token, jadi ikut
+     kalau paletnya dibalik ke terang. */
+  --card-shell-radius: 30px;
+  --card-surface-radius: 22px;
+  --card-hairline: color-mix(in srgb, var(--text) 12%, transparent);
+  --card-hairline-soft: color-mix(in srgb, var(--text) 7%, transparent);
   --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-sora), var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-plex), ui-monospace, SFMono-Regular, monospace;
@@ -52,6 +58,14 @@
 
 * {
   border-color: var(--line);
+}
+
+/* R-39: kontrol yang aktif selalu kelihatan bisa diklik */
+a[href],
+button:not(:disabled),
+[role="button"]:not([aria-disabled="true"]),
+summary {
+  cursor: pointer;
 }
 
 html {
@@ -150,33 +164,182 @@ body {
   text-stroke: 2px var(--accent-hover);
 }
 
-/* panel / kartrid */
+/* panel / kartrid: permukaan lembut, bukan kotak kaku */
 .panel {
   position: relative;
-  border: 1px solid var(--line);
+  border: 1px solid var(--card-hairline);
   border-radius: var(--radius-card);
-  background: var(--surface);
-  transition: border-color 200ms ease, background-color 200ms ease;
+  background:
+    radial-gradient(120% 130% at 0% 0%, color-mix(in srgb, var(--text) 5%, transparent), transparent 58%),
+    var(--surface);
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), border-color 240ms ease;
 }
 
 .panel-hover:hover {
-  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
-  background: var(--surface-2);
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
 }
 
 .cartridge {
   position: relative;
   display: flex;
   flex-direction: column;
-  border: 1px solid var(--line);
+  border: 1px solid var(--card-hairline);
   border-radius: var(--radius-card);
-  background: var(--surface);
+  background:
+    radial-gradient(120% 130% at 0% 0%, color-mix(in srgb, var(--text) 5%, transparent), transparent 58%),
+    var(--surface);
   padding: 1rem;
-  transition: border-color 180ms ease, background-color 180ms ease;
+  transition: transform 300ms cubic-bezier(0.22, 1, 0.36, 1), border-color 240ms ease;
 }
 .cartridge:hover {
-  border-color: color-mix(in srgb, var(--accent) 55%, var(--line));
-  background: var(--surface-2);
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 38%, var(--line));
+}
+
+/* ------------------------------------------------------------------
+   Floating cards
+   Shell (kaca tipis) + surface (cekung) = bezel ganda, bukan kotak HTML.
+   Hanya transform/opacity yang dianimasikan; glow & deck di-clip shell.
+------------------------------------------------------------------- */
+.card-shell {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: block;
+  width: 100%;
+  min-width: 0;
+  padding: 6px;
+  border-radius: var(--card-shell-radius);
+  border: 1px solid var(--card-hairline);
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--text) 18%, transparent) 0%,
+      color-mix(in srgb, var(--text) 6%, transparent) 5%,
+      color-mix(in srgb, var(--surface-2) 58%, transparent) 16%,
+      color-mix(in srgb, var(--surface-2) 30%, transparent) 100%
+    );
+  box-shadow:
+    0 34px 64px -34px color-mix(in srgb, var(--accent) 24%, transparent),
+    0 28px 52px -30px rgba(0, 0, 0, 0.95),
+    0 6px 14px -10px rgba(0, 0, 0, 0.8),
+    inset 0 1px 0 color-mix(in srgb, var(--text) 10%, transparent);
+  text-align: left;
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1), border-color 320ms ease;
+}
+
+.card-surface {
+  position: relative;
+  z-index: 1;
+  min-width: 0;
+  height: 100%;
+  padding: 1.5rem;
+  border-radius: var(--card-surface-radius);
+  border: 1px solid var(--card-hairline-soft);
+  background:
+    radial-gradient(
+      120% 90% at 12% 0%,
+      color-mix(in srgb, var(--text) 5%, transparent),
+      transparent 46%
+    ),
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 93%, transparent),
+      color-mix(in srgb, var(--bg) 87%, transparent)
+    );
+  box-shadow:
+    inset 0 1px 0 color-mix(in srgb, var(--text) 7%, transparent),
+    inset 0 -18px 30px -24px rgba(0, 0, 0, 0.8);
+  overflow-wrap: break-word;
+}
+
+.card-surface--tight { padding: 1.125rem; }
+.card-surface--flush { padding: 0; overflow: hidden; }
+/* Panel di dalam modal ikut radius modal, bukan radius kartu halaman */
+.palette-panel .panel { border-radius: 16px; }
+
+/* Angkat kartu = hanya elemen yang benar-benar satu unit klik */
+.card-lift { will-change: transform; }
+.card-lift:hover,
+.card-lift:focus-visible {
+  transform: translateY(-6px) scale(1.012);
+  border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+.card-lift:active { transform: translateY(-2px) scale(0.998); }
+/* Varian garis putus-putus (arsip) — shorthand .card-shell bikin utility
+   border-dashed kalah, jadi varian ini harus tinggal di file yang sama. */
+.card-dashed { border-style: dashed; }
+
+/* Dek kartu: lapisan di belakang kartu featured, menjulur keluar shell.
+   Shell tetap overflow-hidden; lapisan ini hidup di wrapper, bukan di dalam. */
+.card-fan {
+  position: absolute;
+  inset: 12px 14px 0;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: var(--card-shell-radius);
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--surface-2) 86%, var(--text) 5%);
+  opacity: 0.8;
+  transition: transform 460ms cubic-bezier(0.22, 1, 0.36, 1), opacity 320ms ease;
+}
+.card-fan-l { transform: translateY(8px) rotate(-1.2deg); }
+.card-fan-r { transform: translateY(12px) rotate(1.4deg); opacity: 0.55; }
+.group:hover .card-fan-l,
+.group:focus-within .card-fan-l { transform: translateY(6px) rotate(-1.8deg); opacity: 0.95; }
+.group:hover .card-fan-r,
+.group:focus-within .card-fan-r { transform: translateY(10px) rotate(2deg); opacity: 0.7; }
+/* Kartu featured ikut terangkat halus saat wrapper-nya di-hover */
+.group:hover > .card-shell,
+.group:focus-within > .card-shell { transform: translateY(-4px) scale(1.004); }
+
+/* Ambient haze di sudut: dosis 1-2 kartu per halaman (fokus, bukan default) */
+.card-glow {
+  position: absolute;
+  z-index: 0;
+  top: -26%;
+  right: -14%;
+  width: 62%;
+  aspect-ratio: 1;
+  pointer-events: none;
+  border-radius: 999px;
+  background: radial-gradient(circle, color-mix(in srgb, var(--accent) 46%, transparent), transparent 70%);
+  filter: blur(46px);
+  opacity: 0.24;
+  transition: opacity 420ms ease;
+}
+.card-shell:hover .card-glow { opacity: 0.34; }
+
+/* Badge pill cyan: label status nyata (kode kartu, live), bukan hiasan */
+.card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border: 1px solid color-mix(in srgb, var(--accent) 24%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--accent) 10%, transparent);
+  padding: 0.22rem 0.62rem;
+  font-family: var(--font-mono);
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+  color: var(--accent-2);
+  white-space: nowrap;
+}
+
+/* Dock ikon: permukaan kecil yang ikut melengkung */
+.card-dock {
+  display: grid;
+  place-items: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  flex-shrink: 0;
+  border-radius: 14px;
+  border: 1px solid var(--card-hairline-soft);
+  background: color-mix(in srgb, var(--bg) 92%, var(--surface-2));
+  color: var(--accent-2);
 }
 
 .hairline {
@@ -428,5 +591,26 @@ body {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
+  }
+  .card-lift:hover,
+  .card-lift:focus-visible,
+  .card-lift:active,
+  .panel-hover:hover,
+  .cartridge:hover {
+    transform: none;
+  }
+  .group:hover .card-fan-l,
+  .group:focus-within .card-fan-l {
+    transform: translateY(8px) rotate(-1.2deg);
+    opacity: 0.8;
+  }
+  .group:hover .card-fan-r,
+  .group:focus-within .card-fan-r {
+    transform: translateY(12px) rotate(1.4deg);
+    opacity: 0.55;
+  }
+  .group:hover > .card-shell,
+  .group:focus-within > .card-shell {
+    transform: none;
   }
 }

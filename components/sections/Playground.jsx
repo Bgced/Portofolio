@@ -41,7 +41,7 @@ export default function Playground() {
         <p className="mono-label text-[0.58rem]">{COUNT.games} titles</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {GAMES.map((item) => (
           <GameCard key={item.id} item={item} onOpen={(entry) => setOpenId(entry.id)} playLabel={t("playground.play")} />
         ))}
@@ -59,7 +59,7 @@ export default function Playground() {
         <p className="mono-label text-[0.58rem]">{COUNT.tools} tools</p>
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-4 sm:grid-cols-2">
         {TOOLS.map((item) => (
           <GameCard key={item.id} item={item} onOpen={(entry) => setOpenId(entry.id)} playLabel={t("playground.open")} />
         ))}

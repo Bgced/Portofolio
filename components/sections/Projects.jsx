@@ -5,6 +5,7 @@ import SectionHeading from "@/components/ui/SectionHeading";
 import { PROJECTS } from "@/lib/content";
 import { PROJECTS_EN } from "@/lib/content-en";
 import { useLang } from "@/components/providers";
+import FloatingCard from "@/components/ui/FloatingCard";
 
 /** Tumpukan plat isometrik murni CSS: garis tipis cyan di atas hitam, tanpa glow. */
 function CubeStack() {
@@ -51,16 +52,23 @@ export default function Projects() {
       />
 
       {/* susunan beda-beda per project, bukan grid seragam */}
-      <div className="grid gap-3 sm:gap-4 lg:grid-cols-12">
+      <div className="grid gap-4 sm:gap-5 lg:grid-cols-12">
         {/* featured: penuh, visual + copy berdampingan */}
-        <div className="lg:col-span-12">
-          <article className="panel grid h-full overflow-hidden lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="group relative lg:col-span-12">
+          <span aria-hidden="true" className="card-fan card-fan-r" />
+          <span aria-hidden="true" className="card-fan card-fan-l" />
+          <FloatingCard
+            as="article"
+            glow
+            className="relative z-10"
+            surfaceClassName="card-surface--flush grid h-full lg:grid-cols-[0.85fr_1.15fr]"
+          >
             <div className="relative flex min-h-[240px] flex-col justify-between overflow-hidden border-b border-line-soft p-5 lg:min-h-[360px] lg:border-b-0 lg:border-r">
 
 
               <div className="relative flex items-center justify-between gap-2">
-                <span className="pill pill-accent">{featured.code}</span>
-                <span className="border border-ok/40 bg-surface-2 px-2.5 py-1 font-mono text-[0.58rem] uppercase tracking-[0.1em] text-ok">
+                <span className="card-badge">{featured.code}</span>
+                <span className="rounded-full border border-ok/40 bg-surface-2 px-2.5 py-1 font-mono text-[0.58rem] uppercase tracking-[0.1em] text-ok">
                   live
                 </span>
               </div>
@@ -123,7 +131,7 @@ export default function Projects() {
                 </a>
               </div>
             </div>
-          </article>
+          </FloatingCard>
         </div>
 
         {/* dua project berdampingan */}
@@ -131,10 +139,10 @@ export default function Projects() {
           const archived = project.status === "ARCHIVE";
           return (
             <div key={project.id} className="lg:col-span-6">
-              <article
-                className={`panel flex h-full flex-col overflow-hidden p-4 sm:p-5 ${
-                  archived ? "border-dashed" : ""
-                }`}
+              <FloatingCard
+                as="article"
+                className={archived ? "border-dashed" : ""}
+                surfaceClassName="card-surface--tight flex h-full flex-col"
               >
                 <div className="flex items-center justify-between gap-2">
                   <span className="font-mono text-[0.64rem] tracking-[0.16em] text-accent">
@@ -186,7 +194,7 @@ export default function Projects() {
                   {project.cta}
                   <ArrowUpRight size={13} aria-hidden="true" />
                 </a>
-              </article>
+              </FloatingCard>
             </div>
           );
         })}
@@ -196,10 +204,10 @@ export default function Projects() {
           const archived = project.status === "ARCHIVE";
           return (
             <div key={project.id} className="lg:col-span-12">
-              <article
-                className={`panel flex h-full flex-col gap-3 p-4 sm:flex-row sm:items-center sm:justify-between sm:gap-6 sm:p-5 ${
-                  archived ? "border-dashed" : ""
-                }`}
+              <FloatingCard
+                as="article"
+                className={archived ? "border-dashed" : ""}
+                surfaceClassName="card-surface--tight flex h-full flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-6"
               >
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
@@ -240,15 +248,15 @@ export default function Projects() {
                     <ArrowUpRight size={13} aria-hidden="true" />
                   </a>
                 </div>
-              </article>
+              </FloatingCard>
             </div>
           );
         })}
 
         {/* antrian project */}
         <div className="lg:col-span-12">
-          <div className="flex h-full flex-col items-start justify-center gap-2 border border-dashed border-line px-5 py-5 text-left sm:flex-row sm:items-center sm:gap-4">
-            <span className="grid h-8 w-8 shrink-0 place-items-center border border-line-soft text-accent">
+          <div className="flex h-full flex-col items-start justify-center gap-2 rounded-[24px] border border-dashed border-line px-5 py-5 text-left sm:flex-row sm:items-center sm:gap-4">
+            <span className="grid h-8 w-8 shrink-0 place-items-center rounded-xl border border-line-soft text-accent">
               <Plus size={14} aria-hidden="true" />
             </span>
             <p className="text-[0.82rem] text-muted">{t("projects.next")}</p>

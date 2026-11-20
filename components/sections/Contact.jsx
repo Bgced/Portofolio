@@ -19,6 +19,7 @@ import ContactForm from "@/components/sections/ContactForm";
 import { PROFILE, SOCIALS } from "@/lib/content";
 import { useLang } from "@/components/providers";
 import { useToast } from "@/components/ui/ToastProvider";
+import FloatingCard from "@/components/ui/FloatingCard";
 
 const ICONS = {
   mail: Mail,
@@ -118,7 +119,7 @@ export default function Contact() {
         intro={t("contact.intro")}
       />
 
-      <div className="panel relative overflow-hidden">
+      <FloatingCard glow surfaceClassName="card-surface--flush relative">
         <div className="relative grid lg:grid-cols-[0.92fr_1.08fr]">
           {/* kiri: direct + socials */}
           <div className="flex flex-col p-5 sm:p-7 lg:p-9">
@@ -197,7 +198,7 @@ export default function Contact() {
               <ContactForm />
             </div>
         </div>
-      </div>
+      </FloatingCard>
 
       {/* modal QR kontak */}
       {qrOpen ? (
@@ -210,7 +211,7 @@ export default function Contact() {
             if (event.target === event.currentTarget) setQrOpen(false);
           }}
         >
-          <div className="relative w-full max-w-sm border border-line bg-surface p-5 text-center">
+          <div className="relative w-full max-w-sm rounded-[24px] border border-line bg-surface p-5 text-center">
             <button
               type="button"
               onClick={() => setQrOpen(false)}
@@ -224,7 +225,7 @@ export default function Contact() {
             <h3 className="mt-2 text-lg font-semibold text-ink">{PROFILE.name}</h3>
             <p className="mt-1 text-[0.76rem] text-muted">{PROFILE.role}</p>
 
-            <div className="mx-auto mt-4 w-fit border border-line bg-white p-3">
+            <div className="mx-auto mt-4 w-fit rounded-xl border border-line bg-white p-3">
               <QRCodeCanvas value={VCARD} size={208} level="M" marginSize={4} bgColor="#FFFFFF" fgColor="#000000" />
             </div>
 
