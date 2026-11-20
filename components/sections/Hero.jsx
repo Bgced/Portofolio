@@ -1,98 +1,101 @@
 "use client";
 
-import Image from "next/image";
-import { ArrowUpRight, ArrowDown } from "lucide-react";
-import { PROFILE } from "@/lib/content";
+import { useEffect, useState } from "react";
+import { ArrowRight, Play } from "lucide-react";
 import { useLang } from "@/components/providers";
+import { COUNT } from "@/lib/games";
+import { getGameComponent } from "@/components/games/registry";
 
+/**
+ * Hero arcade: headline kapital (baris kedua outline) + kartrid Snake yang
+ * langsung bisa dimainkan. Snake dimuat lazy supaya HTML pertama tetap ringan.
+ */
 export default function Hero() {
   const { t } = useLang();
+  const [mounted, setMounted] = useState(false);
+  const Snake = getGameComponent("snake");
+
+  // Canvas game butuh DOM; tunda satu tick biar server-render tetap bersih.
+  useEffect(() => setMounted(true), []);
 
   return (
     <section
       id="home"
-      className="relative flex min-h-[100svh] w-full flex-col justify-center overflow-hidden pb-16 pt-28 sm:pt-32 lg:pb-20 lg:pt-28"
+      className="relative flex min-h-[100svh] w-full items-center overflow-hidden pb-16 pt-28 sm:pt-32"
     >
-      <div className="relative z-10 mx-auto grid w-full max-w-[1180px] items-center gap-10 px-5 sm:px-7 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.85fr)] lg:gap-12">
+      <div className="relative z-10 mx-auto grid w-full max-w-[1180px] gap-10 px-5 sm:px-7 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-center lg:gap-14">
         {/* copy */}
-        <div className="min-w-0 max-w-[38rem]">
-          <p className="eyebrow">{t("hero.eyebrow")}</p>
+        <div className="min-w-0">
+          <p className="eyebrow">
+            01 — {t("hero.eyebrow")}
+          </p>
 
-          <h1 className="mt-6 text-[clamp(2.4rem,6.4vw,4.4rem)] font-semibold leading-[0.98] tracking-[-0.04em] text-balance text-ink [overflow-wrap:break-word]">
-            {t("hero.greeting")}
+          <h1 className="display-title mt-5 text-[clamp(2.6rem,8.4vw,5.6rem)]">
+            <span className="block">{t("hero.line1")}</span>
+            <span className="display-outline block">{t("hero.line2")}</span>
           </h1>
 
-          <p className="mt-6 max-w-xl text-[1rem] leading-relaxed text-ink/85 sm:text-[1.08rem]">
+          <p className="mt-6 max-w-xl text-[0.98rem] leading-relaxed text-muted sm:text-[1.04rem]">
             {t("hero.intro")}
           </p>
 
-          {/* satu highlight cyan per layar */}
-          <p className="mt-4 max-w-xl border-l-2 border-accent pl-4 text-[0.9rem] leading-relaxed text-muted">
-            {t("hero.highlight")}
-          </p>
-
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#projects" className="btn btn-primary">
-              {t("hero.viewWork")}
-              <ArrowUpRight size={15} aria-hidden="true" />
+            <a href="#playground" className="btn btn-primary">
+              <Play size={14} aria-hidden="true" />
+              {t("hero.play")}
             </a>
-            <a href="#playground" className="btn btn-ghost">
-              {t("hero.tryPlayground")}
+            <a href="#projects" className="btn btn-ghost">
+              {t("hero.seeWork")}
+              <ArrowRight size={14} aria-hidden="true" />
             </a>
           </div>
 
-          <dl className="mt-10 grid max-w-lg grid-cols-3 gap-4 border-t border-line pt-5">
-            <div className="min-w-0">
-              <dt className="font-mono text-[1.3rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.45rem]">
-                4
-              </dt>
-              <dd className="mono-label mt-2 leading-tight">{t("hero.statProjects")}</dd>
-            </div>
-            <div className="min-w-0">
-              <dt className="font-mono text-[1.3rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.45rem]">
-                6
-              </dt>
-              <dd className="mono-label mt-2 leading-tight">{t("hero.statModules")}</dd>
-            </div>
-            <div className="min-w-0">
-              <dt className="font-mono text-[1.3rem] font-semibold leading-none tracking-tight text-ink sm:text-[1.45rem]">
-                2
-              </dt>
-              <dd className="mono-label mt-2 leading-tight">{t("hero.statYears")}</dd>
-            </div>
+          {/* stats: gaya scoreboard */}
+          <dl className="mt-10 grid max-w-md grid-cols-3 border-t border-line pt-5">
+            {[
+              { value: COUNT.games, label: t("hero.statGames") },
+              { value: COUNT.tools, label: t("hero.statTools") },
+              { value: 0, label: t("hero.statMockups") },
+            ].map((stat, index) => (
+              <div
+                key={stat.label}
+                className={`min-w-0 ${index > 0 ? "border-l border-line pl-4" : ""}`}
+              >
+                <dt className="font-display text-[1.6rem] font-extrabold leading-none tracking-[-0.03em] text-ink sm:text-[1.9rem]">
+                  {stat.value}
+                </dt>
+                <dd className="mt-2 font-mono text-[0.6rem] uppercase leading-tight tracking-[0.16em] text-muted">
+                  {stat.label}
+                </dd>
+              </div>
+            ))}
           </dl>
+
+          <p className="mt-6 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted">
+            {t("hero.status", { games: COUNT.games, tools: COUNT.tools })}
+          </p>
         </div>
 
-        {/* foto: monokrom, border 1px, radius kecil */}
-        <figure className="relative mx-auto w-full max-w-[26rem] lg:mx-0 lg:ml-auto">
-          <div className="photo-editorial aspect-[4/5]">
-            <Image
-              src="/profile.jpg"
-              alt="Foto Cedric Kilian, front-end developer"
-              fill
-              sizes="(min-width: 1024px) 400px, 88vw"
-              className="object-cover object-center"
-              priority
-            />
-            <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 bg-[rgba(10,11,12,0.72)] p-3">
-              <span className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-ink">
-                {PROFILE.name}
+        {/* kartrid snake */}
+        <div className="relative w-full max-w-[26rem] lg:ml-auto">
+          <div className="cartridge">
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-accent-2">
+                C-01 · GAME
               </span>
-              <span className="font-mono text-[0.6rem] uppercase tracking-[0.14em] text-muted">
-                {t("hero.photoCaption")}
-              </span>
-            </figcaption>
+              <span className="pill">{t("playground.keysHint")}</span>
+            </div>
+            {mounted && Snake ? <Snake /> : (
+              <div className="playfield grid min-h-[300px] place-items-center">
+                <p className="mono-label text-[0.6rem]">{t("playground.loading")}</p>
+              </div>
+            )}
           </div>
-        </figure>
+          <p className="mt-2 text-center font-mono text-[0.58rem] uppercase tracking-[0.16em] text-muted">
+            {t("hero.scrollHint")} ↓
+          </p>
+        </div>
       </div>
-
-      <a
-        href="#about"
-        className="mono-label absolute bottom-6 left-1/2 hidden -translate-x-1/2 items-center gap-1.5 text-[0.55rem] transition-colors hover:text-accent sm:flex"
-      >
-        <ArrowDown size={11} aria-hidden="true" />
-        {t("hero.scrollHint")}
-      </a>
     </section>
   );
 }

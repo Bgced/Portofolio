@@ -7,7 +7,7 @@ import { ToastProvider } from "@/components/ui/ToastProvider";
 const LangContext = createContext(null);
 
 function LanguageProvider({ children }) {
-  const [lang, setLang] = useState("id");
+  const [lang, setLang] = useState("en");
 
   useEffect(() => {
     let stored = null;
@@ -29,11 +29,11 @@ function LanguageProvider({ children }) {
   }, [lang]);
 
   const setLanguage = useCallback((next) => {
-    setLang(next === "en" ? "en" : "id");
+    setLang(next === "id" ? "id" : "en");
   }, []);
 
   const toggleLang = useCallback(() => {
-    setLang((prev) => (prev === "id" ? "en" : "id"));
+    setLang((prev) => (prev === "en" ? "id" : "en"));
   }, []);
 
   const t = useCallback((key, vars) => translate(key, lang, vars), [lang]);
@@ -47,10 +47,10 @@ export function useLang() {
   const ctx = useContext(LangContext);
   if (!ctx) {
     return {
-      lang: "id",
+      lang: "en",
       setLanguage: () => {},
       toggleLang: () => {},
-      t: (key, vars) => translate(key, "id", vars),
+      t: (key, vars) => translate(key, "en", vars),
     };
   }
   return ctx;
@@ -58,7 +58,7 @@ export function useLang() {
 
 
 /**
- * Satu tema saja: Editorial Warm Dark.
+ * Satu tema saja: Arcade navy. 
  * <html> sudah membawa class="dark" dari server (app/layout.jsx), jadi nggak
  * ada script tema, nggak ada flicker, dan nggak mungkin hydration mismatch.
  */

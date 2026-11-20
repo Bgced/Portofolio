@@ -5,65 +5,60 @@ import { SKILL_GROUPS, TOOLS } from "@/lib/content";
 import { SKILL_GROUPS_EN, TOOLS_EN } from "@/lib/content-en";
 import { useLang } from "@/components/providers";
 
+/**
+ * Toolkit gaya referensi: empat baris bernomor, label di kiri, isi di kanan.
+ * Plus satu baris kecil "juga di kit" buat alat pendukung.
+ */
 export default function Stack() {
   const { t, lang } = useLang();
   const en = lang === "en";
   const groups = SKILL_GROUPS.map((group) =>
     en ? { ...group, ...(SKILL_GROUPS_EN[group.code] ?? {}) } : group
   );
-  const tools = TOOLS.map((tool) => (en ? { ...tool, ...(TOOLS_EN[tool.title] ?? {}) } : tool));
+  const extras = TOOLS.map((tool) => (en ? { ...tool, ...(TOOLS_EN[tool.title] ?? {}) } : tool));
 
   return (
     <section id="stack" className="section-shell">
       <SectionHeading
-        index="04"
+        index="05"
         kicker={t("stack.kicker")}
         title={t("stack.title")}
         accent={t("stack.accent")}
         intro={t("stack.intro")}
       />
 
-      {/* skill groups: susunan beda-beda, bukan grid seragam */}
-      <div className="grid gap-3 sm:gap-4 lg:grid-cols-12">
+      <div className="border-t border-line">
         {groups.map((group, index) => (
           <div
             key={group.code}
-            className={`panel panel-hover h-full p-5 sm:p-6 ${index === 0 ? "lg:col-span-7" : index === 1 ? "lg:col-span-5" : "lg:col-span-6"}`}
+            className="grid gap-2 border-b border-line py-5 sm:grid-cols-[6.5rem_minmax(0,1fr)] sm:gap-6"
           >
-            <span className="font-mono text-[0.66rem] tracking-[0.2em] text-accent">{group.code}</span>
+            <span className="font-mono text-[0.62rem] uppercase tracking-[0.2em] text-accent-2">
+              {String(index + 1).padStart(2, "0")}
+            </span>
 
-            <h3 className="mt-3 text-[1.05rem] font-semibold leading-snug text-ink">
-              {group.title}
-            </h3>
-            <p className="mt-2 text-[0.84rem] leading-relaxed text-muted">{group.blurb}</p>
-
-            <div className="mt-4 flex flex-wrap gap-1.5">
-              {group.items.map((item) => (
-                <span key={item} className="pill transition-colors">
-                  {item}
-                </span>
-              ))}
+            <div className="min-w-0">
+              <h3 className="text-[1rem] font-semibold leading-snug text-ink">{group.title}</h3>
+              <p className="mt-1 text-[0.82rem] leading-relaxed text-muted">{group.blurb}</p>
+              <div className="mt-2.5 flex flex-wrap gap-x-3 gap-y-1 font-mono text-[0.66rem] uppercase tracking-[0.1em] text-muted">
+                {group.items.map((item) => (
+                  <span key={item}>{item}</span>
+                ))}
+              </div>
             </div>
           </div>
         ))}
       </div>
 
-      {/* daily drivers */}
-      <div className="mt-10 mb-3 flex items-center gap-3">
-        <p className="mono-label text-[0.6rem]">{t("stack.drivers")}</p>
-        <span className="hairline flex-1" aria-hidden="true" />
-      </div>
-
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
-        {tools.map((tool) => (
-          <div key={tool.title} className="panel panel-hover h-full flex flex-col p-4">
-            <span className="pill pill-accent self-start text-[0.55rem]">{tool.tag}</span>
-            <h4 className="mt-3 text-[0.88rem] font-semibold leading-snug text-ink">
+      <div className="mt-6">
+        <p className="mono-label">{t("stack.drivers")}</p>
+        <div className="mt-2.5 flex flex-wrap gap-2">
+          {extras.map((tool) => (
+            <span key={tool.title} className="pill">
               {tool.title}
-            </h4>
-            <p className="mt-1.5 text-[0.76rem] leading-relaxed text-muted">{tool.desc}</p>
-          </div>
-        ))}
+            </span>
+          ))}
+        </div>
       </div>
     </section>
   );

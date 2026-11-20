@@ -2,8 +2,8 @@ import { Suspense } from "react";
 import CardView from "@/components/card/CardView";
 
 export const metadata = {
-  title: "Kartu Ucapan — Cedric Kilian",
-  description: "Kartu ucapan digital dari Cedric Kilian. Scan QR, baca pesannya, senyum dikit.",
+  title: "Greeting Card — Cedric Kilian",
+  description: "A digital greeting card from Cedric Kilian. Scan the QR, read the note.",
 };
 
 function CardSkeleton() {
@@ -23,7 +23,7 @@ function CardSkeleton() {
           <div className="mt-4 h-3 w-24 rounded bg-surface-2" />
         </div>
         <p className="mt-4 text-center font-mono text-[0.6rem] uppercase tracking-[0.2em] text-muted">
-          buka kartunya…
+          opening card…
         </p>
       </div>
     </div>

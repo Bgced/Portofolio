@@ -22,18 +22,18 @@ type Mood = "wire" | "off";
 
 const PALETTES = {
   light: {
-    clay: "#E9EAEA",
-    clayEdge: "#8C9399",
-    wire: "#1F7E9E",
-    ring: "#2AA9D6",
+    clay: "#EAF1FF",
+    clayEdge: "#8299C4",
+    wire: "#2A5FE8",
+    ring: "#4A7BFF",
     light: 2.1,
     ambient: 1.15,
   },
   dark: {
-    clay: "#111315",
-    clayEdge: "#2AA9D6",
-    wire: "#2AA9D6",
-    ring: "#4CC0E8",
+    clay: "#0A1226",
+    clayEdge: "#2A5FE8",
+    wire: "#2A5FE8",
+    ring: "#4A7BFF",
     light: 1.2,
     ambient: 0.3,
   },
@@ -87,7 +87,7 @@ const ShapeMesh = memo(function ShapeMesh({
 
   const material = useMemo(() => {
     if (wire) {
-      return new THREE.MeshBasicMaterial({ color: palette.wire, wireframe: true, transparent: true, opacity: 0.55 });
+      return new THREE.MeshBasicMaterial({ color: palette.wire, wireframe: true, transparent: true, opacity: 0.42 });
     }
     return new THREE.MeshStandardMaterial({
       color: palette.clay,
@@ -98,7 +98,7 @@ const ShapeMesh = memo(function ShapeMesh({
   }, [wire, palette.wire, palette.clay]);
 
   const edgeMaterial = useMemo(
-    () => new THREE.LineBasicMaterial({ color: palette.clayEdge, transparent: true, opacity: 0.75 }),
+    () => new THREE.LineBasicMaterial({ color: palette.clayEdge, transparent: true, opacity: 0.6 }),
     [palette.clayEdge]
   );
 

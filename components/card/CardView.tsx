@@ -226,7 +226,7 @@ export default function CardView() {
           >
             {en ? "To" : "Untuk"}
           </p>
-          <h1 className="mt-2 break-words text-[clamp(2rem,8vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#E9EAEA]">
+          <h1 className="mt-2 break-words text-[clamp(2rem,8vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#EAF1FF]">
             {data.name}
           </h1>
 
@@ -236,7 +236,7 @@ export default function CardView() {
             aria-hidden="true"
           />
 
-          <p className="whitespace-pre-wrap break-words text-[0.98rem] leading-relaxed text-[#E9EAEA] sm:text-[1.05rem]">
+          <p className="whitespace-pre-wrap break-words text-[0.98rem] leading-relaxed text-[#EAF1FF] sm:text-[1.05rem]">
             {data.message}
           </p>
 
@@ -251,7 +251,7 @@ export default function CardView() {
               >
                 {en ? "From" : "Dari"}
               </p>
-              <p className="mt-1 break-words text-sm font-semibold text-[#E9EAEA]">
+              <p className="mt-1 break-words text-sm font-semibold text-[#EAF1FF]">
                 {data.sender || "Cedric Kilian"}
               </p>
             </div>
@@ -277,7 +277,7 @@ export default function CardView() {
           onClick={saveCard}
           disabled={saving}
           className="inline-flex items-center justify-center gap-2 border px-3.5 py-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] transition-opacity disabled:opacity-60"
-          style={{ backgroundColor: theme.accent, color: "#050505" }}
+          style={{ backgroundColor: theme.accent, color: "#04091A" }}
         >
           {saving ? (
             <Loader2 size={12} className="animate-spin" aria-hidden="true" />

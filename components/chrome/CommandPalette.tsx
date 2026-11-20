@@ -17,8 +17,7 @@ import {
   Sparkles,
   UserRound,
   Wrench,
-  type LucideIcon,
-} from "lucide-react";
+  type LucideIcon, Gamepad2 } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { useToast } from "@/components/ui/ToastProvider";
 import { PROFILE } from "@/lib/content";
@@ -147,6 +146,7 @@ export default function CommandPalette() {
     };
   }, [open]);
 
+
   const goSection = useCallback(
     (id: string) => {
       close();
@@ -163,7 +163,7 @@ export default function CommandPalette() {
   const goTool = useCallback(
     (tab: "qr" | "ai" | "calc" | "bmi") => {
       close();
-      window.dispatchEvent(new CustomEvent("cekael:playground", { detail: { tab } }));
+      window.dispatchEvent(new CustomEvent("cekael:play", { detail: { id: tab } }));
       window.requestAnimationFrame(() => {
         document.getElementById("playground")?.scrollIntoView({
           behavior: prefersReducedMotion() ? "auto" : "smooth",
@@ -178,7 +178,7 @@ export default function CommandPalette() {
     const navigate: PaletteItem[] = [
       {
         id: "nav-home",
-        label: en ? "Hero" : "Home (Hero)",
+        label: en ? "Home" : "Beranda",
         hint: "#home",
         keywords: "hero home awal start",
         group: "navigate",
@@ -187,7 +187,7 @@ export default function CommandPalette() {
       },
       {
         id: "nav-about",
-        label: en ? "About & Tech Arsenal" : "Tentang & Senjata Ngoding",
+        label: en ? "About" : "Tentang",
         hint: "#about",
         keywords: "about tentang bio tech stack arsenal skill",
         group: "navigate",
@@ -196,7 +196,7 @@ export default function CommandPalette() {
       },
       {
         id: "nav-projects",
-        label: en ? "Projects" : "Karya & Project",
+        label: en ? "Work" : "Work",
         hint: "#projects",
         keywords: "projects karya portfolio showcase electrical",
         group: "navigate",
@@ -205,7 +205,7 @@ export default function CommandPalette() {
       },
       {
         id: "nav-playground",
-        label: "Playground",
+        label: en ? "Games" : "Game",
         hint: "#playground",
         keywords: "playground tools",
         group: "navigate",
@@ -214,7 +214,7 @@ export default function CommandPalette() {
       },
       {
         id: "nav-stack",
-        label: en ? "Setup & Daily Drivers" : "Setup & Daily Driver",
+        label: en ? "Skills" : "Skills",
         hint: "#stack",
         keywords: "stack setup tools daily driver",
         group: "navigate",
@@ -223,7 +223,7 @@ export default function CommandPalette() {
       },
       {
         id: "nav-contact",
-        label: en ? "Contact" : "Kontak",
+        label: en ? "Contact" : "Contact",
         hint: "#contact",
         keywords: "contact kontak email whatsapp hire",
         group: "navigate",
@@ -234,40 +234,103 @@ export default function CommandPalette() {
 
     const tools: PaletteItem[] = [
       {
+        id: "game-snake",
+        label: "Snake",
+        hint: "game / C-01",
+        keywords: "snake game arcade play",
+        group: "tools",
+        icon: Gamepad2,
+        run: () => openCartridge("snake"),
+      },
+      {
+        id: "game-2048",
+        label: "2048",
+        hint: "game / C-02",
+        keywords: "2048 tiles game play merge",
+        group: "tools",
+        icon: Gamepad2,
+        run: () => openCartridge("2048"),
+      },
+      {
+        id: "game-tictactoe",
+        label: "Tic Tac Toe",
+        hint: "game / C-03",
+        keywords: "tic tac toe x o game",
+        group: "tools",
+        icon: Gamepad2,
+        run: () => openCartridge("tictactoe"),
+      },
+      {
+        id: "game-flappy",
+        label: "Flappy Bird",
+        hint: "game / C-05",
+        keywords: "flappy bird game play",
+        group: "tools",
+        icon: Gamepad2,
+        run: () => openCartridge("flappy"),
+      },
+      {
+        id: "game-tetris",
+        label: "Tetris",
+        hint: "game / C-06",
+        keywords: "tetris blocks game play lines",
+        group: "tools",
+        icon: Gamepad2,
+        run: () => openCartridge("tetris"),
+      },
+      {
+        id: "game-memory",
+        label: "Memory Match",
+        hint: "game / C-07",
+        keywords: "memory match cards game pairs",
+        group: "tools",
+        icon: Gamepad2,
+        run: () => openCartridge("memory"),
+      },
+      {
+        id: "game-wordle",
+        label: "Wordle",
+        hint: "game / C-09",
+        keywords: "wordle word guess game",
+        group: "tools",
+        icon: Gamepad2,
+        run: () => openCartridge("wordle"),
+      },
+      {
         id: "tool-ai",
         label: "Cekael AI",
-        hint: "playground / 02",
+        hint: "tool / T-04",
         keywords: "ai chat asisten cekael bot",
         group: "tools",
         icon: Sparkles,
-        run: () => goTool("ai"),
+        run: () => openCartridge("ai"),
       },
       {
         id: "tool-qr",
         label: "Universal QR Studio",
-        hint: "playground / 01",
+        hint: "tool / T-01",
         keywords: "qr studio qrcode wifi whatsapp card ucapan",
         group: "tools",
         icon: QrCode,
-        run: () => goTool("qr"),
+        run: () => openCartridge("qr"),
       },
       {
         id: "tool-calc",
         label: en ? "Calculator" : "Kalkulator",
-        hint: "playground / 03",
+        hint: "tool / T-02",
         keywords: "kalkulator calculator hitung calc",
         group: "tools",
         icon: Calculator,
-        run: () => goTool("calc"),
+        run: () => openCartridge("calc"),
       },
       {
         id: "tool-bmi",
         label: en ? "BMI Check" : "Cek BMI",
-        hint: "playground / 04",
+        hint: "tool / T-03",
         keywords: "bmi berat badan kesehatan health",
         group: "tools",
         icon: HeartPulse,
-        run: () => goTool("bmi"),
+        run: () => openCartridge("bmi"),
       },
     ];
 
@@ -338,6 +401,13 @@ export default function CommandPalette() {
     // `t` bukan dipakai langsung di sini, tapi perubahan bahasa harus rebuild label.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [en, goSection, goTool, toast, close]);
+
+  const openCartridge = useCallback((id: string) => {
+    goSection("playground");
+    window.setTimeout(() => {
+      window.dispatchEvent(new CustomEvent("cekael:play", { detail: { id } }));
+    }, 260);
+  }, [goSection]);
 
   const filtered = useMemo(() => {
     const needle = query.trim().toLowerCase();

@@ -1,51 +1,31 @@
 "use client";
 
-import { motion } from "framer-motion";
-
-export default function SectionHeading({
-  index = "01",
-  kicker = "section",
-  title,
-  accent,
-  intro,
-  align = "left",
-  className = "",
-}) {
-  const isCenter = align === "center";
-
+/**
+ * Section header bergaya referensi: label HUD bernomor ("02 — ABOUT"),
+ * judul besar, lalu satu paragraf intro. Tanpa animasi masuk.
+ */
+export default function SectionHeading({ index = "01", kicker = "", title, accent, intro, className = "" }) {
   return (
-    <div className={`mb-8 sm:mb-10 ${isCenter ? "mx-auto text-center" : ""} ${className}`}>
-      <motion.p
-        initial={{ opacity: 0, y: 8 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-70px" }}
-        transition={{ duration: 0.4 }}
-        className={`eyebrow ${isCenter ? "justify-center" : ""}`}
-      >
-        {index} / {kicker}
-      </motion.p>
+    <div className={`mb-8 sm:mb-10 ${className}`}>
+      <p className="eyebrow">
+        {index}
+        {kicker ? ` — ${kicker}` : ""}
+      </p>
 
-      <motion.h2
-        initial={{ opacity: 0, y: 14 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-70px" }}
-        transition={{ duration: 0.55, delay: 0.05, ease: [0.22, 1, 0.36, 1] }}
-        className="mt-3 max-w-3xl text-[clamp(1.85rem,4.6vw,3.15rem)] font-semibold leading-[1.03] tracking-[-0.03em] text-balance"
-      >
+      <h2 className="display-title mt-4 max-w-3xl text-[clamp(1.9rem,5vw,3.4rem)]">
         {title}
-        {accent ? <span className="text-gradient"> {accent}</span> : null}
-      </motion.h2>
+        {accent ? (
+          <>
+            {" "}
+            <span className="text-accent-2">{accent}</span>
+          </>
+        ) : null}
+      </h2>
 
       {intro ? (
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-70px" }}
-          transition={{ duration: 0.5, delay: 0.12 }}
-          className={`mt-4 max-w-xl text-[0.92rem] leading-relaxed text-muted ${isCenter ? "mx-auto" : ""}`}
-        >
+        <p className="mt-4 max-w-2xl text-[0.92rem] leading-relaxed text-muted sm:text-[0.98rem]">
           {intro}
-        </motion.p>
+        </p>
       ) : null}
     </div>
   );

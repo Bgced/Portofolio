@@ -6,26 +6,26 @@ import { PROFILE } from "@/lib/content";
 import { useLang } from "@/components/providers";
 import TechArsenal from "@/components/sections/TechArsenal";
 
-const BIO_STATS = [
-  { value: "4", idLabel: "Project jadi", enLabel: "Projects built" },
-  { value: "6", idLabel: "Modul kalkulasi", enLabel: "Calculation modules" },
-  { value: "2", idLabel: "Tahun ngulik web", enLabel: "Years on the web" },
+const FACTS = [
+  { labelKey: "about.focus", valueKey: "about.focusValue" },
+  { labelKey: "about.statusLabel", valueKey: "about.statusValue" },
+  { labelKey: "about.interestLabel", valueKey: "about.interestValue" },
+  { labelKey: "about.workLabel", valueKey: "about.workValue" },
 ];
 
-const TERMINAL_LINES = [
-  { cmd: "whoami", out: "cedric_kilian" },
-  { cmd: "status", out: "open_to_work", tone: "ok" },
-  { cmd: "stack", out: "next.js · three.js · tailwind" },
+const HOW = [
+  { titleKey: "about.how1Title", bodyKey: "about.how1" },
+  { titleKey: "about.how2Title", bodyKey: "about.how2" },
+  { titleKey: "about.how3Title", bodyKey: "about.how3" },
 ];
 
 export default function About() {
-  const { t, lang } = useLang();
-  const en = lang === "en";
+  const { t } = useLang();
 
   return (
     <section id="about" className="section-shell">
       <SectionHeading
-        index="01"
+        index="02"
         kicker={t("about.kicker")}
         title={t("about.title")}
         accent={t("about.accent")}
@@ -33,80 +33,66 @@ export default function About() {
       />
 
       <div className="grid gap-3 sm:gap-4 lg:grid-cols-12">
-        {/* portrait */}
-        <div className="h-full lg:col-span-4 lg:row-span-2">
-          <div className="panel panel-hover h-full overflow-hidden">
-            <div className="relative h-full min-h-[360px] sm:min-h-[430px]">
+        {/* foto + identitas */}
+        <div className="lg:col-span-5">
+          <div className="cartridge h-full p-0">
+            <div className="relative aspect-[4/5] w-full overflow-hidden">
               <Image
                 src="/profile.jpg"
-                alt="Foto Cedric Kilian, front-end developer dan mahasiswa Electrical Engineering UNY"
+                alt="Cedric Kilian, front-end developer and Electrical Engineering student"
                 fill
-                sizes="(min-width: 1024px) 380px, (min-width: 640px) 60vw, 92vw"
-                className="object-cover object-center opacity-90"
-                priority={false}
+                sizes="(min-width: 1024px) 440px, (min-width: 640px) 60vw, 92vw"
+                className="object-cover object-center"
               />
               <div aria-hidden="true" className="photo-scrim" />
-
               <div className="absolute inset-x-0 bottom-0 p-4">
-                <p className="text-lg font-semibold leading-tight text-ink">{PROFILE.name}</p>
-                <p className="mt-1 text-[0.74rem] leading-snug text-muted">{PROFILE.role}</p>
+                <p className="font-mono text-[0.56rem] uppercase tracking-[0.18em] text-accent-2">
+                  {t("about.available")}
+                </p>
+                <p className="mt-1 text-[1.05rem] font-semibold leading-tight text-ink">{PROFILE.name}</p>
+                <p className="mt-1 text-[0.76rem] text-muted">{PROFILE.role}</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* bio */}
-        <div className="h-full lg:col-span-8">
-          <div className="panel panel-hover flex h-full flex-col gap-3 p-5 sm:p-6">
-            <p className="text-[0.95rem] leading-relaxed text-ink">{t("about.p1")}</p>
-            <p className="text-[0.88rem] leading-relaxed text-muted">{t("about.p2")}</p>
-            <p className="text-[0.88rem] leading-relaxed text-muted">{t("about.p3")}</p>
-            <div className="mt-auto pt-3">
-              <div className="grid grid-cols-3 divide-x divide-line-soft overflow-hidden border border-line-soft bg-surface-2/45">
-                {BIO_STATS.map((stat) => (
-                  <div key={stat.idLabel} className="px-2.5 py-2">
-                    <p className="font-mono text-lg font-semibold leading-none text-accent">{stat.value}</p>
-                    <p className="mt-1 font-mono text-[0.5rem] uppercase leading-tight tracking-[0.1em] text-muted">
-                      {en ? stat.enLabel : stat.idLabel}
-                    </p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                <span className="pill">UNY · Electrical Engineering</span>
-                <span className="pill pill-accent">{t("about.available")}</span>
-              </div>
-            </div>
-          </div>
-        </div>
+        {/* copy + facts */}
+        <div className="lg:col-span-7">
+          <div className="cartridge h-full">
+            <p className="text-[0.92rem] leading-relaxed text-ink">{t("about.p1")}</p>
+            <p className="mt-3 text-[0.88rem] leading-relaxed text-muted">{t("about.p2")}</p>
+            <p className="mt-3 text-[0.88rem] leading-relaxed text-muted">{t("about.p3")}</p>
 
-        {/* terminal: pojok flat, titik warna dibuang */}
-        <div className="h-full lg:col-span-5">
-          <div className="panel panel-hover h-full overflow-hidden">
-            <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
-              <span className="mono-label text-[0.6rem]">ck@terminal</span>
-            </div>
-            <div className="space-y-2.5 p-4 font-mono text-[0.72rem] leading-relaxed sm:p-5">
-              {TERMINAL_LINES.map((line) => (
-                <div key={line.cmd}>
-                  <p className="text-muted">
-                    <span className="text-accent">$</span> {line.cmd}
-                  </p>
-                  <p className={`pl-3 ${line.tone === "ok" ? "text-ok" : "text-ink"}`}>
-                    → {line.out}
-                  </p>
+            <dl className="mt-5 divide-y divide-line border-t border-line">
+              {FACTS.map((fact) => (
+                <div key={fact.labelKey} className="flex items-baseline justify-between gap-4 py-2.5">
+                  <dt className="font-mono text-[0.58rem] uppercase tracking-[0.16em] text-muted">
+                    {t(fact.labelKey)}
+                  </dt>
+                  <dd className="text-right text-[0.8rem] font-medium text-ink">{t(fact.valueKey)}</dd>
                 </div>
               ))}
-              <p className="text-muted">
-                <span className="text-accent">$</span>
-                <span className="caret" aria-hidden="true" />
-              </p>
-            </div>
+            </dl>
           </div>
         </div>
 
-        {/* interactive tech arsenal */}
-        <div className="h-full lg:col-span-7">
+        {/* cara kerja */}
+        <div className="lg:col-span-7">
+          <div className="cartridge h-full">
+            <p className="mono-label">{t("about.workLabel")}</p>
+            <ul className="mt-3 flex flex-col gap-3">
+              {HOW.map((row) => (
+                <li key={row.titleKey} className="border-l border-line pl-3">
+                  <p className="text-[0.84rem] font-semibold text-ink">{t(row.titleKey)}</p>
+                  <p className="mt-0.5 text-[0.8rem] leading-relaxed text-muted">{t(row.bodyKey)}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        {/* arsenal */}
+        <div className="lg:col-span-5">
           <TechArsenal />
         </div>
       </div>

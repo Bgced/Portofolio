@@ -111,8 +111,8 @@ export default function Contact() {
   return (
     <section id="contact" className="section-shell">
       <SectionHeading
-        index="05"
-        kicker={t("sections.contactKicker")}
+        index="06"
+        kicker={t("contact.kicker")}
         title={t("contact.title")}
         accent={t("contact.accent")}
         intro={t("contact.intro")}
@@ -122,13 +122,9 @@ export default function Contact() {
         <div className="relative grid lg:grid-cols-[0.92fr_1.08fr]">
           {/* kiri: direct + socials */}
           <div className="flex flex-col p-5 sm:p-7 lg:p-9">
-            <p className="eyebrow">{en ? "Available" : "Terbuka ngobrol"}</p>
+            <p className="eyebrow">{t("contact.coin")}</p>
 
-            <p className="mt-4 text-[0.86rem] leading-relaxed text-muted">
-              {en
-                ? "I usually reply within a day, Monday to Saturday."
-                : "Biasanya aku bales dalam sehari, senin sampai sabtu."}
-            </p>
+            <p className="mt-4 text-[0.86rem] leading-relaxed text-muted">{t("contact.reply")}</p>
 
               <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                 <a href={`mailto:${PROFILE.email}`} className="btn btn-primary w-full sm:w-auto">

@@ -43,7 +43,7 @@ export default function Projects() {
   return (
     <section id="projects" className="section-shell">
       <SectionHeading
-        index="02"
+        index="04"
         kicker={t("projects.kicker")}
         title={t("projects.title")}
         accent={t("projects.accent")}

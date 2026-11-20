@@ -27,6 +27,14 @@ const plex400 = localFont({
   fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
 });
 
+const sora = localFont({
+  src: "./fonts/sora-latin.woff2",
+  variable: "--font-sora",
+  display: "swap",
+  weight: "400 800",
+  fallback: ["ui-sans-serif", "system-ui", "sans-serif"],
+});
+
 const plex600 = localFont({
   src: "./fonts/ibm-plex-mono-600-latin.woff2",
   variable: "--font-plex-600",
@@ -37,9 +45,9 @@ const plex600 = localFont({
 
 export const metadata = {
   metadataBase: new URL("https://cekael.vercel.app"),
-  title: "Cedric Kilian — Front-End Developer",
+  title: "Cedric Kilian — Portfolio · Game & Web",
   description:
-    "Front-end developer. Bikin tampilan web yang cepat, rapi, dan interaktif dengan Next.js, React, Tailwind, dan Three.js.",
+    "Front-end developer and Electrical Engineering student. This site is a playground: playable games and working tools, built with Next.js, React, Tailwind, and Three.js.",
   keywords: [
     "Cedric Kilian",
     "Cekael",
@@ -53,16 +61,16 @@ export const metadata = {
   ],
   authors: [{ name: "Cedric Kilian" }],
   openGraph: {
-    title: "Cedric Kilian — Front-End Developer",
-    description: "Tampilan web yang cepat, rapi, dan interaktif.",
+    title: "Cedric Kilian — Portfolio · Game & Web",
+    description: "Playable games and working tools. Nothing here is a mockup.",
     type: "website",
-    locale: "id_ID",
+    locale: "en_US",
     url: "https://cekael.vercel.app",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cedric Kilian — Front-End Developer",
-    description: "Tampilan web yang cepat, rapi, dan interaktif.",
+    title: "Cedric Kilian — Portfolio · Game & Web",
+    description: "Playable games and working tools. Nothing here is a mockup.",
   },
   icons: {
     icon: [
@@ -74,7 +82,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#0A0B0C",
+  themeColor: "#050B1F",
   width: "device-width",
   initialScale: 1,
 };
@@ -82,8 +90,8 @@ export const viewport = {
 export default function RootLayout({ children }) {
   return (
     <html
-      lang="id"
-      className={`dark ${instrument.variable} ${plex400.variable} ${plex600.variable}`}
+      lang="en"
+      className={`dark ${instrument.variable} ${sora.variable} ${plex400.variable} ${plex600.variable}`}
       suppressHydrationWarning
     >
       <body className="min-h-screen overflow-x-hidden bg-canvas text-ink antialiased">

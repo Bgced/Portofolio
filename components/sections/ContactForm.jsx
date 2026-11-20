@@ -12,7 +12,7 @@ const TOPICS = [
 ];
 
 const inputClass =
-  "w-full rounded-lg border border-line-soft bg-canvas px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
+  "w-full rounded-[6px] border border-line-soft bg-canvas px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
 
 export default function ContactForm() {
   const { lang } = useLang();
@@ -180,7 +180,7 @@ export default function ContactForm() {
       {note ? (
         <p
           role="status"
-          className={`rounded-lg border px-3 py-2 text-[0.72rem] leading-relaxed ${
+          className={`rounded-[6px] border px-3 py-2 text-[0.72rem] leading-relaxed ${
             status === "success"
               ? "border-ok/40 bg-ok/10 text-ok"
               : status === "fallback"
