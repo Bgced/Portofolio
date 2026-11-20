@@ -101,7 +101,7 @@ export default function TechArsenal() {
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <h3 className="mt-1 text-[1.02rem] font-semibold leading-tight text-ink">
-            {en ? "What I reach for" : "Yang aku pakai"}
+            {en ? "What I reach for" : "Yang gue pakai"}
           </h3>
         </div>
       </div>

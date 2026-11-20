@@ -217,10 +217,10 @@ export default function QrStudio() {
       mode === "card"
         ? en
           ? "I made you a digital greeting card. Scan the QR or open this link:"
-          : "Aku bikinin kartu ucapan digital buat kamu. Scan QR-nya atau buka link ini ya:"
+          : "Gue bikinin kartu ucapan digital buat lo. Scan QR-nya atau buka link ini ya:"
         : en
           ? "Here's the QR I made. Scan it or open this link:"
-          : "Nih QR yang aku bikin. Scan atau buka link ini:";
+          : "Nih QR yang gue bikin. Scan atau buka link ini:";
     const shareUrl = `https://wa.me/?text=${encodeURIComponent(`${intro}\n${value}`)}`;
     window.open(shareUrl, "_blank", "noopener,noreferrer");
     toast({
@@ -428,7 +428,7 @@ export default function QrStudio() {
                   className={`${inputClass} min-h-[88px] resize-y leading-relaxed`}
                   value={waMessage}
                   onChange={(event) => setWaMessage(event.target.value.slice(0, 300))}
-                  placeholder={en ? "Hi Cekael, I wanted to talk about…" : "Halo Cekael, aku mau ngobrol soal…"}
+                  placeholder={en ? "Hi Cekael, I wanted to talk about…" : "Halo Cekael, gue mau ngobrol soal…"}
                   maxLength={300}
                 />
               </Field>
@@ -441,7 +441,7 @@ export default function QrStudio() {
                 className={`${inputClass} min-h-[130px] resize-y leading-relaxed`}
                 value={rawText}
                 onChange={(event) => setRawText(event.target.value.slice(0, 300))}
-                placeholder={en ? "Anything you want to turn into a QR…" : "Apa aja yang mau kamu jadiin QR…"}
+                placeholder={en ? "Anything you want to turn into a QR…" : "Apa aja yang mau lo jadiin QR…"}
                 maxLength={300}
               />
             </Field>

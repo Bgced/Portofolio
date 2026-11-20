@@ -46,13 +46,13 @@ export default function ContactForm() {
       setNote(
         en
           ? "Web3Forms key isn't set yet — your email app just opened with the message ready."
-          : "Access key Web3Forms belum dipasang — email kamu udah kebuka dengan pesan siap kirim."
+          : "Access key Web3Forms belum dipasang. Email lo udah kebuka dengan pesan siap kirim."
       );
       toast({
         title: en ? "Email app opened" : "Aplikasi email kebuka",
         description: en
           ? "The Web3Forms key isn't set yet, so the message was prepared in your mail app."
-          : "Access key Web3Forms belum diisi, jadi pesannya disiapin di aplikasi email kamu.",
+          : "Access key Web3Forms belum diisi, jadi pesannya disiapin di aplikasi email lo.",
         variant: "info",
       });
       return;
@@ -79,11 +79,11 @@ export default function ContactForm() {
       const data = await response.json();
       if (!response.ok || !data.success) throw new Error(data.message || "Gagal kirim");
       setStatus("success");
-      setNote(en ? "Message sent. I'll reply soon!" : "Pesan terkirim. Nanti aku bales ya!");
+      setNote(en ? "Message sent. I'll reply soon!" : "Pesan terkirim. Nanti gue bales ya!");
       setForm({ name: "", email: "", topic: TOPICS[0].id, message: "" });
       toast({
         title: en ? "Message sent!" : "Pesan terkirim!",
-        description: en ? "I'll reply as soon as I can." : "Nanti aku bales secepatnya ya.",
+        description: en ? "I'll reply as soon as I can." : "Nanti gue bales secepatnya ya.",
         variant: "success",
       });
     } catch {
@@ -115,7 +115,7 @@ export default function ContactForm() {
             className={inputClass}
             value={form.name}
             onChange={update("name")}
-            placeholder={en ? "Your name" : "Nama kamu"}
+            placeholder={en ? "Your name" : "Nama lo"}
             required
             maxLength={80}
             autoComplete="name"
@@ -128,7 +128,7 @@ export default function ContactForm() {
             type="email"
             value={form.email}
             onChange={update("email")}
-            placeholder="kamu@email.com"
+            placeholder="nama@email.com"
             required
             maxLength={120}
             autoComplete="email"
@@ -156,7 +156,7 @@ export default function ContactForm() {
           className={`${inputClass} min-h-[118px] resize-y leading-relaxed`}
           value={form.message}
           onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value.slice(0, 600) }))}
-          placeholder={en ? "Tell me what you're building…" : "Ceritain yang mau kamu bangun…"}
+          placeholder={en ? "Tell me what you're building…" : "Ceritain yang mau lo bangun…"}
           required
           maxLength={600}
         />
@@ -195,7 +195,7 @@ export default function ContactForm() {
       <p className="font-mono text-[0.56rem] leading-relaxed text-muted/70">
         {en
           ? "No spam, no database. Goes straight to my inbox."
-          : "Tanpa spam dan tanpa database. Pesan langsung masuk ke inbox aku."}
+          : "Tanpa spam dan tanpa database. Pesan langsung masuk ke inbox gue."}
       </p>
     </form>
   );

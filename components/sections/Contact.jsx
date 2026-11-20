@@ -133,7 +133,7 @@ export default function Contact() {
                 </a>
                 <a
                   href={`${PROFILE.whatsapp}?text=${encodeURIComponent(
-                    en ? "Hi Cekael, I saw your portfolio and wanted to talk." : "Halo Cekael, aku lihat portfolio kamu dan mau ngobrol."
+                    en ? "Hi Cekael, I saw your portfolio and wanted to talk." : "Halo Cekael, gue liat portfolio lo dan mau ngobrol."
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"

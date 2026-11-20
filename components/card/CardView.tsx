@@ -58,7 +58,7 @@ function EmptyState({ en }: { en: boolean }) {
         <p className="mt-2 text-sm leading-relaxed text-muted">
           {en
             ? "The QR link is empty or broken. No worries, you can make a new greeting card in seconds."
-            : "Link QR-nya kosong atau rusak. Tenang, kamu bisa bikin kartu ucapan baru dalam hitungan detik."}
+            : "Link QR-nya kosong atau rusak. Tenang, lo bisa bikin kartu ucapan baru dalam hitungan detik."}
         </p>
         <Link href="/#playground" className="btn btn-primary mt-6 w-full">
           {en ? "Make a greeting QR" : "Bikin QR Ucapan"}
@@ -292,7 +292,7 @@ export default function CardView() {
         href="/#playground"
         className="relative mt-4 inline-flex items-center gap-2 border border-line bg-canvas px-4 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
       >
-        {en ? "Make your own QR card" : "Bikin QR kartu kamu sendiri"}
+        {en ? "Make your own QR card" : "Bikin QR kartu lo sendiri"}
         <ArrowRight size={12} aria-hidden="true" style={{ color: theme.accent }} />
       </Link>
     </div>

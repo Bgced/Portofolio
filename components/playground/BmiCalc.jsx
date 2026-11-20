@@ -36,7 +36,7 @@ function categorize(bmi, en) {
       bg: "bg-ok/10",
       msg: en
         ? "You're in the ideal range. Keep the routine going."
-        : "Badan kamu di rentang ideal. Pertahankan polanya.",
+        : "Badan lo di rentang ideal. Pertahanin polanya.",
     };
   }
   if (bmi < 30) {
@@ -257,7 +257,7 @@ export default function BmiCalc() {
             <div key={pulse}>
               <div className="flex items-end justify-between gap-3">
                 <div>
-                  <p className="mono-label">{en ? "your bmi" : "bmi kamu"}</p>
+                  <p className="mono-label">{en ? "your bmi" : "bmi lo"}</p>
                   <p className={`mt-1 font-mono text-[clamp(2.4rem,9vw,3.4rem)] font-bold leading-none tabular-nums ${result.category.tone} glow-text`}>
                     {result.bmi.toFixed(1)}
                   </p>
@@ -311,7 +311,7 @@ export default function BmiCalc() {
                 <p className="mt-1 text-[0.72rem] leading-relaxed text-muted">
                   {en
                     ? "Based on a BMI of 18.5–24.9. If your scale is outside this range, start slowly — no need to go extreme."
-                    : "Patokan BMI 18.5–24.9. Kalau timbangan kamu di luar range ini, mulai pelan-pelan aja — nggak perlu ekstrem."}
+                    : "Patokan BMI 18.5–24.9. Kalau timbangan lo di luar range ini, mulai pelan-pelan aja, nggak perlu ekstrem."}
                 </p>
               </div>
             </div>

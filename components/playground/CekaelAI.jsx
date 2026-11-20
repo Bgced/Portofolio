@@ -13,7 +13,7 @@ const REQUEST_TIMEOUT_MS = 8000;
 const MAX_CONTEXT = 10;
 
 const WELCOME =
-  "Halo, aku Cekael AI, asisten kecil di portfolio ini.\nTanya soal profil, project, skill, atau kontak. Kalau server lagi mati, aku jawab pakai brain lokal.";
+  "Halo, gue Cekael AI, asisten kecil di portfolio ini.\nTanya soal profil, project, skill, atau kontak. Kalau server lagi mati, gue jawab pakai brain lokal.";
 
 const WELCOME_EN =
   "Hi, I'm Cekael AI, the little assistant inside this portfolio.\nAsk about the profile, projects, skills, or how to get in touch. If the server is down, I answer from the local brain.";
