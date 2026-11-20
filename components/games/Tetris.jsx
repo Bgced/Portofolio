@@ -9,13 +9,13 @@ const ROWS = 20;
 
 // Tujuh warna bidak, semuanya dari palet situs.
 const COLORS = {
-  I: "#6f9bff",
-  O: "#eaf1ff",
-  T: "#2a5fe8",
+  I: "#38BDF8",
+  O: "#E9F6FA",
+  T: "#22D3EE",
   S: "#35d6a4",
   Z: "#ff5d5d",
-  J: "#8299c4",
-  L: "#1e2a48",
+  J: "#7E96A1",
+  L: "#182A31",
 };
 
 // Empat matriks rotasi per bidak (SRS).
@@ -279,7 +279,7 @@ function reducer(state, action) {
 }
 
 function cellStyle(color) {
-  return { background: color, outline: "1px solid #050b1f", outlineOffset: "-1px" };
+  return { background: color, outline: "1px solid #04070A", outlineOffset: "-1px" };
 }
 
 function Board({ board, piece, ghostY }) {
@@ -292,7 +292,7 @@ function Board({ board, piece, ghostY }) {
         aspectRatio: `${COLS} / ${ROWS}`,
         // Grid 24px bawaan .playfield tidak sejajar dengan 10x20 sel, jadi dimatikan.
         backgroundImage: "none",
-        backgroundColor: "#050b1f",
+        backgroundColor: "#04070A",
       }}
       role="img"
       aria-label="Tetris board"

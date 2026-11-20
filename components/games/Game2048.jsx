@@ -128,19 +128,19 @@ function slide(board, dir) {
 ------------------------------------------------------------------- */
 
 const TILE_STYLE = {
-  2: { bg: "#101a33", fg: "#8299c4", border: "#1e2a48" },
-  4: { bg: "rgba(130, 153, 196, 0.2)", fg: "#eaf1ff", border: "#1e2a48" },
-  8: { bg: "rgba(111, 155, 255, 0.22)", fg: "#eaf1ff", border: "rgba(111, 155, 255, 0.4)" },
-  16: { bg: "rgba(111, 155, 255, 0.38)", fg: "#eaf1ff", border: "rgba(111, 155, 255, 0.5)" },
-  32: { bg: "rgba(42, 95, 232, 0.42)", fg: "#ffffff", border: "rgba(111, 155, 255, 0.5)" },
-  64: { bg: "#2a5fe8", fg: "#ffffff", border: "#4a7bff" },
-  128: { bg: "#6f9bff", fg: "#04091a", border: "#6f9bff" },
-  256: { bg: "#eaf1ff", fg: "#050b1f", border: "#eaf1ff" },
-  512: { bg: "rgba(255, 93, 93, 0.24)", fg: "#eaf1ff", border: "rgba(255, 93, 93, 0.5)" },
-  1024: { bg: "#ff5d5d", fg: "#050b1f", border: "#ff5d5d" },
-  2048: { bg: "#4a7bff", fg: "#ffffff", border: "#eaf1ff" },
-  4096: { bg: "#eaf1ff", fg: "#050b1f", border: "#6f9bff" },
-  8192: { bg: "#8299c4", fg: "#050b1f", border: "#eaf1ff" },
+  2: { bg: "#0C171C", fg: "#7E96A1", border: "#182A31" },
+  4: { bg: "rgba(126, 150, 161, 0.2)", fg: "#E9F6FA", border: "#182A31" },
+  8: { bg: "rgba(56, 189, 248, 0.22)", fg: "#E9F6FA", border: "rgba(56, 189, 248, 0.4)" },
+  16: { bg: "rgba(56, 189, 248, 0.38)", fg: "#E9F6FA", border: "rgba(56, 189, 248, 0.5)" },
+  32: { bg: "rgba(34, 211, 238, 0.42)", fg: "#ffffff", border: "rgba(56, 189, 248, 0.5)" },
+  64: { bg: "#22D3EE", fg: "#ffffff", border: "#67E8F9" },
+  128: { bg: "#38BDF8", fg: "#04141A", border: "#38BDF8" },
+  256: { bg: "#E9F6FA", fg: "#04070A", border: "#E9F6FA" },
+  512: { bg: "rgba(255, 93, 93, 0.24)", fg: "#E9F6FA", border: "rgba(255, 93, 93, 0.5)" },
+  1024: { bg: "#ff5d5d", fg: "#04070A", border: "#ff5d5d" },
+  2048: { bg: "#67E8F9", fg: "#ffffff", border: "#E9F6FA" },
+  4096: { bg: "#E9F6FA", fg: "#04070A", border: "#38BDF8" },
+  8192: { bg: "#7E96A1", fg: "#04070A", border: "#E9F6FA" },
 };
 
 function tileStyle(value) {

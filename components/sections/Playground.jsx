@@ -32,7 +32,7 @@ export default function Playground() {
         kicker={t("playground.kicker")}
         title={t("playground.title")}
         accent={t("playground.accent")}
-        intro={t("playground.intro", { games: COUNT.games })}
+        intro={t("playground.intro", { games: COUNT.games, tools: COUNT.tools })}
       />
 
       {/* Games */}

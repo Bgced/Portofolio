@@ -2,7 +2,7 @@
 
 /**
  * ScrollScene — satu Canvas persistent (fixed, z-0, pointer-events-none) untuk
- * seluruh halaman. Objek minimalis (balok, ring, wireframe) disebar di
+ * seluruh halaman. Semua objeknya balok 3D (wireframe / solid) disebar di
  * kedalaman berbeda, lalu kamera + rotasi digerakkan oleh progress scroll.
  *
  * Prinsip biar aman:
@@ -22,18 +22,18 @@ type Mood = "wire" | "off";
 
 const PALETTES = {
   light: {
-    clay: "#EAF1FF",
-    clayEdge: "#8299C4",
-    wire: "#2A5FE8",
-    ring: "#4A7BFF",
+    clay: "#E9F6FA",
+    clayEdge: "#7E96A1",
+    wire: "#22D3EE",
+    rim: "#67E8F9",
     light: 2.1,
     ambient: 1.15,
   },
   dark: {
-    clay: "#0A1226",
-    clayEdge: "#2A5FE8",
-    wire: "#2A5FE8",
-    ring: "#4A7BFF",
+    clay: "#081014",
+    clayEdge: "#22D3EE",
+    wire: "#22D3EE",
+    rim: "#67E8F9",
     light: 1.2,
     ambient: 0.3,
   },
@@ -41,7 +41,7 @@ const PALETTES = {
 
 type Shape = {
   key: string;
-  kind: "box" | "ring" | "torus";
+  size: [number, number, number];
   position: [number, number, number];
   rotation: [number, number, number];
   scale: number;
@@ -49,16 +49,17 @@ type Shape = {
   drift: number;
 };
 
-/** Layout statis — dihitung sekali di module scope, bukan tiap render. */
+/** Layout statis — dihitung sekali di module scope, bukan tiap render.
+ *  Semua objek balok: sisi beda-beda biar nggak monoton, bukan ring. */
 const SHAPES: Shape[] = [
-  { key: "a", kind: "box", position: [-4.6, 2.4, -6], rotation: [0.4, 0.6, 0.1], scale: 1.15, spin: 0.1, drift: 0.5 },
-  { key: "b", kind: "ring", position: [4.4, 1.6, -8], rotation: [1.1, 0.2, 0.3], scale: 1.5, spin: 0.06, drift: 0.7 },
-  { key: "c", kind: "torus", position: [2.6, -2.6, -5], rotation: [0.8, 0.9, 0.2], scale: 1.05, spin: 0.14, drift: 0.35 },
-  { key: "d", kind: "box", position: [-3.2, -3.4, -9], rotation: [0.2, 0.9, 0.4], scale: 1.7, spin: 0.08, drift: 0.6 },
-  { key: "e", kind: "ring", position: [0.6, 3.6, -11], rotation: [0.3, 0.4, 0.9], scale: 2.1, spin: 0.05, drift: 0.9 },
-  { key: "f", kind: "torus", position: [-1.4, -1.2, -7.5], rotation: [1.3, 0.5, 0.1], scale: 0.8, spin: 0.18, drift: 0.45 },
-  { key: "g", kind: "box", position: [5.2, -1.8, -12], rotation: [0.5, 0.2, 0.7], scale: 2.4, spin: 0.04, drift: 0.8 },
-  { key: "h", kind: "ring", position: [-5.6, -0.6, -13], rotation: [0.9, 1.2, 0.2], scale: 2.6, spin: 0.03, drift: 1 },
+  { key: "a", size: [1.1, 2.2, 0.9], position: [-4.6, 2.4, -6], rotation: [0.4, 0.6, 0.1], scale: 1.0, spin: 0.1, drift: 0.5 },
+  { key: "b", size: [2.6, 0.8, 0.8], position: [4.4, 1.6, -8], rotation: [0.2, 0.2, 0.35], scale: 1.15, spin: 0.06, drift: 0.7 },
+  { key: "c", size: [0.7, 2.8, 0.7], position: [2.6, -2.6, -5], rotation: [0.5, 0.9, 0.2], scale: 1.0, spin: 0.14, drift: 0.35 },
+  { key: "d", size: [3.0, 1.2, 1.2], position: [-3.2, -3.4, -9], rotation: [0.2, 0.9, 0.4], scale: 1.25, spin: 0.08, drift: 0.6 },
+  { key: "e", size: [4.2, 0.5, 1.6], position: [0.6, 3.6, -11], rotation: [0.3, 0.4, 0.9], scale: 1.1, spin: 0.05, drift: 0.9 },
+  { key: "f", size: [0.9, 0.9, 0.9], position: [-1.4, -1.2, -7.5], rotation: [0.6, 0.5, 0.1], scale: 0.8, spin: 0.18, drift: 0.45 },
+  { key: "g", size: [2.2, 2.2, 2.2], position: [5.2, -1.8, -12], rotation: [0.5, 0.2, 0.7], scale: 1.3, spin: 0.04, drift: 0.8 },
+  { key: "h", size: [3.6, 0.7, 0.7], position: [-5.6, -0.6, -13], rotation: [0.9, 1.2, 0.2], scale: 1.4, spin: 0.03, drift: 1 },
 ];
 
 const damp = THREE.MathUtils.damp;
@@ -80,10 +81,9 @@ const ShapeMesh = memo(function ShapeMesh({
   const wire = mood === "wire";
 
   const geometry = useMemo(() => {
-    if (shape.kind === "box") return new THREE.BoxGeometry(1, 1, 1);
-    if (shape.kind === "ring") return new THREE.TorusGeometry(0.75, 0.035, 16, 96);
-    return new THREE.TorusKnotGeometry(0.55, 0.14, 96, 12);
-  }, [shape.kind]);
+    const [x, y, z] = shape.size;
+    return new THREE.BoxGeometry(x, y, z);
+  }, [shape.size]);
 
   const material = useMemo(() => {
     if (wire) {
@@ -102,11 +102,7 @@ const ShapeMesh = memo(function ShapeMesh({
     [palette.clayEdge]
   );
 
-  const edges = useMemo(() => {
-    if (shape.kind !== "box") return null;
-    const geo = new THREE.EdgesGeometry(geometry);
-    return geo;
-  }, [geometry, shape.kind]);
+  const edges = useMemo(() => new THREE.EdgesGeometry(geometry), [geometry]);
 
   useEffect(
     () => () => {
@@ -136,7 +132,7 @@ const ShapeMesh = memo(function ShapeMesh({
   return (
     <group position={shape.position} rotation={shape.rotation} scale={shape.scale}>
       <mesh geometry={geometry} material={material} />
-      {edges ? <lineSegments geometry={edges} material={edgeMaterial} /> : null}
+      <lineSegments geometry={edges} material={edgeMaterial} />
     </group>
   );
 });
@@ -367,7 +363,7 @@ export default function ScrollScene() {
           <Suspense fallback={null}>
             <ambientLight intensity={palette.ambient} />
             <directionalLight position={[4, 6, 7]} intensity={palette.light} color="#FFFFFF" />
-            <directionalLight position={[-6, -3, -5]} intensity={palette.light * 0.3} color={palette.ring} />
+            <directionalLight position={[-6, -3, -5]} intensity={palette.light * 0.3} color={palette.rim} />
             <Rig mood={mood} palette={palette} reduced={reduced} />
             <CanvasSizer />
             <ThemeInvalidator token={mood} />

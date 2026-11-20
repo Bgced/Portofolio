@@ -47,7 +47,7 @@ export const metadata = {
   metadataBase: new URL("https://cekael.vercel.app"),
   title: "Cedric Kilian — Portfolio · Game & Web",
   description:
-    "Front-end developer and Electrical Engineering student. This site is a playground: playable games and working tools, built with Next.js, React, Tailwind, and Three.js.",
+    "Cedric Kilian, Electrical Engineering student at UNY. Front-end work in Next.js, React, Tailwind, and Three.js: nine small games, four tools, one 3D backdrop.",
   keywords: [
     "Cedric Kilian",
     "Cekael",
@@ -62,7 +62,7 @@ export const metadata = {
   authors: [{ name: "Cedric Kilian" }],
   openGraph: {
     title: "Cedric Kilian — Portfolio · Game & Web",
-    description: "Playable games and working tools. Nothing here is a mockup.",
+    description: "Nine small games, four tools, and a 3D backdrop. Everything on this page runs.",
     type: "website",
     locale: "en_US",
     url: "https://cekael.vercel.app",
@@ -70,7 +70,7 @@ export const metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Cedric Kilian — Portfolio · Game & Web",
-    description: "Playable games and working tools. Nothing here is a mockup.",
+    description: "Nine small games, four tools, and a 3D backdrop. Everything on this page runs.",
   },
   icons: {
     icon: [
@@ -82,7 +82,7 @@ export const metadata = {
 };
 
 export const viewport = {
-  themeColor: "#050B1F",
+  themeColor: "#04070A",
   width: "device-width",
   initialScale: 1,
 };

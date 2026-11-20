@@ -86,8 +86,8 @@ function ThemeSwatch({
       title={theme.label}
       className="inline-flex items-center gap-1.5 border px-2.5 py-1.5 font-mono text-[0.56rem] uppercase tracking-[0.1em] transition-colors"
       style={{
-        borderColor: active ? theme.accent : "rgba(233,234,234,0.14)",
-        backgroundColor: active ? theme.soft : "rgba(233,234,234,0.04)",
+        borderColor: active ? theme.accent : "rgba(233,246,250,0.14)",
+        backgroundColor: active ? theme.soft : "rgba(233,246,250,0.04)",
         color: active ? theme.accent : "var(--muted)",
       }}
     >
@@ -226,7 +226,7 @@ export default function CardView() {
           >
             {en ? "To" : "Untuk"}
           </p>
-          <h1 className="mt-2 break-words text-[clamp(2rem,8vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#EAF1FF]">
+          <h1 className="mt-2 break-words text-[clamp(2rem,8vw,3rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-[#E9F6FA]">
             {data.name}
           </h1>
 
@@ -236,7 +236,7 @@ export default function CardView() {
             aria-hidden="true"
           />
 
-          <p className="whitespace-pre-wrap break-words text-[0.98rem] leading-relaxed text-[#EAF1FF] sm:text-[1.05rem]">
+          <p className="whitespace-pre-wrap break-words text-[0.98rem] leading-relaxed text-[#E9F6FA] sm:text-[1.05rem]">
             {data.message}
           </p>
 
@@ -251,7 +251,7 @@ export default function CardView() {
               >
                 {en ? "From" : "Dari"}
               </p>
-              <p className="mt-1 break-words text-sm font-semibold text-[#EAF1FF]">
+              <p className="mt-1 break-words text-sm font-semibold text-[#E9F6FA]">
                 {data.sender || "Cedric Kilian"}
               </p>
             </div>
@@ -277,7 +277,7 @@ export default function CardView() {
           onClick={saveCard}
           disabled={saving}
           className="inline-flex items-center justify-center gap-2 border px-3.5 py-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] transition-opacity disabled:opacity-60"
-          style={{ backgroundColor: theme.accent, color: "#04091A" }}
+          style={{ backgroundColor: theme.accent, color: "#04141A" }}
         >
           {saving ? (
             <Loader2 size={12} className="animate-spin" aria-hidden="true" />

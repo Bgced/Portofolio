@@ -1,26 +1,26 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   ARCADE — navy canvas + electric blue, HUD mono labels.
+   HITAM + CYAN — canvas hitam pekat, aksen cyan/biru, label mono HUD.
    Nama token lama (--bg, --surface, --text, --accent, ...) dipertahankan
    supaya komponen lama tetap jalan.
 ------------------------------------------------------------------- */
 :root {
-  --bg: #050b1f;
-  --bg-soft: #050b1f;
-  --surface: #0a1226;
-  --surface-2: #101a33;
-  --text: #eaf1ff;
-  --muted: #8299c4;
-  --line: #1e2a48;
-  --line-soft: #1a2440;
-  --accent: #2a5fe8;
-  --accent-hover: #4a7bff;
-  --accent-2: #6f9bff;
-  --accent-ink: #04091a;
+  --bg: #04070A;
+  --bg-soft: #04070A;
+  --surface: #081014;
+  --surface-2: #0C171C;
+  --text: #E6F6FA;
+  --muted: #93A7B1;
+  --line: #182A31;
+  --line-soft: #142229;
+  --accent: #22D3EE;
+  --accent-hover: #67E8F9;
+  --accent-2: #38BDF8;
+  --accent-ink: #04141A;
   --accent-soft: color-mix(in srgb, var(--accent) 16%, transparent);
   --glow: transparent;
-  --grid: rgba(130, 153, 196, 0.07);
+  --grid: rgba(126, 150, 161, 0.07);
   --danger: #ff5d5d;
   --ok: #35d6a4;
   --radius-card: 10px;
@@ -84,12 +84,12 @@ body {
   background: var(--bg);
 }
 ::-webkit-scrollbar-thumb {
-  background: #1e2a48;
+  background: #182A31;
   border-radius: 6px;
   border: 2px solid var(--bg);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #2b3a5f;
+  background: #22424B;
 }
 
 :focus-visible {
@@ -124,7 +124,7 @@ body {
   font-size: 0.66rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: color-mix(in srgb, var(--accent-2) 78%, var(--muted));
 }
 
 .eyebrow::before {
@@ -160,7 +160,7 @@ body {
 }
 
 .panel-hover:hover {
-  border-color: #2b3a5f;
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
   background: var(--surface-2);
 }
 
@@ -235,14 +235,14 @@ body {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: color-mix(in srgb, var(--bg) 55%, transparent);
+  background: color-mix(in srgb, var(--bg) 28%, transparent);
 }
 
 .photo-scrim {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: rgba(5, 11, 31, 0.5);
+  background: rgba(5, 7, 9, 0.5);
 }
 
 /* ------------------------------------------------------------------
@@ -269,10 +269,11 @@ body {
 
 .btn-primary {
   background: var(--accent);
-  color: #ffffff;
+  color: var(--accent-ink);
 }
 .btn-primary:hover {
   background: var(--accent-hover);
+  color: var(--accent-ink);
 }
 
 .btn-ghost {
@@ -282,7 +283,7 @@ body {
 }
 .btn-ghost:hover {
   border-color: var(--accent);
-  color: #ffffff;
+  color: var(--accent);
 }
 
 /* chip HUD */
@@ -330,7 +331,7 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: rgba(5, 11, 31, 0.3);
+  background: rgba(5, 7, 9, 0.3);
 }
 
 /* ------------------------------------------------------------------
@@ -405,7 +406,7 @@ body {
 
 /* Playfield grid buat game berbasis sel */
 .playfield {
-  background-color: #060d20;
+  background-color: #060C10;
   background-image:
     linear-gradient(to right, var(--grid) 1px, transparent 1px),
     linear-gradient(to bottom, var(--grid) 1px, transparent 1px);

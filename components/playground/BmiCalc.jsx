@@ -8,9 +8,9 @@ const MIN_BMI = 15;
 const MAX_BMI = 40;
 
 const BANDS = [
-  { from: 15, to: 18.5, label: "Kurus", bar: "bg-[#E0574F]" },
+  { from: 15, to: 18.5, label: "Kurus", bar: "bg-[#FF5D5D]" },
   { from: 18.5, to: 25, label: "Ideal", bar: "bg-ok" },
-  { from: 25, to: 30, label: "Overweight", bar: "bg-[#E0574F]" },
+  { from: 25, to: 30, label: "Overweight", bar: "bg-[#FF5D5D]" },
   { from: 30, to: 40, label: "Obesitas", bar: "bg-danger" },
 ];
 
@@ -19,9 +19,9 @@ function categorize(bmi, en) {
     return {
       key: "kurus",
       label: en ? "Underweight" : "Kurus",
-      tone: "text-[#E0574F]",
-      border: "border-[#E0574F]/40",
-      bg: "bg-[#E0574F]/10",
+      tone: "text-[#FF5D5D]",
+      border: "border-[#FF5D5D]/40",
+      bg: "bg-[#FF5D5D]/10",
       msg: en
         ? "Under the healthy range. Add more nutritious meals."
         : "Masih di bawah rentang sehat. Tambah porsi makan bergizi.",
@@ -43,9 +43,9 @@ function categorize(bmi, en) {
     return {
       key: "overweight",
       label: "Overweight",
-      tone: "text-[#E0574F]",
-      border: "border-[#E0574F]/40",
-      bg: "bg-[#E0574F]/10",
+      tone: "text-[#FF5D5D]",
+      border: "border-[#FF5D5D]/40",
+      bg: "bg-[#FF5D5D]/10",
       msg: en
         ? "A bit above the range. Start with a short run now and then."
         : "Sedikit di atas rentang. Mulai jalan kaki atau lari rutin.",

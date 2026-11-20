@@ -24,14 +24,14 @@ const MAX_FALL = 520;
 const STEP = 1 / 120;
 
 const C = {
-  canvas: "#050b1f",
-  surface: "#0a1226",
-  surface2: "#101a33",
-  ink: "#eaf1ff",
-  muted: "#8299c4",
-  line: "#1e2a48",
-  accent: "#2a5fe8",
-  accent2: "#6f9bff",
+  canvas: "#04070A",
+  surface: "#081014",
+  surface2: "#0C171C",
+  ink: "#E9F6FA",
+  muted: "#7E96A1",
+  line: "#182A31",
+  accent: "#22D3EE",
+  accent2: "#38BDF8",
   danger: "#ff5d5d",
   ok: "#35d6a4",
 };

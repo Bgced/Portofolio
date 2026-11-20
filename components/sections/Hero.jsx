@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { ArrowRight, Play } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { COUNT } from "@/lib/games";
+import { PROJECTS } from "@/lib/content";
 import { getGameComponent } from "@/components/games/registry";
 
 /**
@@ -55,13 +56,13 @@ export default function Hero() {
             {[
               { value: COUNT.games, label: t("hero.statGames") },
               { value: COUNT.tools, label: t("hero.statTools") },
-              { value: 0, label: t("hero.statMockups") },
+              { value: PROJECTS.length, label: t("hero.statProjects") },
             ].map((stat, index) => (
               <div
                 key={stat.label}
                 className={`min-w-0 ${index > 0 ? "border-l border-line pl-4" : ""}`}
               >
-                <dt className="font-display text-[1.6rem] font-extrabold leading-none tracking-[-0.03em] text-ink sm:text-[1.9rem]">
+                <dt className="font-display text-[1.6rem] font-extrabold leading-none tracking-[-0.03em] text-accent-2 sm:text-[1.9rem]">
                   {stat.value}
                 </dt>
                 <dd className="mt-2 font-mono text-[0.6rem] uppercase leading-tight tracking-[0.16em] text-muted">
