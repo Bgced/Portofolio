@@ -33,13 +33,13 @@ export default function Hero() {
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <a href="#playground" className="btn btn-primary">
-              <Play size={14} aria-hidden="true" />
-              {t("hero.play")}
-            </a>
-            <a href="#projects" className="btn btn-ghost">
+            <a href="#projects" className="btn btn-primary">
               {t("hero.seeWork")}
               <ArrowRight size={14} aria-hidden="true" />
+            </a>
+            <a href="#playground" className="btn btn-ghost">
+              <Play size={14} aria-hidden="true" />
+              {t("hero.play")}
             </a>
           </div>
 
