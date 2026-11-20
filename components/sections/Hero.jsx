@@ -1,32 +1,24 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { ArrowRight, Play } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { COUNT } from "@/lib/games";
 import { PROJECTS } from "@/lib/content";
-import { getGameComponent } from "@/components/games/registry";
 
 /**
- * Hero arcade: headline kapital (baris kedua outline) + kartrid Snake yang
- * langsung bisa dimainkan. Snake dimuat lazy supaya HTML pertama tetap ringan.
+ * Hero: nama besar, satu kolom. Nggak ada game di sini — semua game ada di
+ * section playground, biar halaman pertama fokus ke orangnya.
  */
 export default function Hero() {
   const { t } = useLang();
-  const [mounted, setMounted] = useState(false);
-  const Snake = getGameComponent("snake");
-
-  // Canvas game butuh DOM; tunda satu tick biar server-render tetap bersih.
-  useEffect(() => setMounted(true), []);
 
   return (
     <section
       id="home"
       className="relative flex min-h-[100svh] w-full items-center overflow-hidden pb-16 pt-28 sm:pt-32"
     >
-      <div className="relative z-10 mx-auto grid w-full max-w-[1180px] gap-10 px-5 sm:px-7 lg:grid-cols-[minmax(0,1.08fr)_minmax(0,0.92fr)] lg:items-center lg:gap-14">
-        {/* copy */}
-        <div className="min-w-0">
+      <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 sm:px-7">
+        <div className="min-w-0 max-w-3xl">
           <p className="eyebrow">
             01 — {t("hero.eyebrow")}
           </p>
@@ -74,26 +66,6 @@ export default function Hero() {
 
           <p className="mt-6 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted">
             {t("hero.status", { games: COUNT.games, tools: COUNT.tools })}
-          </p>
-        </div>
-
-        {/* kartrid snake */}
-        <div className="relative w-full max-w-[26rem] lg:ml-auto">
-          <div className="cartridge">
-            <div className="mb-2 flex items-center justify-between gap-2">
-              <span className="font-mono text-[0.6rem] uppercase tracking-[0.16em] text-accent-2">
-                C-01 · GAME
-              </span>
-              <span className="pill">{t("playground.keysHint")}</span>
-            </div>
-            {mounted && Snake ? <Snake /> : (
-              <div className="playfield grid min-h-[300px] place-items-center">
-                <p className="mono-label text-[0.6rem]">{t("playground.loading")}</p>
-              </div>
-            )}
-          </div>
-          <p className="mt-2 text-center font-mono text-[0.58rem] uppercase tracking-[0.16em] text-muted">
-            {t("hero.scrollHint")} ↓
           </p>
         </div>
       </div>

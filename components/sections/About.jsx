@@ -34,14 +34,14 @@ export default function About() {
 
       <div className="grid gap-3 sm:gap-4 lg:grid-cols-12">
         {/* foto + identitas */}
-        <div className="lg:col-span-5">
-          <div className="cartridge h-full p-0">
+        <div className="lg:col-span-4">
+          <div className="cartridge mx-auto w-full max-w-[19rem] p-0 lg:mx-0">
             <div className="relative aspect-[4/5] w-full overflow-hidden">
               <Image
                 src="/profile.jpg"
                 alt="Cedric Kilian, front-end developer and Electrical Engineering student"
                 fill
-                sizes="(min-width: 1024px) 440px, (min-width: 640px) 60vw, 92vw"
+                sizes="(min-width: 1024px) 304px, (min-width: 640px) 60vw, 92vw"
                 className="object-cover object-center"
               />
               <div aria-hidden="true" className="photo-scrim" />
@@ -57,7 +57,7 @@ export default function About() {
         </div>
 
         {/* copy + facts */}
-        <div className="lg:col-span-7">
+        <div className="lg:col-span-8">
           <div className="cartridge h-full">
             <p className="text-[0.92rem] leading-relaxed text-ink">{t("about.p1")}</p>
             <p className="mt-3 text-[0.88rem] leading-relaxed text-muted">{t("about.p2")}</p>
