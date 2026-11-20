@@ -5,6 +5,7 @@ import { Bot, CornerDownLeft, Send, Sparkles } from "lucide-react";
 import { AI_SUGGESTIONS } from "@/lib/content";
 import { AI_SUGGESTIONS_EN } from "@/lib/content-en";
 import { useLang } from "@/components/providers";
+import FloatingCard from "@/components/ui/FloatingCard";
 import { getLocalReply } from "@/lib/cekael-brain";
 
 const CHARS_PER_TICK = 3;
@@ -164,7 +165,7 @@ export default function CekaelAI() {
   };
 
   return (
-    <div className="panel corner-frame overflow-hidden">
+    <FloatingCard surfaceClassName="card-surface--flush">
       {/* header */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-line-soft px-4 py-2.5">
         <div className="flex items-center gap-2.5">
@@ -255,7 +256,7 @@ export default function CekaelAI() {
             onChange={(event) => setInput(event.target.value)}
             onKeyDown={onKeyDown}
             placeholder={en ? "Ask me anything... (Enter to send, Shift+Enter for a new line)" : "Tanya apa aja... (Enter kirim, Shift+Enter baris baru)"}
-            className="max-h-28 min-h-[48px] w-full resize-none rounded-[6px] border border-line-soft bg-canvas px-3 py-3 text-[0.84rem] leading-relaxed text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-accent/70"
+            className="max-h-28 min-h-[48px] w-full resize-none rounded-[12px] border border-line-soft bg-canvas px-3 py-3 text-[0.84rem] leading-relaxed text-ink outline-none transition-colors placeholder:text-muted/70 focus:border-accent/70"
           />
           <button
             type="submit"
@@ -277,6 +278,6 @@ export default function CekaelAI() {
           <span className="text-muted/70">{en ? "no API keys stored in the browser" : "nggak ada key disimpan di browser"}</span>
         </p>
       </form>
-    </div>
+    </FloatingCard>
   );
 }

@@ -37,7 +37,7 @@ const MODES = [
 ];
 
 const inputClass =
-  "w-full rounded-lg border border-line-soft bg-canvas px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
+  "w-full rounded-[12px] border border-line-soft bg-canvas px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
 
 function Field({ label, hint, children }) {
   return (
@@ -263,7 +263,7 @@ export default function QrStudio() {
                 type="button"
                 onClick={() => setMode(item.id)}
                 aria-pressed={active}
-                className={`flex shrink-0 items-center gap-1.5 rounded-lg border px-2.5 py-2 font-mono text-[0.64rem] uppercase tracking-[0.1em] transition-colors ${
+                className={`flex shrink-0 items-center gap-1.5 rounded-[12px] border px-2.5 py-2 font-mono text-[0.64rem] uppercase tracking-[0.1em] transition-colors ${
                   active
                     ? "border-line bg-accent-soft text-accent"
                     : "border-line-soft bg-surface text-muted hover:text-ink"
@@ -321,7 +321,7 @@ export default function QrStudio() {
                         type="button"
                         onClick={() => setCardTheme(theme.id)}
                         aria-pressed={active}
-                        className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 text-[0.68rem] transition-colors ${
+                        className={`flex items-center gap-2 rounded-[12px] border px-2.5 py-1.5 text-[0.68rem] transition-colors ${
                           active
                             ? "border-accent/70 bg-accent-soft text-ink"
                             : "border-line-soft bg-surface text-muted hover:text-ink"
@@ -457,7 +457,7 @@ export default function QrStudio() {
                   type="button"
                   onClick={() => setColor(option.value)}
                   aria-pressed={color === option.value}
-                  className={`flex items-center gap-2 rounded-lg border px-2.5 py-1.5 text-[0.7rem] transition-colors ${
+                  className={`flex items-center gap-2 rounded-[12px] border px-2.5 py-1.5 text-[0.7rem] transition-colors ${
                     color === option.value
                       ? "border-accent/70 bg-accent-soft text-ink"
                       : "border-line-soft bg-surface text-muted hover:text-ink"
@@ -488,7 +488,7 @@ export default function QrStudio() {
           <span className="mono-label">{mode.toUpperCase()}</span>
         </div>
 
-        <div className="mt-3 flex items-center justify-center rounded-lg bg-white p-3">
+        <div className="mt-3 flex items-center justify-center rounded-[12px] bg-white p-3">
           {value ? (
             <QRCodeCanvas
               value={value}

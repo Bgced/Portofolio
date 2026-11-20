@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { CALC_KEYS } from "@/lib/content";
 import { useLang } from "@/components/providers";
+import FloatingCard from "@/components/ui/FloatingCard";
 
 /* ------------------------------------------------------------------ */
 /*  Helpers                                                            */
@@ -307,7 +308,7 @@ export default function CyberCalc({ active = true }) {
   return (
     <div className="grid gap-4 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
       {/* ---------------- calculator ---------------- */}
-      <div className="panel corner-frame overflow-hidden">
+      <FloatingCard surfaceClassName="card-surface--flush">
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
           <div className="flex items-center gap-2">
             <span className="h-2 w-2 rounded-full bg-danger/70" aria-hidden="true" />
@@ -355,11 +356,11 @@ export default function CyberCalc({ active = true }) {
               : "keyboard aktif: 0-9 · . + - * / % · enter = · backspace del · esc ac"}
           </p>
         </div>
-      </div>
+      </FloatingCard>
 
       {/* ---------------- side panel ---------------- */}
       <div className="space-y-3">
-        <div className="panel p-4">
+        <FloatingCard surfaceClassName="card-surface--tight">
           <p className="mono-label">recent ops</p>
           {state.ticker.length === 0 ? (
             <p className="mt-3 font-mono text-[0.72rem] leading-relaxed text-muted">
@@ -382,9 +383,9 @@ export default function CyberCalc({ active = true }) {
               ))}
             </ul>
           )}
-        </div>
+        </FloatingCard>
 
-        <div className="panel p-4">
+        <FloatingCard surfaceClassName="card-surface--tight">
           <p className="mono-label">{en ? "how it works" : "cara kerjanya"}</p>
           <ul className="mt-3 space-y-2 text-[0.78rem] leading-relaxed text-muted">
             <li className="flex gap-2">
@@ -406,7 +407,7 @@ export default function CyberCalc({ active = true }) {
                 : "Bagi nol bikin kalkulator terkunci. Tekan AC atau DEL buat mulai lagi."}
             </li>
           </ul>
-        </div>
+        </FloatingCard>
       </div>
     </div>
   );

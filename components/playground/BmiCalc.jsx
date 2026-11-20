@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { HeartPulse, RotateCcw } from "lucide-react";
 import { useLang } from "@/components/providers";
+import FloatingCard from "@/components/ui/FloatingCard";
 
 const MIN_BMI = 15;
 const MAX_BMI = 40;
@@ -149,7 +150,7 @@ export default function BmiCalc() {
   return (
     <div className="grid gap-4 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
       {/* ---------------- form ---------------- */}
-      <form onSubmit={handleSubmit} className="panel corner-frame overflow-hidden">
+      <FloatingCard as="form" onSubmit={handleSubmit} surfaceClassName="card-surface--flush">
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
           <div className="flex items-center gap-2">
             <HeartPulse className="h-3.5 w-3.5 text-accent" aria-hidden="true" />
@@ -176,7 +177,7 @@ export default function BmiCalc() {
                 }}
                 aria-invalid={showHeightError}
                 aria-describedby={showHeightError ? "bmi-height-error" : undefined}
-                className={`w-full rounded-[6px] border bg-canvas px-3 py-3 pr-12 font-mono text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/70 ${
+                className={`w-full rounded-[12px] border bg-canvas px-3 py-3 pr-12 font-mono text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/70 ${
                   showHeightError ? "border-danger/60" : "border-line-soft"
                 }`}
               />
@@ -210,7 +211,7 @@ export default function BmiCalc() {
                 }}
                 aria-invalid={showWeightError}
                 aria-describedby={showWeightError ? "bmi-weight-error" : undefined}
-                className={`w-full rounded-[6px] border bg-canvas px-3 py-3 pr-12 font-mono text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/70 ${
+                className={`w-full rounded-[12px] border bg-canvas px-3 py-3 pr-12 font-mono text-base text-ink outline-none transition-colors placeholder:text-muted/60 focus:border-accent/70 ${
                   showWeightError ? "border-danger/60" : "border-line-soft"
                 }`}
               />
@@ -241,10 +242,10 @@ export default function BmiCalc() {
               : "BMR? belum. Ini BMI doang — hitungan kasar, bukan pengganti saran dokter."}
           </p>
         </div>
-      </form>
+      </FloatingCard>
 
       {/* ---------------- result ---------------- */}
-      <div className="panel overflow-hidden" aria-live="polite">
+      <FloatingCard surfaceClassName="card-surface--flush" aria-live="polite">
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
           <span className="mono-label">{en ? "analysis result" : "hasil analisa"}</span>
           <span className={`pill ${result ? "pill-accent" : ""}`}>
@@ -329,7 +330,7 @@ export default function BmiCalc() {
             </div>
           )}
         </div>
-      </div>
+      </FloatingCard>
     </div>
   );
 }
