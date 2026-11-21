@@ -37,7 +37,7 @@ export default function UiSandbox() {
   const { lang } = useLang();
   const en = lang === "en";
 
-  const [prefs, setPrefs] = useState(() => ({ accent: "biru", radius: "soft", scene: "wire" }));
+  const [prefs, setPrefs] = useState(() => ({ accent: "amber", radius: "soft", scene: "wire" }));
   const [open, setOpen] = useState(false);
 
   // Baca localStorage SETELAH mount — nggak boleh di initial state (hydration).

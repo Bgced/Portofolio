@@ -22,18 +22,18 @@ type Mood = "wire" | "off";
 
 const PALETTES = {
   light: {
-    clay: "#E9F6FA",
-    clayEdge: "#7E96A1",
-    wire: "#22D3EE",
-    rim: "#67E8F9",
+    clay: "#F2F1ED",
+    clayEdge: "#9AA0A6",
+    wire: "#F5A524",
+    rim: "#FFC46B",
     light: 2.1,
     ambient: 1.15,
   },
   dark: {
-    clay: "#081014",
-    clayEdge: "#22D3EE",
-    wire: "#22D3EE",
-    rim: "#67E8F9",
+    clay: "#14161A",
+    clayEdge: "#F5A524",
+    wire: "#F5A524",
+    rim: "#FFC46B",
     light: 1.2,
     ambient: 0.3,
   },
@@ -61,14 +61,10 @@ const SHAPES: Shape[] = [
   { key: "d", kind: "box", size: [3.0, 1.2, 1.2], position: [-3.2, -3.4, -9], rotation: [0.2, 0.9, 0.4], scale: 1.25, spin: 0.08, drift: 0.6 },
   { key: "e", kind: "box", size: [4.2, 0.5, 1.6], position: [0.6, 3.6, -11], rotation: [0.3, 0.4, 0.9], scale: 1.1, spin: 0.05, drift: 0.9 },
   { key: "f", kind: "box", size: [0.9, 0.9, 0.9], position: [-1.4, -1.2, -7.5], rotation: [0.6, 0.5, 0.1], scale: 0.8, spin: 0.18, drift: 0.45 },
-  { key: "g", kind: "box", size: [2.2, 2.2, 2.2], position: [5.2, -1.8, -12], rotation: [0.5, 0.2, 0.7], scale: 1.3, spin: 0.04, drift: 0.8 },
-  { key: "h", kind: "box", size: [3.6, 0.7, 0.7], position: [-5.6, -0.6, -13], rotation: [0.9, 1.2, 0.2], scale: 1.4, spin: 0.03, drift: 1 },
-  // Heksagon: bentuk yang beda dari balok biar siluetnya kebaca.
-  { key: "i", kind: "hex", size: [1.8, 1.8, 0], position: [3.9, 3.3, -6.5], rotation: [0.25, 0.3, 0.0], scale: 1.0, spin: 0.09, drift: 0.55 },
-  { key: "j", kind: "hex", size: [2.6, 1.1, 0], position: [-4.9, 3.5, -10.5], rotation: [1.15, 0.25, 0.18], scale: 1.15, spin: 0.07, drift: 0.75 },
-  { key: "k", kind: "hex", size: [1.2, 2.6, 0], position: [5.7, 2.4, -14], rotation: [0.9, 0.6, 0.1], scale: 1.05, spin: 0.05, drift: 0.9 },
-  { key: "l", kind: "hex", size: [2.2, 2.2, 0], position: [-6.4, 1.2, -8], rotation: [0.35, 0.9, 0.0], scale: 1.2, spin: 0.06, drift: 0.65 },
-  { key: "m", kind: "hex", size: [1.5, 0.9, 0], position: [1.2, -3.8, -9.5], rotation: [0.8, 0.4, 0.15], scale: 0.95, spin: 0.1, drift: 0.5 },
+  // Heksagon: bentuk signature, sengaja dikurangin biar nggak jadi noise.
+  { key: "i", kind: "hex", size: [1.8, 1.8, 0], position: [-6.2, 3.6, -9], rotation: [0.25, 0.3, 0.0], scale: 1.0, spin: 0.09, drift: 0.55 },
+  { key: "j", kind: "hex", size: [2.6, 1.1, 0], position: [-5.4, -3.8, -12], rotation: [1.15, 0.25, 0.18], scale: 1.15, spin: 0.07, drift: 0.75 },
+  { key: "k", kind: "hex", size: [1.2, 2.6, 0], position: [-1.2, 4.0, -15], rotation: [0.9, 0.6, 0.1], scale: 1.05, spin: 0.05, drift: 0.9 },
 ];
 
 const damp = THREE.MathUtils.damp;

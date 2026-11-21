@@ -123,7 +123,7 @@ export default function About() {
 
         {/* cara kerja */}
         <div className="lg:col-span-7">
-          <FloatingCard className="h-full" surfaceClassName="h-full">
+          <FloatingCard className="h-full" surfaceClassName="flex h-full flex-col">
             <p className="mono-label">{t("about.workLabel")}</p>
             <ul className="mt-3 flex flex-col gap-3">
               {HOW.map((row) => (

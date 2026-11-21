@@ -67,7 +67,7 @@ const SKILLS: Skill[] = [
   },
   {
     id: "cpp",
-    name: "C++ / Microcontroller",
+    name: "C++ / MCU",
     code: "05",
     icon: Cpu,
     idDesc:
@@ -111,12 +111,10 @@ export default function TechArsenal() {
         </div>
       </div>
 
-      <div className="mt-3.5 grid auto-rows-[minmax(0,auto)] grid-cols-2 gap-1.5 sm:grid-cols-3">
-        {SKILLS.map((skill, idx) => {
+      <div className="mt-3.5 grid auto-rows-[minmax(0,1fr)] grid-cols-2 gap-1.5 sm:grid-cols-3">
+        {SKILLS.map((skill) => {
           const Icon = skill.icon;
           const activeTile = skill.id === active.id;
-           // ukuran beda-beda biar grid nggak seragam
-           const span = idx === 0 ? "col-span-2 sm:col-span-2" : idx === 3 ? "row-span-2" : "";
           return (
             <button
               key={skill.id}
@@ -125,14 +123,14 @@ export default function TechArsenal() {
               onMouseEnter={() => setActiveId(skill.id)}
               onFocus={() => setActiveId(skill.id)}
               onClick={() => setActiveId(skill.id)}
-              className={`group relative flex min-w-0 items-center gap-2 overflow-hidden rounded-[12px] border px-2.5 py-2 text-left transition-colors duration-200 ${span} ${
+              className={`group relative flex min-w-0 items-center gap-2 overflow-hidden rounded-[3px] border px-2.5 py-2 text-left transition-colors duration-200 ${
                 activeTile
                   ? "border-accent/55 bg-accent-soft"
                   : "border-line-soft bg-surface-2/60 hover:border-line"
               }`}
             >
               <span
-                className={`grid h-6 w-6 shrink-0 place-items-center rounded-md border transition-colors ${
+                className={`grid h-6 w-6 shrink-0 place-items-center rounded-[3px] border transition-colors ${
                   activeTile
                     ? "border-accent/40 bg-canvas text-accent"
                     : "border-line-soft bg-canvas text-muted group-hover:text-ink"
@@ -142,7 +140,7 @@ export default function TechArsenal() {
               </span>
               <span className="min-w-0 flex-1">
                 <span
-                  className={`block text-[0.66rem] font-medium leading-tight sm:text-[0.7rem] ${
+                  className={`block truncate text-[0.66rem] font-medium leading-tight sm:text-[0.7rem] ${
                     activeTile ? "text-ink" : "text-muted group-hover:text-ink"
                   }`}
                 >
@@ -157,7 +155,7 @@ export default function TechArsenal() {
       <div
         key={active.id}
         aria-live="polite"
-        className="mt-3 flex-1 rounded-xl border border-line-soft bg-canvas p-3"
+        className="mt-3 flex-1 rounded-[3px] border border-line-soft bg-canvas p-3"
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="font-mono text-[0.62rem] uppercase tracking-[0.14em] text-accent">{active.name}</p>
