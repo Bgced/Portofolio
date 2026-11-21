@@ -71,7 +71,7 @@ export default function Hero() {
             </div>
 
             <div className="readout-foot">
-              <span>{t("hero.status", { games: COUNT.games, tools: COUNT.tools, projects: PROJECTS.length })}</span>
+              <span>{t("hero.statusNote")}</span>
             </div>
           </dl>
         </div>

@@ -127,8 +127,6 @@ export default function Contact() {
           <div className="flex flex-col p-5 sm:p-7 lg:p-9">
             <p className="eyebrow">{t("contact.coin")}</p>
 
-            <p className="mt-4 text-[0.86rem] leading-relaxed text-muted">{t("contact.reply")}</p>
-
               <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                 <a href={`mailto:${PROFILE.email}`} className="btn btn-primary w-full sm:w-auto">
                   <Mail size={15} aria-hidden="true" />
@@ -159,7 +157,6 @@ export default function Contact() {
               </div>
 
               <p className="mt-4 break-all font-mono text-[0.68rem] tracking-[0.04em] text-muted">{PROFILE.email}</p>
-              <p className="mono-label mt-2 text-[0.52rem] leading-relaxed">{t("contact.reply")}</p>
 
               <ul className="mt-5 flex flex-col gap-1.5 border-t border-line-soft pt-4">
                 {SOCIALS.map((social) => {

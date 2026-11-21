@@ -6,9 +6,10 @@ import { useLang } from "@/components/providers";
 import { useToast } from "@/components/ui/ToastProvider";
 
 const TOPICS = [
-  { id: "kolaborasi", idLabel: "Kolaborasi Project", enLabel: "Project collaboration" },
-  { id: "kerja", idLabel: "Tawaran Kerja / Intern", enLabel: "Job / Internship offer" },
-  { id: "santai", idLabel: "Tanya-tanya Santai", enLabel: "Just asking around" },
+  { id: "kolaborasi", idLabel: "Kolaborasi / Freelance", enLabel: "Collaboration / Freelance" },
+  { id: "kerja", idLabel: "Magang / Kerja", enLabel: "Internship / Full-time" },
+  { id: "elektro", idLabel: "Nanya soal Elektro", enLabel: "Circuits / EE question" },
+  { id: "santai", idLabel: "Cuma mampir", enLabel: "Just passing by" },
 ];
 
 const inputClass =
@@ -115,7 +116,7 @@ export default function ContactForm() {
             className={inputClass}
             value={form.name}
             onChange={update("name")}
-            placeholder={en ? "Your name" : "Nama lo"}
+            placeholder={en ? "Siapa nih?" : "Siapa nih?"}
             required
             maxLength={80}
             autoComplete="name"
@@ -128,7 +129,7 @@ export default function ContactForm() {
             type="email"
             value={form.email}
             onChange={update("email")}
-            placeholder="nama@email.com"
+            placeholder={en ? "you@email.com" : "email.lo@domain.com"}
             required
             maxLength={120}
             autoComplete="email"
@@ -156,7 +157,7 @@ export default function ContactForm() {
           className={`${inputClass} min-h-[118px] resize-y leading-relaxed`}
           value={form.message}
           onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value.slice(0, 600) }))}
-          placeholder={en ? "Tell me what you're building…" : "Ceritain yang mau lo bangun…"}
+          placeholder={en ? "Apa yang mau dibangun, kapan targetnya, budget range…" : "Mau bikin apa, target kapan, budget range…"}
           required
           maxLength={600}
         />
