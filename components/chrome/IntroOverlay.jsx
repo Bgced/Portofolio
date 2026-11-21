@@ -1,13 +1,12 @@
 "use client";
 
 /**
- * IntroOverlay — layar pembuka yang bisa ditutup (X / Escape / klik luar).
+ * IntroOverlay — layar sambutan yang bisa ditutup (X / Escape / klik luar).
  *
- * Muncul sekali per browser (localStorage `cekael-intro`). Bisa dibuka lagi
- * lewat event `cekael:intro` (dipakai command palette).
+ * Muncul tiap halaman di-mount (tiap refresh / buka baru). Ada loading
+ * singkat di awal biar terasa hidup, terus isinya muncul.
  *
- * Nggak nge-blok halaman: overlay transparan dengan backdrop tipis, di belakang
- * tetap kelihatan. Fokus ditahan di dialog selama kebuka (R-32).
+ * Bisa juga dibuka lagi lewat event `cekael:intro` (dipakai command palette).
  */
 
 import { useCallback, useEffect, useRef, useState } from "react";
@@ -16,31 +15,23 @@ import { useLang } from "@/components/providers";
 import { COUNT } from "@/lib/games";
 import { PROJECTS } from "@/lib/content";
 
-/**
- * IntroOverlay — layar pembuka yang bisa ditutup (X / Escape / klik luar).
- *
- * Muncul tiap halaman di-mount (tiap refresh / buka baru). Bisa juga dibuka
- * lagi lewat event `cekael:intro` (dipakai command palette).
- *
- * Nggak nge-blok halaman: overlay transparan dengan backdrop tipis, di belakang
- * tetap kelihatan. Fokus ditahan di dialog selama kebuka (R-32).
- */
+const IDLE_MS = 450;
 
 export default function IntroOverlay() {
-  const [open, setOpen] = useState(false);
-  const dialogRef = useRef(null);
+  const { t } = useLang();
+  const [phase, setPhase] = useState("loading"); // "loading" | "ready"
+  const [open, setOpen] = useState(true);
   const closeRef = useRef(null);
   const lastFocused = useRef(null);
-  const { t } = useLang();
 
-  // Muncul tiap mount (tiap refresh).
+  // Loading singkat, terus tampilkan isinya.
   useEffect(() => {
-    setOpen(true);
+    const timer = window.setTimeout(() => setPhase("ready"), IDLE_MS);
+    return () => window.clearTimeout(timer);
   }, []);
 
   const close = useCallback(() => {
     setOpen(false);
-    // Balikin fokus ke halaman
     window.requestAnimationFrame(() => {
       const home = document.getElementById("home");
       if (home) home.focus({ preventScroll: true });
@@ -48,14 +39,22 @@ export default function IntroOverlay() {
     });
   }, []);
 
-  // Bisa dibuka lagi dari command palette / navbar
+  // Bisa dibuka lagi dari command palette
   useEffect(() => {
     const onOpen = () => setOpen(true);
     window.addEventListener("cekael:intro", onOpen);
     return () => window.removeEventListener("cekael:intro", onOpen);
   }, []);
 
-  // Escape nutup overlay
+  // Loading ulang tiap dibuka lagi.
+  useEffect(() => {
+    if (!open) return undefined;
+    setPhase("loading");
+    const timer = window.setTimeout(() => setPhase("ready"), IDLE_MS);
+    return () => window.clearTimeout(timer);
+  }, [open]);
+
+  // Escape nutup
   useEffect(() => {
     if (!open) return undefined;
     const onKey = (event) => {
@@ -73,12 +72,11 @@ export default function IntroOverlay() {
     return () => window.clearTimeout(timer);
   }, [open]);
 
-  // Klik backdrop nutup (area gelap di luar panel)
+  if (!open) return null;
+
   const onBackdrop = (event) => {
     if (event.target === event.currentTarget) close();
   };
-
-  if (!open) return null;
 
   return (
     <div
@@ -87,16 +85,16 @@ export default function IntroOverlay() {
       className="fixed inset-0 z-[80] flex items-center justify-center bg-[rgba(2,5,8,0.72)] p-4 backdrop-blur-[3px]"
     >
       <div
-        ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby="intro-title"
+        aria-busy={phase === "loading"}
         className="palette-panel relative w-full max-w-[440px] overflow-hidden rounded-[20px] border border-line bg-surface shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)]"
       >
         {/* bar atas: label + tombol X */}
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
           <p className="mono-label text-[0.56rem]">
-            {t("intro.kicker")}
+            {phase === "loading" ? t("intro.loading") : t("intro.kicker")}
           </p>
           <button
             ref={closeRef}
@@ -111,34 +109,49 @@ export default function IntroOverlay() {
 
         {/* isi */}
         <div className="p-5 sm:p-6">
-          <h2
-            id="intro-title"
-            className="text-[1.5rem] font-semibold leading-tight tracking-[-0.02em] text-ink"
-          >
-            {t("intro.title")}
-          </h2>
-          <p className="mt-2 text-[0.85rem] leading-relaxed text-muted">
-            {t("intro.body", { games: COUNT.games, tools: COUNT.tools, projects: PROJECTS.length })}
-          </p>
+          {phase === "loading" ? (
+            <div className="flex min-h-[168px] flex-col items-center justify-center gap-3">
+              <span className="flex gap-1.5" aria-hidden="true">
+                <span className="h-2 w-2 animate-bounce rounded-full bg-accent [animation-delay:-0.3s]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-accent [animation-delay:-0.15s]" />
+                <span className="h-2 w-2 animate-bounce rounded-full bg-accent" />
+              </span>
+              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-muted">
+                {t("intro.loading")}
+              </p>
+            </div>
+          ) : (
+            <div className="animate-in fade-in slide-in-from-bottom-1 duration-300">
+              <h2
+                id="intro-title"
+                className="text-[1.5rem] font-semibold leading-tight tracking-[-0.02em] text-ink"
+              >
+                {t("intro.title")}
+              </h2>
+              <p className="mt-2 text-[0.85rem] leading-relaxed text-muted">
+                {t("intro.body", { games: COUNT.games, tools: COUNT.tools, projects: PROJECTS.length })}
+              </p>
 
-          <div className="mt-5 flex flex-col gap-2">
-            <a
-              href="#playground"
-              onClick={close}
-              className="btn btn-primary w-full"
-            >
-              {t("intro.ctaPlay")}
-              <ArrowDown size={14} aria-hidden="true" />
-            </a>
-            <a
-              href="#projects"
-              onClick={close}
-              className="btn btn-ghost w-full"
-            >
-              {t("intro.ctaWork")}
-              <ArrowRight size={14} aria-hidden="true" />
-            </a>
-          </div>
+              <div className="mt-5 flex flex-col gap-2">
+                <a
+                  href="#playground"
+                  onClick={close}
+                  className="btn btn-primary w-full"
+                >
+                  {t("intro.ctaPlay")}
+                  <ArrowDown size={14} aria-hidden="true" />
+                </a>
+                <a
+                  href="#projects"
+                  onClick={close}
+                  className="btn btn-ghost w-full"
+                >
+                  {t("intro.ctaWork")}
+                  <ArrowRight size={14} aria-hidden="true" />
+                </a>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
