@@ -45,15 +45,25 @@ export default function About() {
             className="mx-auto w-full max-w-[19rem] lg:mx-0"
             surfaceClassName="card-surface--flush aspect-[4/5] w-full"
           >
-            <div className="relative h-full w-full overflow-hidden">
+            <div className="photo-frame group relative h-full w-full overflow-hidden">
               <Image
                 src="/profile.jpg"
                 alt="Cedric Kilian, front-end developer and Electrical Engineering student"
                 fill
                 sizes="(min-width: 1024px) 292px, (min-width: 640px) 60vw, 92vw"
-                className="object-cover object-center"
+                className="photo-img object-cover object-center"
+                priority
               />
+              {/* scanline overlay */}
+              <div aria-hidden="true" className="photo-scanlines pointer-events-none absolute inset-0" />
+              {/* gradient scrim */}
               <div aria-hidden="true" className="photo-scrim" />
+              {/* corner brackets */}
+              <span aria-hidden="true" className="photo-corner photo-corner-tl" />
+              <span aria-hidden="true" className="photo-corner photo-corner-tr" />
+              <span aria-hidden="true" className="photo-corner photo-corner-bl" />
+              <span aria-hidden="true" className="photo-corner photo-corner-br" />
+              {/* info overlay */}
               <div className="absolute inset-x-0 bottom-0 p-4">
                 <p className="font-mono text-[0.56rem] uppercase tracking-[0.18em] text-accent-2">
                   {t("about.available")}
@@ -61,6 +71,10 @@ export default function About() {
                 <p className="mt-1 text-[1.05rem] font-semibold leading-tight text-ink">{PROFILE.name}</p>
                 <p className="mt-1 text-[0.76rem] text-muted">{PROFILE.role}</p>
               </div>
+              {/* hover hint */}
+              <span className="photo-hint pointer-events-none absolute right-3 top-3 font-mono text-[0.52rem] uppercase tracking-[0.14em] text-accent-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                live
+              </span>
             </div>
           </FloatingCard>
         </Reveal>

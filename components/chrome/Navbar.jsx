@@ -62,7 +62,10 @@ export default function Navbar() {
             CK
           </span>
           <span className="flex flex-col leading-none">
-            <span className="text-[0.92rem] font-semibold tracking-[-0.01em] text-ink">Cedric Kilian</span>
+            <span className="flex items-center gap-1.5">
+              <span className="live-dot" aria-hidden="true" />
+              <span className="text-[0.92rem] font-semibold tracking-[-0.01em] text-ink">Cedric Kilian</span>
+            </span>
             <span className="mt-1 font-mono text-[0.54rem] uppercase tracking-[0.2em] text-muted">
               frontend dev
             </span>

@@ -12,11 +12,15 @@ export default function SectionHeading({ index = "01", kicker = "", title, accen
       </p>
 
       <h2 className="display-title mt-4 max-w-3xl text-[clamp(1.9rem,5vw,3.4rem)]">
-        {title}
+        <span className="hologram" data-holo={title}>
+          {title}
+        </span>
         {accent ? (
           <>
             {" "}
-            <span className="text-accent-2">{accent}</span>
+            <span className="hologram text-accent-2" data-holo={accent}>
+              {accent}
+            </span>
           </>
         ) : null}
       </h2>

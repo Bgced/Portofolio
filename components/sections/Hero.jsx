@@ -33,8 +33,12 @@ export default function Hero() {
             <p className="eyebrow">{t("hero.eyebrow")}</p>
 
             <h1 className="display-title mt-6 text-[clamp(2.9rem,9vw,6.4rem)]">
-              <span className="block">{t("hero.line1")}</span>
-              <span className="block text-accent">{t("hero.line2")}</span>
+              <span className="hologram block" data-holo={t("hero.line1")}>
+                {t("hero.line1")}
+              </span>
+              <span className="hologram block text-accent" data-holo={t("hero.line2")}>
+                {t("hero.line2")}
+              </span>
             </h1>
 
             <div className="mt-9 flex flex-wrap items-center gap-2.5">

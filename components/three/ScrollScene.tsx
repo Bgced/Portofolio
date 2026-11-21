@@ -50,29 +50,39 @@ type Shape = {
   scale: number;
   spin: number;
   drift: number;
+  /**
+   * Gerak pas scroll:
+   * - "roll"  : gelinding ke bawah sambil muter sumbu z
+   * - "slide" : ngegeser kiri-kanan
+   * - "drift" : cuma melayang halus (default lama)
+   */
+  motion: "roll" | "slide" | "drift";
+  /** Fase biar tiap objek nggak gerak barengan. */
+  phase?: number;
 };
 
 /** Layout statis — dihitung sekali di module scope, bukan tiap render.
  *  Balok + prisma heksagonal, sisi beda-beda biar nggak monoton. */
 const SHAPES: Shape[] = [
   // Balok: siluet besar di pinggir, biar tengah tetep lega buat teks.
-  { key: "a", kind: "box", size: [1.1, 2.2, 0.9], position: [-4.6, 2.4, -6], rotation: [0.4, 0.6, 0.1], scale: 1.0, spin: 0.1, drift: 0.5 },
-  { key: "b", kind: "box", size: [2.6, 0.8, 0.8], position: [4.4, 1.6, -8], rotation: [0.2, 0.2, 0.35], scale: 1.15, spin: 0.06, drift: 0.7 },
-  { key: "c", kind: "box", size: [0.7, 2.8, 0.7], position: [2.6, -2.6, -5], rotation: [0.5, 0.9, 0.2], scale: 1.0, spin: 0.14, drift: 0.35 },
-  { key: "d", kind: "box", size: [3.0, 1.2, 1.2], position: [-3.2, -3.4, -9], rotation: [0.2, 0.9, 0.4], scale: 1.25, spin: 0.08, drift: 0.6 },
-  { key: "e", kind: "box", size: [4.2, 0.5, 1.6], position: [0.6, 3.6, -11], rotation: [0.3, 0.4, 0.9], scale: 1.1, spin: 0.05, drift: 0.9 },
-  { key: "f", kind: "box", size: [0.9, 0.9, 0.9], position: [-1.4, -1.2, -7.5], rotation: [0.6, 0.5, 0.1], scale: 0.8, spin: 0.18, drift: 0.45 },
-  { key: "g", kind: "box", size: [2.2, 2.2, 2.2], position: [5.2, -1.8, -12], rotation: [0.5, 0.2, 0.7], scale: 1.3, spin: 0.04, drift: 0.8 },
-  { key: "h", kind: "box", size: [3.6, 0.7, 0.7], position: [-5.6, -0.6, -13], rotation: [0.9, 1.2, 0.2], scale: 1.4, spin: 0.03, drift: 1 },
-  { key: "l", kind: "box", size: [0.5, 1.8, 0.5], position: [6.4, 3.2, -10], rotation: [0.2, 0.7, 0.3], scale: 1.0, spin: 0.15, drift: 0.6 },
-  { key: "m", kind: "box", size: [1.8, 0.5, 1.8], position: [-6.8, 0.4, -16], rotation: [0.4, 0.2, 0.8], scale: 1.2, spin: 0.05, drift: 0.9 },
+  // motion: roll = gelinding ke bawah, slide = geser kiri-kanan.
+  { key: "a", kind: "box", size: [1.1, 2.2, 0.9], position: [-4.6, 2.4, -6], rotation: [0.4, 0.6, 0.1], scale: 1.0, spin: 0.1, drift: 0.5, motion: "roll", phase: 0.0 },
+  { key: "b", kind: "box", size: [2.6, 0.8, 0.8], position: [4.4, 1.6, -8], rotation: [0.2, 0.2, 0.35], scale: 1.15, spin: 0.06, drift: 0.7, motion: "slide", phase: 1.1 },
+  { key: "c", kind: "box", size: [0.7, 2.8, 0.7], position: [2.6, -2.6, -5], rotation: [0.5, 0.9, 0.2], scale: 1.0, spin: 0.14, drift: 0.35, motion: "roll", phase: 2.2 },
+  { key: "d", kind: "box", size: [3.0, 1.2, 1.2], position: [-3.2, -3.4, -9], rotation: [0.2, 0.9, 0.4], scale: 1.25, spin: 0.08, drift: 0.6, motion: "slide", phase: 0.6 },
+  { key: "e", kind: "box", size: [4.2, 0.5, 1.6], position: [0.6, 3.6, -11], rotation: [0.3, 0.4, 0.9], scale: 1.1, spin: 0.05, drift: 0.9, motion: "drift", phase: 1.7 },
+  { key: "f", kind: "box", size: [0.9, 0.9, 0.9], position: [-1.4, -1.2, -7.5], rotation: [0.6, 0.5, 0.1], scale: 0.8, spin: 0.18, drift: 0.45, motion: "roll", phase: 3.1 },
+  { key: "g", kind: "box", size: [2.2, 2.2, 2.2], position: [5.2, -1.8, -12], rotation: [0.5, 0.2, 0.7], scale: 1.3, spin: 0.04, drift: 0.8, motion: "slide", phase: 2.6 },
+  { key: "h", kind: "box", size: [3.6, 0.7, 0.7], position: [-5.6, -0.6, -13], rotation: [0.9, 1.2, 0.2], scale: 1.4, spin: 0.03, drift: 1, motion: "roll", phase: 1.4 },
+  { key: "l", kind: "box", size: [0.5, 1.8, 0.5], position: [6.4, 3.2, -10], rotation: [0.2, 0.7, 0.3], scale: 1.0, spin: 0.15, drift: 0.6, motion: "slide", phase: 0.3 },
+  { key: "m", kind: "box", size: [1.8, 0.5, 1.8], position: [-6.8, 0.4, -16], rotation: [0.4, 0.2, 0.8], scale: 1.2, spin: 0.05, drift: 0.9, motion: "drift", phase: 2.0 },
   // Heksagon: bentuk signature, tersebar biar kebaca di tiap section.
-  { key: "i", kind: "hex", size: [1.8, 1.8, 0], position: [-6.2, 3.6, -9], rotation: [0.25, 0.3, 0.0], scale: 1.0, spin: 0.09, drift: 0.55 },
-  { key: "j", kind: "hex", size: [2.6, 1.1, 0], position: [-5.4, -3.8, -12], rotation: [1.15, 0.25, 0.18], scale: 1.15, spin: 0.07, drift: 0.75 },
-  { key: "k", kind: "hex", size: [1.2, 2.6, 0], position: [-1.2, 4.2, -15], rotation: [0.9, 0.6, 0.1], scale: 1.05, spin: 0.05, drift: 0.9 },
-  { key: "n", kind: "hex", size: [1.5, 1.5, 0], position: [5.8, 0.8, -7], rotation: [0.35, 0.9, 0.0], scale: 1.0, spin: 0.11, drift: 0.5 },
-  { key: "o", kind: "hex", size: [3.0, 1.2, 0], position: [1.4, -4.4, -13], rotation: [1.05, 0.35, 0.2], scale: 1.2, spin: 0.06, drift: 0.85 },
-  { key: "p", kind: "hex", size: [1.0, 2.2, 0], position: [-7.0, -2.2, -6.5], rotation: [0.75, 0.45, 0.1], scale: 0.95, spin: 0.13, drift: 0.65 },
+  { key: "i", kind: "hex", size: [1.8, 1.8, 0], position: [-6.2, 3.6, -9], rotation: [0.25, 0.3, 0.0], scale: 1.0, spin: 0.09, drift: 0.55, motion: "roll", phase: 0.9 },
+  { key: "j", kind: "hex", size: [2.6, 1.1, 0], position: [-5.4, -3.8, -12], rotation: [1.15, 0.25, 0.18], scale: 1.15, spin: 0.07, drift: 0.75, motion: "slide", phase: 1.9 },
+  { key: "k", kind: "hex", size: [1.2, 2.6, 0], position: [-1.2, 4.2, -15], rotation: [0.9, 0.6, 0.1], scale: 1.05, spin: 0.05, drift: 0.9, motion: "drift", phase: 2.8 },
+  { key: "n", kind: "hex", size: [1.5, 1.5, 0], position: [5.8, 0.8, -7], rotation: [0.35, 0.9, 0.0], scale: 1.0, spin: 0.11, drift: 0.5, motion: "roll", phase: 1.2 },
+  { key: "o", kind: "hex", size: [3.0, 1.2, 0], position: [1.4, -4.4, -13], rotation: [1.05, 0.35, 0.2], scale: 1.2, spin: 0.06, drift: 0.85, motion: "slide", phase: 0.2 },
+  { key: "p", kind: "hex", size: [1.0, 2.2, 0], position: [-7.0, -2.2, -6.5], rotation: [0.75, 0.45, 0.1], scale: 0.95, spin: 0.13, drift: 0.65, motion: "roll", phase: 2.4 },
 ];
 
 const damp = THREE.MathUtils.damp;
@@ -86,12 +96,18 @@ const ShapeMesh = memo(function ShapeMesh({
   shape,
   palette,
   mood,
+  scroll,
+  reduced,
 }: {
   shape: Shape;
   palette: (typeof PALETTES)["light"] | (typeof PALETTES)["dark"];
   mood: Mood;
+  /** Progress scroll 0..1 (ref, dibaca tiap frame tanpa re-render). */
+  scroll: { current: number };
+  reduced: boolean;
 }) {
   const wire = mood === "wire";
+  const group = useRef<THREE.Group>(null);
 
   const geometry = useMemo(() => {
     if (shape.kind === "hex") {
@@ -152,8 +168,72 @@ const ShapeMesh = memo(function ShapeMesh({
     [edges]
   );
 
+  // Gerak per objek, digerakkan progress scroll + waktu.
+  // roll  : gelinding ke bawah sambil muter
+  // slide : geser kiri-kanan
+  // drift : melayang halus
+  useFrame((state) => {
+    const node = group.current;
+    if (!node) return;
+
+    const t = state.clock.elapsedTime;
+    const phase = shape.phase ?? 0;
+    const [bx, by, bz] = shape.position;
+
+    if (reduced) {
+      node.position.set(bx, by, bz);
+      node.rotation.set(...shape.rotation);
+      return;
+    }
+
+    const p = scroll.current;
+
+    if (shape.motion === "roll") {
+      // Jatuh mengikuti scroll + muter penuh, plus rotasi idle pelan.
+      node.position.set(
+        bx + Math.sin(t * 0.3 + phase) * 0.18,
+        by - p * 5.2 + Math.sin(t * 0.5 + phase) * 0.12,
+        bz
+      );
+      node.rotation.set(
+        shape.rotation[0] + t * shape.spin * 0.35,
+        shape.rotation[1] + p * Math.PI * 1.2,
+        shape.rotation[2] + p * Math.PI * 2.4
+      );
+      return;
+    }
+
+    if (shape.motion === "slide") {
+      // Geser kiri-kanan jauh, ikut scroll + osilasi idle.
+      const swing = Math.sin(p * Math.PI * 2 + phase) * 2.4;
+      node.position.set(
+        bx + swing + Math.sin(t * 0.25 + phase) * 0.22,
+        by - p * 1.4,
+        bz
+      );
+      node.rotation.set(
+        shape.rotation[0] + Math.sin(t * 0.2 + phase) * 0.15,
+        shape.rotation[1] + swing * 0.12,
+        shape.rotation[2]
+      );
+      return;
+    }
+
+    // drift: melayang halus, turun dikit
+    node.position.set(
+      bx + Math.sin(t * 0.22 + phase) * 0.35,
+      by - p * 1.1 + Math.cos(t * 0.3 + phase) * 0.22,
+      bz + Math.sin(t * 0.18 + phase) * 0.3
+    );
+    node.rotation.set(
+      shape.rotation[0] + t * shape.spin * 0.25,
+      shape.rotation[1] + t * shape.spin * 0.18,
+      shape.rotation[2] + Math.sin(t * 0.15 + phase) * 0.12
+    );
+  });
+
   return (
-    <group position={shape.position} rotation={shape.rotation} scale={shape.scale}>
+    <group ref={group} position={shape.position} rotation={shape.rotation} scale={shape.scale}>
       <mesh geometry={geometry} material={material} />
       <lineSegments geometry={edges} material={edgeMaterial} />
     </group>
@@ -262,7 +342,14 @@ function Rig({
   return (
     <group ref={groupRef}>
       {SHAPES.map((shape) => (
-        <ShapeMesh key={shape.key} shape={shape} palette={palette} mood={mood} />
+        <ShapeMesh
+          key={shape.key}
+          shape={shape}
+          palette={palette}
+          mood={mood}
+          scroll={scroll}
+          reduced={reduced}
+        />
       ))}
     </group>
   );

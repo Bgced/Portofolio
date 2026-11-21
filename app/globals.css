@@ -186,6 +186,96 @@ body {
     0 0 60px color-mix(in srgb, var(--text) 4%, transparent);
 }
 
+/* ------------------------------------------------------------------
+   Hologram — teks tebal berlapis glow, ada chromatic split + flicker.
+   Dipakai di judul section & hero biar kesannya diproyeksikan, bukan dicetak.
+------------------------------------------------------------------- */
+.hologram {
+  position: relative;
+  color: var(--text);
+  text-shadow:
+    0 0 1px color-mix(in srgb, var(--text) 70%, transparent),
+    0 0 10px color-mix(in srgb, var(--accent) 34%, transparent),
+    0 0 26px color-mix(in srgb, var(--accent) 20%, transparent),
+    0 0 52px color-mix(in srgb, var(--accent) 12%, transparent);
+  animation: hologram-flicker 6s ease-in-out infinite;
+}
+
+/* Split kromatik tipis: lapisan accent di belakang teks utama */
+.hologram::before {
+  content: attr(data-holo);
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  color: color-mix(in srgb, var(--accent) 55%, transparent);
+  transform: translate(2px, 0);
+  filter: blur(0.4px);
+  pointer-events: none;
+  opacity: 0.7;
+  animation: hologram-shift 4.5s ease-in-out infinite;
+}
+
+@keyframes hologram-flicker {
+  0%, 100% { opacity: 1; }
+  47% { opacity: 1; }
+  48% { opacity: 0.82; }
+  49% { opacity: 1; }
+  71% { opacity: 1; }
+  72% { opacity: 0.88; }
+  73% { opacity: 1; }
+}
+
+@keyframes hologram-shift {
+  0%, 100% { transform: translate(2px, 0); opacity: 0.65; }
+  50% { transform: translate(-2px, 0); opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hologram,
+  .hologram::before {
+    animation: none;
+  }
+}
+
+/* Titik hijau "live" — dipakai di sebelah nama */
+.live-dot {
+  position: relative;
+  display: inline-block;
+  width: 0.5rem;
+  height: 0.5rem;
+  flex: none;
+  border-radius: 999px;
+  background: var(--ok);
+  box-shadow:
+    0 0 0 0 color-mix(in srgb, var(--ok) 70%, transparent),
+    0 0 10px color-mix(in srgb, var(--ok) 60%, transparent);
+  animation: live-pulse 2.4s ease-out infinite;
+}
+
+@keyframes live-pulse {
+  0% {
+    box-shadow:
+      0 0 0 0 color-mix(in srgb, var(--ok) 55%, transparent),
+      0 0 8px color-mix(in srgb, var(--ok) 50%, transparent);
+  }
+  70% {
+    box-shadow:
+      0 0 0 7px color-mix(in srgb, var(--ok) 0%, transparent),
+      0 0 12px color-mix(in srgb, var(--ok) 30%, transparent);
+  }
+  100% {
+    box-shadow:
+      0 0 0 0 color-mix(in srgb, var(--ok) 0%, transparent),
+      0 0 8px color-mix(in srgb, var(--ok) 50%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .live-dot {
+    animation: none;
+  }
+}
+
 /* panel / kartrid: permukaan lembut, bukan kotak kaku */
 .panel {
   position: relative;
@@ -503,7 +593,83 @@ body {
   position: absolute;
   inset: 0;
   pointer-events: none;
-  background: rgba(5, 7, 9, 0.5);
+  background:
+    linear-gradient(180deg, transparent 40%, rgba(5, 7, 9, 0.82) 100%),
+    rgba(5, 7, 9, 0.22);
+  transition: background 400ms ease;
+}
+
+/* ---- Photo interactions ---- */
+
+/* Grayscale -> color on hover, slight zoom */
+.photo-img {
+  filter: grayscale(1) contrast(1.05) brightness(0.85);
+  transform: scale(1.0);
+  transition:
+    filter 500ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 600ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: filter, transform;
+}
+.group:hover .photo-img {
+  filter: grayscale(0) contrast(1.02) brightness(1);
+  transform: scale(1.04);
+}
+
+/* Scanlines — CRT monitor vibe */
+.photo-scanlines {
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 0, 0, 0.12) 2px,
+    rgba(0, 0, 0, 0.12) 4px
+  );
+  mix-blend-mode: multiply;
+  opacity: 0.5;
+  transition: opacity 400ms ease;
+}
+.group:hover .photo-scanlines {
+  opacity: 0.15;
+}
+
+/* Corner brackets — HUD frame */
+.photo-corner {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  border-style: solid;
+  border-width: 0;
+  pointer-events: none;
+  transition: border-color 300ms ease, width 300ms ease, height 300ms ease;
+}
+.photo-corner-tl { top: 10px; left: 10px; border-top-width: 2px; border-left-width: 2px; }
+.photo-corner-tr { top: 10px; right: 10px; border-top-width: 2px; border-right-width: 2px; }
+.photo-corner-bl { bottom: 10px; left: 10px; border-bottom-width: 2px; border-left-width: 2px; }
+.photo-corner-br { bottom: 10px; right: 10px; border-bottom-width: 2px; border-right-width: 2px; }
+
+.group:hover .photo-corner {
+  width: 20px;
+  height: 20px;
+  border-color: var(--accent);
+}
+
+/* Hover: scrim lightens to reveal photo */
+.group:hover .photo-scrim {
+  background:
+    linear-gradient(180deg, transparent 50%, rgba(5, 7, 9, 0.7) 100%),
+    rgba(5, 7, 9, 0.08);
+}
+
+/* Subtle idle float on desktop */
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .photo-frame {
+    animation: photo-float 5s ease-in-out infinite;
+  }
+  @keyframes photo-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
 }
 
 /* ------------------------------------------------------------------
