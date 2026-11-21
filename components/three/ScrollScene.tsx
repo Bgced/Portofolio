@@ -55,16 +55,24 @@ type Shape = {
 /** Layout statis — dihitung sekali di module scope, bukan tiap render.
  *  Balok + prisma heksagonal, sisi beda-beda biar nggak monoton. */
 const SHAPES: Shape[] = [
+  // Balok: siluet besar di pinggir, biar tengah tetep lega buat teks.
   { key: "a", kind: "box", size: [1.1, 2.2, 0.9], position: [-4.6, 2.4, -6], rotation: [0.4, 0.6, 0.1], scale: 1.0, spin: 0.1, drift: 0.5 },
   { key: "b", kind: "box", size: [2.6, 0.8, 0.8], position: [4.4, 1.6, -8], rotation: [0.2, 0.2, 0.35], scale: 1.15, spin: 0.06, drift: 0.7 },
   { key: "c", kind: "box", size: [0.7, 2.8, 0.7], position: [2.6, -2.6, -5], rotation: [0.5, 0.9, 0.2], scale: 1.0, spin: 0.14, drift: 0.35 },
   { key: "d", kind: "box", size: [3.0, 1.2, 1.2], position: [-3.2, -3.4, -9], rotation: [0.2, 0.9, 0.4], scale: 1.25, spin: 0.08, drift: 0.6 },
   { key: "e", kind: "box", size: [4.2, 0.5, 1.6], position: [0.6, 3.6, -11], rotation: [0.3, 0.4, 0.9], scale: 1.1, spin: 0.05, drift: 0.9 },
   { key: "f", kind: "box", size: [0.9, 0.9, 0.9], position: [-1.4, -1.2, -7.5], rotation: [0.6, 0.5, 0.1], scale: 0.8, spin: 0.18, drift: 0.45 },
-  // Heksagon: bentuk signature, sengaja dikurangin biar nggak jadi noise.
+  { key: "g", kind: "box", size: [2.2, 2.2, 2.2], position: [5.2, -1.8, -12], rotation: [0.5, 0.2, 0.7], scale: 1.3, spin: 0.04, drift: 0.8 },
+  { key: "h", kind: "box", size: [3.6, 0.7, 0.7], position: [-5.6, -0.6, -13], rotation: [0.9, 1.2, 0.2], scale: 1.4, spin: 0.03, drift: 1 },
+  { key: "l", kind: "box", size: [0.5, 1.8, 0.5], position: [6.4, 3.2, -10], rotation: [0.2, 0.7, 0.3], scale: 1.0, spin: 0.15, drift: 0.6 },
+  { key: "m", kind: "box", size: [1.8, 0.5, 1.8], position: [-6.8, 0.4, -16], rotation: [0.4, 0.2, 0.8], scale: 1.2, spin: 0.05, drift: 0.9 },
+  // Heksagon: bentuk signature, tersebar biar kebaca di tiap section.
   { key: "i", kind: "hex", size: [1.8, 1.8, 0], position: [-6.2, 3.6, -9], rotation: [0.25, 0.3, 0.0], scale: 1.0, spin: 0.09, drift: 0.55 },
   { key: "j", kind: "hex", size: [2.6, 1.1, 0], position: [-5.4, -3.8, -12], rotation: [1.15, 0.25, 0.18], scale: 1.15, spin: 0.07, drift: 0.75 },
-  { key: "k", kind: "hex", size: [1.2, 2.6, 0], position: [-1.2, 4.0, -15], rotation: [0.9, 0.6, 0.1], scale: 1.05, spin: 0.05, drift: 0.9 },
+  { key: "k", kind: "hex", size: [1.2, 2.6, 0], position: [-1.2, 4.2, -15], rotation: [0.9, 0.6, 0.1], scale: 1.05, spin: 0.05, drift: 0.9 },
+  { key: "n", kind: "hex", size: [1.5, 1.5, 0], position: [5.8, 0.8, -7], rotation: [0.35, 0.9, 0.0], scale: 1.0, spin: 0.11, drift: 0.5 },
+  { key: "o", kind: "hex", size: [3.0, 1.2, 0], position: [1.4, -4.4, -13], rotation: [1.05, 0.35, 0.2], scale: 1.2, spin: 0.06, drift: 0.85 },
+  { key: "p", kind: "hex", size: [1.0, 2.2, 0], position: [-7.0, -2.2, -6.5], rotation: [0.75, 0.45, 0.1], scale: 0.95, spin: 0.13, drift: 0.65 },
 ];
 
 const damp = THREE.MathUtils.damp;
@@ -101,7 +109,7 @@ const ShapeMesh = memo(function ShapeMesh({
         wireframe: true,
         transparent: true,
         // Heksagon: isi tipis aja, garis tepinya yang bawa bentuk.
-        opacity: shape.kind === "hex" ? 0.07 : 0.42,
+        opacity: shape.kind === "hex" ? 0.11 : 0.55,
       });
     }
     return new THREE.MeshStandardMaterial({
@@ -113,7 +121,7 @@ const ShapeMesh = memo(function ShapeMesh({
   }, [wire, palette.wire, palette.clay, shape.kind]);
 
   const edgeMaterial = useMemo(
-    () => new THREE.LineBasicMaterial({ color: palette.clayEdge, transparent: true, opacity: 0.6 }),
+    () => new THREE.LineBasicMaterial({ color: palette.clayEdge, transparent: true, opacity: 0.85 }),
     [palette.clayEdge]
   );
 

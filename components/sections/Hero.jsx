@@ -37,10 +37,6 @@ export default function Hero() {
               <span className="block text-accent">{t("hero.line2")}</span>
             </h1>
 
-            <p className="mt-7 max-w-[34ch] text-[0.98rem] leading-relaxed text-muted sm:text-[1.05rem]">
-              {t("hero.intro")}
-            </p>
-
             <div className="mt-9 flex flex-wrap items-center gap-2.5">
               <a href="#projects" className="btn btn-primary">
                 {t("hero.seeWork")}

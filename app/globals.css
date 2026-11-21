@@ -421,11 +421,16 @@ body {
     radial-gradient(
       115% 85% at 6% 42%,
       var(--bg) 0%,
-      color-mix(in srgb, var(--bg) 90%, transparent) 34%,
-      color-mix(in srgb, var(--bg) 46%, transparent) 60%,
-      transparent 78%
+      color-mix(in srgb, var(--bg) 88%, transparent) 30%,
+      color-mix(in srgb, var(--bg) 34%, transparent) 62%,
+      transparent 84%
     ),
-    color-mix(in srgb, var(--bg) 26%, transparent);
+    radial-gradient(
+      70% 50% at 88% 12%,
+      color-mix(in srgb, var(--accent) 9%, transparent) 0%,
+      transparent 70%
+    ),
+    color-mix(in srgb, var(--bg) 18%, transparent);
 }
 
 @media (max-width: 1023px) {
@@ -433,11 +438,16 @@ body {
     background:
       linear-gradient(
         180deg,
-        color-mix(in srgb, var(--bg) 90%, transparent) 0%,
-        color-mix(in srgb, var(--bg) 66%, transparent) 48%,
-        color-mix(in srgb, var(--bg) 44%, transparent) 100%
+        color-mix(in srgb, var(--bg) 78%, transparent) 0%,
+        color-mix(in srgb, var(--bg) 52%, transparent) 46%,
+        color-mix(in srgb, var(--bg) 30%, transparent) 100%
       ),
-      color-mix(in srgb, var(--bg) 32%, transparent);
+      radial-gradient(
+        70% 40% at 80% 8%,
+        color-mix(in srgb, var(--accent) 8%, transparent) 0%,
+        transparent 72%
+      ),
+      color-mix(in srgb, var(--bg) 22%, transparent);
   }
 }
 
