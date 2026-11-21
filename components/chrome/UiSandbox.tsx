@@ -71,7 +71,7 @@ export default function UiSandbox() {
   );
 
   return (
-    <div className="fixed bottom-20 right-4 z-40 print:hidden sm:bottom-6 sm:right-6">
+    <div className="fixed bottom-5 left-16 z-40 print:hidden sm:bottom-7 sm:left-auto sm:right-20">
       {open ? (
         <div className="panel w-[min(19rem,calc(100vw-2rem))] p-3 border-line bg-surface">
           <div className="flex items-start justify-between gap-2">
@@ -157,10 +157,9 @@ export default function UiSandbox() {
           onClick={() => setOpen(true)}
           aria-label={en ? "Open UI sandbox" : "Buka sandbox UI"}
           title={en ? "UI sandbox — try accent, radius, 3D" : "Sandbox UI — coba aksen, radius, 3D"}
-          className="flex items-center gap-2 border border-line bg-surface px-3 py-2 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-muted  transition-colors hover:border-accent hover:text-accent"
+          className="flex items-center gap-2 rounded-[6px] border border-line bg-surface px-3 py-2.5 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-muted transition-colors hover:border-accent hover:text-accent"
         >
-          
-          {en ? "ui sandbox" : "sandbox ui"}
+          {en ? "ui" : "ui"}
         </button>
       )}
     </div>

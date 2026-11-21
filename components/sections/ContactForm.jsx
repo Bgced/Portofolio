@@ -13,7 +13,7 @@ const TOPICS = [
 ];
 
 const inputClass =
-  "w-full rounded-[12px] border border-line-soft bg-canvas px-3 py-2.5 text-[0.85rem] text-ink outline-none transition-colors placeholder:text-muted/55 focus:border-accent/70";
+  "w-full rounded-[12px] border border-line-soft bg-canvas px-3 py-2.5 text-[0.88rem] text-ink outline-none transition-colors placeholder:text-muted/85 focus:border-accent/70";
 
 export default function ContactForm() {
   const { lang } = useLang();
@@ -157,7 +157,7 @@ export default function ContactForm() {
           className={`${inputClass} min-h-[118px] resize-y leading-relaxed`}
           value={form.message}
           onChange={(event) => setForm((prev) => ({ ...prev, message: event.target.value.slice(0, 600) }))}
-          placeholder={en ? "Apa yang mau dibangun, kapan targetnya, budget range…" : "Mau bikin apa, target kapan, budget range…"}
+          placeholder={en ? "Mau bikin apa, target kapan, budget range..." : "Mau bikin apa, target kapan, budget range..."}
           required
           maxLength={600}
         />
