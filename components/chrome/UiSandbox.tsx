@@ -71,7 +71,7 @@ export default function UiSandbox() {
   );
 
   return (
-    <div className="fixed bottom-5 left-16 z-40 print:hidden sm:bottom-7 sm:left-auto sm:right-20">
+    <div className="fixed bottom-5 right-4 z-40 print:hidden sm:bottom-7 sm:right-6">
       {open ? (
         <div className="panel w-[min(19rem,calc(100vw-2rem))] p-3 border-line bg-surface">
           <div className="flex items-start justify-between gap-2">
