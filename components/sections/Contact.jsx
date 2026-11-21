@@ -15,6 +15,7 @@ import {
   X,
 } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
+import Reveal from "@/components/ui/Reveal";
 import ContactForm from "@/components/sections/ContactForm";
 import { PROFILE, SOCIALS } from "@/lib/content";
 import { useLang } from "@/components/providers";
@@ -119,6 +120,7 @@ export default function Contact() {
         intro={t("contact.intro")}
       />
 
+      <Reveal>
       <FloatingCard glow surfaceClassName="card-surface--flush relative">
         <div className="relative grid lg:grid-cols-[0.92fr_1.08fr]">
           {/* kiri: direct + socials */}
@@ -199,6 +201,7 @@ export default function Contact() {
             </div>
         </div>
       </FloatingCard>
+      </Reveal>
 
       {/* modal QR kontak */}
       {qrOpen ? (

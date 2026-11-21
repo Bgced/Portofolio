@@ -2,6 +2,7 @@
 
 import { ArrowUpRight, Plus } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
+import Reveal from "@/components/ui/Reveal";
 import { PROJECTS } from "@/lib/content";
 import { PROJECTS_EN } from "@/lib/content-en";
 import { useLang } from "@/components/providers";
@@ -54,10 +55,10 @@ export default function Projects() {
       {/* susunan beda-beda per project, bukan grid seragam */}
       <div className="grid gap-4 sm:gap-5 lg:grid-cols-12">
         {/* featured: penuh, visual + copy berdampingan */}
-        <div className="group relative lg:col-span-12">
-          <span aria-hidden="true" className="card-fan card-fan-r" />
-          <span aria-hidden="true" className="card-fan card-fan-l" />
-          <FloatingCard
+        <Reveal className="group relative lg:col-span-12">
+        <span aria-hidden="true" className="card-fan card-fan-r" />
+        <span aria-hidden="true" className="card-fan card-fan-l" />
+        <FloatingCard
             as="article"
             glow
             className="relative z-10"
@@ -132,13 +133,13 @@ export default function Projects() {
               </div>
             </div>
           </FloatingCard>
-        </div>
+        </Reveal>
 
         {/* dua project berdampingan */}
         {rest.slice(0, 2).map((project) => {
           const archived = project.status === "ARCHIVE";
           return (
-            <div key={project.id} className="lg:col-span-6">
+            <Reveal key={project.id} delay={60} className="lg:col-span-6">
               <FloatingCard
                 as="article"
                 className={archived ? "border-dashed" : ""}
@@ -195,7 +196,7 @@ export default function Projects() {
                   <ArrowUpRight size={13} aria-hidden="true" />
                 </a>
               </FloatingCard>
-            </div>
+            </Reveal>
           );
         })}
 
@@ -203,7 +204,7 @@ export default function Projects() {
         {rest.slice(2).map((project) => {
           const archived = project.status === "ARCHIVE";
           return (
-            <div key={project.id} className="lg:col-span-12">
+            <Reveal key={project.id} delay={90} className="lg:col-span-12">
               <FloatingCard
                 as="article"
                 className={archived ? "border-dashed" : ""}
@@ -249,7 +250,7 @@ export default function Projects() {
                   </a>
                 </div>
               </FloatingCard>
-            </div>
+            </Reveal>
           );
         })}
 

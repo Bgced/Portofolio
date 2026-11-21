@@ -5,6 +5,7 @@ import { useLang } from "@/components/providers";
 import { GAMES, TOOLS, COUNT, CATALOG_BY_ID } from "@/lib/games";
 import GameCard from "@/components/playground/GameCard";
 import GameModal from "@/components/playground/GameModal";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 
 /**
@@ -42,8 +43,10 @@ export default function Playground() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {GAMES.map((item) => (
-          <GameCard key={item.id} item={item} onOpen={(entry) => setOpenId(entry.id)} playLabel={t("playground.play")} />
+        {GAMES.map((item, i) => (
+          <Reveal key={item.id} delay={i * 45}>
+            <GameCard item={item} onOpen={(entry) => setOpenId(entry.id)} playLabel={t("playground.play")} />
+          </Reveal>
         ))}
       </div>
 
@@ -60,8 +63,10 @@ export default function Playground() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2">
-        {TOOLS.map((item) => (
-          <GameCard key={item.id} item={item} onOpen={(entry) => setOpenId(entry.id)} playLabel={t("playground.open")} />
+        {TOOLS.map((item, i) => (
+          <Reveal key={item.id} delay={i * 45}>
+            <GameCard item={item} onOpen={(entry) => setOpenId(entry.id)} playLabel={t("playground.open")} />
+          </Reveal>
         ))}
       </div>
 

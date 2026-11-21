@@ -1,6 +1,7 @@
 "use client";
 
 import SectionHeading from "@/components/ui/SectionHeading";
+import Reveal from "@/components/ui/Reveal";
 import { SKILL_GROUPS, TOOLS } from "@/lib/content";
 import { SKILL_GROUPS_EN, TOOLS_EN } from "@/lib/content-en";
 import { useLang } from "@/components/providers";
@@ -28,9 +29,10 @@ export default function Stack() {
       />
 
       <div className="border-t border-line">
-        {groups.map((group) => (
-          <div
+        {groups.map((group, i) => (
+          <Reveal
             key={group.code}
+            delay={i * 60}
             className="grid gap-2 border-b border-line py-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6"
           >
             <h3 className="text-[0.95rem] font-semibold leading-snug text-ink">{group.title}</h3>
@@ -43,11 +45,11 @@ export default function Stack() {
                 ))}
               </div>
             </div>
-          </div>
+          </Reveal>
         ))}
       </div>
 
-      <div className="mt-6">
+      <Reveal delay={120} className="mt-6">
         <p className="mono-label">{t("stack.drivers")}</p>
         <div className="mt-2.5 flex flex-wrap gap-2">
           {extras.map((tool) => (
@@ -56,7 +58,7 @@ export default function Stack() {
             </span>
           ))}
         </div>
-      </div>
+      </Reveal>
     </section>
   );
 }

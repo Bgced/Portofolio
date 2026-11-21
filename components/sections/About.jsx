@@ -8,6 +8,7 @@ import { PROFILE } from "@/lib/content";
 import { useLang } from "@/components/providers";
 import TechArsenal from "@/components/sections/TechArsenal";
 import FloatingCard from "@/components/ui/FloatingCard";
+import Reveal from "@/components/ui/Reveal";
 
 const FACTS = [
   { labelKey: "about.focus", valueKey: "about.focusValue" },
@@ -23,8 +24,13 @@ const HOW = [
 ];
 
 const PHOTO_POS = {
-  left: "lg:col-span-4 lg:order-1",
-  right: "lg:col-span-4 lg:order-3",
+  left: "order-1 lg:col-span-4 lg:order-1",
+  right: "order-3 lg:col-span-4 lg:order-3",
+};
+
+const COPY_POS = {
+  left: "order-2 lg:col-span-8 lg:order-2",
+  right: "order-2 lg:col-span-4 lg:order-2",
 };
 
 export default function About() {
@@ -65,7 +71,9 @@ export default function About() {
 
       <div className="grid gap-4 sm:gap-5 lg:grid-cols-12">
         {/* foto + identitas — pindah kiri/kanan */}
-        <div className={`${PHOTO_POS[photoSide]} lg:sticky lg:top-24 lg:self-start`}>
+        <Reveal
+          className={`${PHOTO_POS[photoSide]} photo-side-shift lg:sticky lg:top-24 lg:self-start`}
+        >
           <FloatingCard
             className="mx-auto w-full max-w-[19rem] lg:mx-0"
             surfaceClassName="card-surface--flush aspect-[4/5] w-full"
@@ -99,10 +107,10 @@ export default function About() {
             <ArrowLeftRight size={12} aria-hidden="true" />
             {t("about.photoPos", { side: photoSide === "left" ? t("about.posLeft") : t("about.posRight") })}
           </button>
-        </div>
+        </Reveal>
 
         {/* copy + facts */}
-        <div className="lg:col-span-8 lg:order-2">
+        <Reveal delay={70} className={`${COPY_POS[photoSide]} order-2 lg:order-2`}>
           <FloatingCard className="h-full" surfaceClassName="h-full">
             <p className="text-[0.92rem] leading-relaxed text-ink">{t("about.p1")}</p>
             <p className="mt-3 text-[0.88rem] leading-relaxed text-muted">{t("about.p2")}</p>
@@ -119,10 +127,10 @@ export default function About() {
               ))}
             </dl>
           </FloatingCard>
-        </div>
+        </Reveal>
 
         {/* cara kerja */}
-        <div className="lg:col-span-7">
+        <Reveal delay={120} className="lg:col-span-7">
           <FloatingCard className="h-full" surfaceClassName="flex h-full flex-col">
             <p className="mono-label">{t("about.workLabel")}</p>
             <ul className="mt-3 flex flex-col gap-3">
@@ -134,12 +142,12 @@ export default function About() {
               ))}
             </ul>
           </FloatingCard>
-        </div>
+        </Reveal>
 
         {/* arsenal */}
-        <div className="lg:col-span-5">
+        <Reveal delay={160} className="lg:col-span-5">
           <TechArsenal />
-        </div>
+        </Reveal>
       </div>
     </section>
   );
