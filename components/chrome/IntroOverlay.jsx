@@ -16,7 +16,15 @@ import { useLang } from "@/components/providers";
 import { COUNT } from "@/lib/games";
 import { PROJECTS } from "@/lib/content";
 
-const STORAGE_KEY = "cekael-intro";
+/**
+ * IntroOverlay — layar pembuka yang bisa ditutup (X / Escape / klik luar).
+ *
+ * Muncul tiap halaman di-mount (tiap refresh / buka baru). Bisa juga dibuka
+ * lagi lewat event `cekael:intro` (dipakai command palette).
+ *
+ * Nggak nge-blok halaman: overlay transparan dengan backdrop tipis, di belakang
+ * tetap kelihatan. Fokus ditahan di dialog selama kebuka (R-32).
+ */
 
 export default function IntroOverlay() {
   const [open, setOpen] = useState(false);
@@ -25,24 +33,13 @@ export default function IntroOverlay() {
   const lastFocused = useRef(null);
   const { t } = useLang();
 
-  // Baca localStorage SETELAH mount — nggak boleh di initial state (hydration).
+  // Muncul tiap mount (tiap refresh).
   useEffect(() => {
-    let seen = true;
-    try {
-      seen = window.localStorage.getItem(STORAGE_KEY) === "1";
-    } catch {
-      seen = false;
-    }
-    if (!seen) setOpen(true);
+    setOpen(true);
   }, []);
 
   const close = useCallback(() => {
     setOpen(false);
-    try {
-      window.localStorage.setItem(STORAGE_KEY, "1");
-    } catch {
-      /* private mode — overlay tetap ketutup di sesi ini */
-    }
     // Balikin fokus ke halaman
     window.requestAnimationFrame(() => {
       const home = document.getElementById("home");
