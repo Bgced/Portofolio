@@ -20,12 +20,12 @@ export default function Hero() {
       <div className="relative z-10 mx-auto w-full max-w-[1180px] px-5 sm:px-7">
         <div className="min-w-0 max-w-3xl">
           <p className="eyebrow">
-            01 — {t("hero.eyebrow")}
+            {t("hero.eyebrow")}
           </p>
 
           <h1 className="display-title mt-5 text-[clamp(2.6rem,8.4vw,5.6rem)]">
             <span className="block">{t("hero.line1")}</span>
-            <span className="display-outline block">{t("hero.line2")}</span>
+            <span className="block text-accent-2">{t("hero.line2")}</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-[0.98rem] leading-relaxed text-muted sm:text-[1.04rem]">

@@ -5,6 +5,7 @@ import Navbar from "@/components/chrome/Navbar";
 import Footer from "@/components/chrome/Footer";
 import ScrollProgress from "@/components/chrome/ScrollProgress";
 import BackToTop from "@/components/chrome/BackToTop";
+import IntroOverlay from "@/components/chrome/IntroOverlay";
 import CommandPalette from "@/components/chrome/CommandPalette";
 import UiSandbox from "@/components/chrome/UiSandbox";
 import ScrollScene from "@/components/three/ScrollScene";
@@ -105,6 +106,7 @@ export default function RootLayout({ children }) {
           <main className="relative z-10">{children}</main>
           <Footer />
           <BackToTop />
+          <IntroOverlay />
           <UiSandbox />
           <CommandPalette />
         </Providers>

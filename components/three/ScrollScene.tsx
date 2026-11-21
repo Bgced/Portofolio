@@ -67,6 +67,8 @@ const SHAPES: Shape[] = [
   { key: "i", kind: "hex", size: [1.8, 1.8, 0], position: [3.9, 3.3, -6.5], rotation: [0.25, 0.3, 0.0], scale: 1.0, spin: 0.09, drift: 0.55 },
   { key: "j", kind: "hex", size: [2.6, 1.1, 0], position: [-4.9, 3.5, -10.5], rotation: [1.15, 0.25, 0.18], scale: 1.15, spin: 0.07, drift: 0.75 },
   { key: "k", kind: "hex", size: [1.2, 2.6, 0], position: [5.7, 2.4, -14], rotation: [0.9, 0.6, 0.1], scale: 1.05, spin: 0.05, drift: 0.9 },
+  { key: "l", kind: "hex", size: [2.2, 2.2, 0], position: [-6.4, 1.2, -8], rotation: [0.35, 0.9, 0.0], scale: 1.2, spin: 0.06, drift: 0.65 },
+  { key: "m", kind: "hex", size: [1.5, 0.9, 0], position: [1.2, -3.8, -9.5], rotation: [0.8, 0.4, 0.15], scale: 0.95, spin: 0.1, drift: 0.5 },
 ];
 
 const damp = THREE.MathUtils.damp;

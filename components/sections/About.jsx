@@ -1,6 +1,8 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
+import { ArrowLeftRight } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { PROFILE } from "@/lib/content";
 import { useLang } from "@/components/providers";
@@ -20,8 +22,36 @@ const HOW = [
   { titleKey: "about.how3Title", bodyKey: "about.how3" },
 ];
 
+const PHOTO_POS = {
+  left: "lg:col-span-4 lg:order-1",
+  right: "lg:col-span-4 lg:order-3",
+};
+
 export default function About() {
   const { t } = useLang();
+  const [photoSide, setPhotoSide] = useState("left");
+
+  // Baca pilihan posisi foto dari localStorage (client only).
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("cekael-about-photo");
+      if (saved === "left" || saved === "right") setPhotoSide(saved);
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const togglePhoto = () => {
+    setPhotoSide((prev) => {
+      const next = prev === "left" ? "right" : "left";
+      try {
+        window.localStorage.setItem("cekael-about-photo", next);
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
 
   return (
     <section id="about" className="section-shell">
@@ -34,8 +64,8 @@ export default function About() {
       />
 
       <div className="grid gap-4 sm:gap-5 lg:grid-cols-12">
-        {/* foto + identitas */}
-        <div className="lg:col-span-4">
+        {/* foto + identitas — pindah kiri/kanan */}
+        <div className={`${PHOTO_POS[photoSide]} lg:sticky lg:top-24 lg:self-start`}>
           <FloatingCard
             className="mx-auto w-full max-w-[19rem] lg:mx-0"
             surfaceClassName="card-surface--flush aspect-[4/5] w-full"
@@ -58,10 +88,21 @@ export default function About() {
               </div>
             </div>
           </FloatingCard>
+
+          {/* toggle posisi foto */}
+          <button
+            type="button"
+            onClick={togglePhoto}
+            className="mx-auto mt-2.5 flex w-full max-w-[19rem] items-center justify-center gap-2 rounded-[10px] border border-line bg-surface py-2 font-mono text-[0.58rem] uppercase tracking-[0.16em] text-muted transition-colors hover:border-accent hover:text-accent-2 lg:mx-0"
+            aria-label={t("about.photoPos", { side: photoSide === "left" ? t("about.posLeft") : t("about.posRight") })}
+          >
+            <ArrowLeftRight size={12} aria-hidden="true" />
+            {t("about.photoPos", { side: photoSide === "left" ? t("about.posLeft") : t("about.posRight") })}
+          </button>
         </div>
 
         {/* copy + facts */}
-        <div className="lg:col-span-8">
+        <div className="lg:col-span-8 lg:order-2">
           <FloatingCard className="h-full" surfaceClassName="h-full">
             <p className="text-[0.92rem] leading-relaxed text-ink">{t("about.p1")}</p>
             <p className="mt-3 text-[0.88rem] leading-relaxed text-muted">{t("about.p2")}</p>

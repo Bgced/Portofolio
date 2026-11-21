@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Menu, Play, Search, X } from "lucide-react";
+import { ArrowUpRight, Menu, Search, X } from "lucide-react";
 import { NAV_LINKS, PROFILE, SECTION_IDS } from "@/lib/content";
 import { useActiveSection, useScrollLock } from "@/lib/hooks";
 import LanguageToggle from "@/components/chrome/LanguageToggle";
@@ -108,9 +108,9 @@ export default function Navbar() {
 
           <LanguageToggle />
 
-          <a href="#playground" className="hidden items-center gap-1.5 bg-accent px-3 py-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-white transition-colors hover:bg-accent-hover sm:inline-flex">
-            <Play size={12} aria-hidden="true" />
-            {t("nav.playNow")}
+          <a href="#contact" className="hidden items-center gap-1.5 bg-accent px-3 py-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-white transition-colors hover:bg-accent-hover sm:inline-flex">
+            {t("nav.contact")}
+            <ArrowUpRight size={12} aria-hidden="true" />
           </a>
 
           <button
@@ -152,9 +152,9 @@ export default function Navbar() {
             })}
           </ul>
           <div className="mt-4 flex items-center justify-between gap-3">
-            <a href="#playground" onClick={() => setOpen(false)} className="btn btn-primary flex-1">
-              <Play size={13} aria-hidden="true" />
-              {t("nav.playNow")}
+            <a href="#contact" onClick={() => setOpen(false)} className="btn btn-primary flex-1">
+              {t("nav.contact")}
+              <ArrowUpRight size={13} aria-hidden="true" />
             </a>
             <LanguageToggle />
           </div>
