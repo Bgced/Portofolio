@@ -3,7 +3,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowRight, Download, Loader2, Sparkles } from "lucide-react";
+import { ArrowRight, Download, Loader2, ContactRound, Sparkles } from "lucide-react";
 import confetti from "canvas-confetti";
 import { toPng } from "html-to-image";
 import { decodePayload } from "@/lib/qr";
@@ -288,13 +288,25 @@ export default function CardView() {
         </button>
       </div>
 
-      <Link
-        href="/#playground"
-        className="relative mt-4 inline-flex items-center gap-2 border border-line bg-canvas px-4 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
-      >
-        {en ? "Make your own QR card" : "Bikin QR kartu lo sendiri"}
-        <ArrowRight size={12} aria-hidden="true" style={{ color: theme.accent }} />
-      </Link>
+      <div className="relative mt-4 flex w-full max-w-[34rem] flex-col gap-2.5 sm:flex-row">
+        <Link
+          href="/api/vcard"
+          prefetch={false}
+          download
+          className="inline-flex flex-1 items-center justify-center gap-2 border border-line bg-canvas px-3.5 py-2 font-mono text-[0.6rem] uppercase tracking-[0.12em] text-muted transition-colors hover:border-accent hover:text-ink"
+        >
+          <ContactRound size={12} aria-hidden="true" />
+          {en ? "Save contact (.vcf)" : "Simpan kontak (.vcf)"}
+        </Link>
+
+        <Link
+          href="/#playground"
+          className="inline-flex flex-1 items-center justify-center gap-2 border border-line bg-canvas px-4 py-2 font-mono text-[0.62rem] uppercase tracking-[0.14em] text-muted transition-colors hover:text-ink"
+        >
+          {en ? "Make your own QR card" : "Bikin QR kartu lo sendiri"}
+          <ArrowRight size={12} aria-hidden="true" style={{ color: theme.accent }} />
+        </Link>
+      </div>
     </div>
   );
 }

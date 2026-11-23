@@ -13,10 +13,13 @@ import { PROJECTS } from "@/lib/content";
 export default function Hero() {
   const { t } = useLang();
 
+  // Yang dihitung cuma yang beneran live, biar cocok sama section Work.
+  const liveProjects = PROJECTS.filter((project) => project.status === "LIVE").length;
+
   const readout = [
     { label: t("hero.statGames"), value: String(COUNT.games).padStart(2, "0") },
     { label: t("hero.statTools"), value: String(COUNT.tools).padStart(2, "0") },
-    { label: t("hero.statProjects"), value: String(PROJECTS.length).padStart(2, "0") },
+    { label: t("hero.statProjects"), value: String(liveProjects).padStart(2, "0") },
   ];
 
   return (
@@ -32,16 +35,23 @@ export default function Hero() {
           <div className="min-w-0">
             <p className="eyebrow">{t("hero.eyebrow")}</p>
 
-            <h1 className="display-title mt-6 text-[clamp(2.9rem,9vw,6.4rem)]">
-              <span className="hologram block" data-holo={t("hero.line1")}>
+            <h1
+              className="display-title mt-6 text-[clamp(2.9rem,9vw,6.4rem)]"
+              aria-label="Cedric Kilian"
+            >
+              <span className="hologram block" data-holo={t("hero.line1")} aria-hidden="true">
                 {t("hero.line1")}
               </span>
-              <span className="hologram block text-accent" data-holo={t("hero.line2")}>
+              <span className="hologram block text-accent" data-holo={t("hero.line2")} aria-hidden="true">
                 {t("hero.line2")}
               </span>
             </h1>
 
-            <div className="mt-9 flex flex-wrap items-center gap-2.5">
+            <p className="mt-6 max-w-[34rem] text-[0.95rem] leading-relaxed text-muted">
+              {t("hero.value")}
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center gap-2.5">
               <a href="#projects" className="btn btn-primary">
                 {t("hero.seeWork")}
                 <ArrowRight size={14} aria-hidden="true" />

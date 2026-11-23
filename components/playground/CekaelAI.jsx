@@ -129,7 +129,7 @@ export default function CekaelAI() {
           clearTimeout(timeout);
         }
 
-        if (res && res.ok) {
+        if (res) {
           const data = await res.json().catch(() => null);
           if (data && typeof data.reply === "string" && data.reply.trim()) {
             reply = data.reply.trim();

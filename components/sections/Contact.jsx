@@ -9,6 +9,7 @@ import {
   Camera,
   Check,
   Copy,
+  GitBranch,
   Mail,
   MessageCircle,
   QrCode,
@@ -21,11 +22,13 @@ import { PROFILE, SOCIALS } from "@/lib/content";
 import { useLang } from "@/components/providers";
 import { useToast } from "@/components/ui/ToastProvider";
 import FloatingCard from "@/components/ui/FloatingCard";
+import CvButton from "@/components/chrome/CvButton";
 
 const ICONS = {
   mail: Mail,
   whatsapp: MessageCircle,
   linkedin: Briefcase,
+  github: GitBranch,
   instagram: Camera,
 };
 
@@ -134,7 +137,7 @@ export default function Contact() {
                 </a>
                 <a
                   href={`${PROFILE.whatsapp}?text=${encodeURIComponent(
-                    en ? "Hi Cekael, I saw your portfolio and wanted to talk." : "Halo Cekael, gue liat portfolio lo dan mau ngobrol."
+                    en ? "Hi Cedric, I saw your portfolio and wanted to talk." : "Hi Cedric, aku lihat portfolio kamu dan mau ngobrol."
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -154,6 +157,7 @@ export default function Contact() {
                   <QrCode size={13} aria-hidden="true" className="text-accent" />
                   {en ? "Scan my contact QR" : "Scan QR Kontak"}
                 </button>
+                <CvButton en={en} className="btn btn-ghost !px-3 !py-2 !text-[0.74rem]" />
               </div>
 
               <p className="mt-4 break-all font-mono text-[0.68rem] tracking-[0.04em] text-muted">{PROFILE.email}</p>

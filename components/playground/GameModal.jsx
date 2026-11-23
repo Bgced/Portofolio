@@ -5,15 +5,8 @@ import dynamic from "next/dynamic";
 import { X } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { getGameComponent } from "@/components/games/registry";
+import { getToolComponent } from "@/components/playground/toolRegistry";
 import { CATALOG_BY_ID } from "@/lib/games";
-
-/* Tool yang sudah ada, dimuat lazy juga biar bundle awal tetap kecil. */
-const TOOL_COMPONENTS = {
-  qr: dynamic(() => import("@/components/playground/QrStudio"), { ssr: false }),
-  calc: dynamic(() => import("@/components/playground/CyberCalc"), { ssr: false }),
-  bmi: dynamic(() => import("@/components/playground/BmiCalc"), { ssr: false }),
-  ai: dynamic(() => import("@/components/playground/CekaelAI"), { ssr: false }),
-};
 
 /**
  * Modal player: satu wadah buat 9 game (lazy chunk) dan 4 tool.
@@ -47,7 +40,7 @@ export default function GameModal({ openId, onClose }) {
 
   if (!item) return null;
 
-  const Tool = TOOL_COMPONENTS[item.id];
+  const Tool = getToolComponent(item.id);
   const Game = Tool ? null : getGameComponent(item.id);
 
   return (

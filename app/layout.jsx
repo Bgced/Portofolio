@@ -7,6 +7,7 @@ import ScrollProgress from "@/components/chrome/ScrollProgress";
 import BackToTop from "@/components/chrome/BackToTop";
 import IntroOverlay from "@/components/chrome/IntroOverlay";
 import CommandPalette from "@/components/chrome/CommandPalette";
+import DevOverlay from "@/components/chrome/DevOverlay";
 import UiSandbox from "@/components/chrome/UiSandbox";
 import ScrollScene from "@/components/three/ScrollScene";
 
@@ -44,11 +45,15 @@ const plex600 = localFont({
   fallback: ["ui-monospace", "SFMono-Regular", "monospace"],
 });
 
+const SITE_URL = "https://cekael.vercel.app";
+const SITE_TITLE = "Cedric Kilian — Front-End Developer Portfolio";
+const SITE_DESC =
+  "Cedric Kilian, front-end developer and Electrical Engineering student at UNY. I build sites that run smooth on cheap phones, plus interactive tools for electrical concepts.";
+
 export const metadata = {
-  metadataBase: new URL("https://cekael.vercel.app"),
-  title: "Cedric Kilian — Portfolio · Game & Web",
-  description:
-    "Cedric Kilian, Electrical Engineering student at UNY. Front-end work in Next.js, React, Tailwind, and Three.js: nine small games, four tools, one 3D backdrop.",
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESC,
   keywords: [
     "Cedric Kilian",
     "Cekael",
@@ -61,17 +66,26 @@ export const metadata = {
     "React Three Fiber",
   ],
   authors: [{ name: "Cedric Kilian" }],
+  alternates: {
+    canonical: SITE_URL,
+    languages: {
+      "en-US": SITE_URL,
+      "id-ID": SITE_URL,
+    },
+  },
   openGraph: {
-    title: "Cedric Kilian — Portfolio · Game & Web",
-    description: "Nine small games, four tools, and a 3D backdrop. Everything on this page runs.",
+    title: SITE_TITLE,
+    description: SITE_DESC,
     type: "website",
     locale: "en_US",
-    url: "https://cekael.vercel.app",
+    alternateLocale: ["id_ID"],
+    url: SITE_URL,
+    siteName: "Cedric Kilian",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Cedric Kilian — Portfolio · Game & Web",
-    description: "Nine small games, four tools, and a 3D backdrop. Everything on this page runs.",
+    title: SITE_TITLE,
+    description: SITE_DESC,
   },
   icons: {
     icon: [
@@ -96,6 +110,25 @@ export default function RootLayout({ children }) {
       suppressHydrationWarning
     >
       <body className="min-h-screen overflow-x-hidden bg-canvas text-ink antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Person",
+              name: "Cedric Kilian",
+              url: SITE_URL,
+              jobTitle: "Front-End Developer",
+              description:
+                "Front-end developer and Electrical Engineering student at UNY.",
+              sameAs: [
+                "https://github.com/bgced",
+                "https://www.linkedin.com/in/cedric-kilian-lasmana",
+                "https://instagram.com/cekaaell",
+              ],
+            }),
+          }}
+        />
         <Providers>
           {/* Satu canvas 3D persistent buat seluruh halaman (fixed, z-0, pointer-events-none) */}
           <ScrollScene />
@@ -109,6 +142,7 @@ export default function RootLayout({ children }) {
           <IntroOverlay />
           <UiSandbox />
           <CommandPalette />
+          <DevOverlay />
         </Providers>
       </body>
     </html>

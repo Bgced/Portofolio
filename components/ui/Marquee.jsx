@@ -11,7 +11,6 @@ export default function Marquee() {
         borderColor: "var(--line-soft)",
         background: "color-mix(in srgb, var(--surface) 45%, transparent)",
       }}
-      aria-hidden="true"
     >
       <div className="marquee-track items-center gap-8 whitespace-nowrap">
         {items.map((item, index) => (

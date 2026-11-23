@@ -1,15 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowUp, Briefcase, Camera, Mail, MessageCircle } from "lucide-react";
+import { ArrowUp, Briefcase, Camera, GitBranch, Mail, MessageCircle } from "lucide-react";
 import { NAV_LINKS, PROFILE, SOCIALS } from "@/lib/content";
 import { GAMES, TOOLS } from "@/lib/games";
 import { useLang } from "@/components/providers";
+import CvButton from "@/components/chrome/CvButton";
 
 const ICONS = {
   mail: Mail,
   whatsapp: MessageCircle,
   linkedin: Briefcase,
+  github: GitBranch,
   instagram: Camera,
 };
 
@@ -54,7 +56,7 @@ export default function Footer() {
               <ul className="flex flex-col gap-1.5">
                 {GAMES.map((game) => (
                   <li key={game.id}>
-                    <a href="#playground" className="text-[0.78rem] text-muted transition-colors hover:text-accent-2">
+                    <a href={`/play/${game.id}`} className="text-[0.78rem] text-muted transition-colors hover:text-accent-2">
                       {game.title}
                     </a>
                   </li>
@@ -67,7 +69,7 @@ export default function Footer() {
               <ul className="flex flex-col gap-1.5">
                 {TOOLS.map((tool) => (
                   <li key={tool.id}>
-                    <a href="#playground" className="text-[0.78rem] text-muted transition-colors hover:text-accent-2">
+                    <a href={`/play/${tool.id}`} className="text-[0.78rem] text-muted transition-colors hover:text-accent-2">
                       {tool.title}
                     </a>
                   </li>
@@ -118,8 +120,12 @@ export default function Footer() {
           <p className="font-mono text-[0.58rem] uppercase tracking-[0.14em]">
             {t("footer.built", { year })}
           </p>
-          <div className="flex items-center gap-4">
+          <div className="flex flex-wrap items-center gap-4">
             <p className="font-mono text-[0.58rem] uppercase tracking-[0.14em]">{t("footer.made")}</p>
+            <CvButton
+              en={en}
+              className="inline-flex items-center gap-1 font-mono text-[0.58rem] uppercase tracking-[0.14em] text-muted transition-colors hover:text-accent-2"
+            />
             <button
               type="button"
               onClick={backToTop}

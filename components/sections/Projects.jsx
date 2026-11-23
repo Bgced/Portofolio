@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowUpRight, Plus } from "lucide-react";
 import SectionHeading from "@/components/ui/SectionHeading";
 import Reveal from "@/components/ui/Reveal";
@@ -120,7 +121,7 @@ export default function Projects() {
                 ))}
               </div>
 
-              <div className="mt-auto pt-2">
+              <div className="mt-auto flex flex-wrap items-center gap-2.5 pt-2">
                 <a
                   href={featured.href}
                   target="_blank"
@@ -130,6 +131,9 @@ export default function Projects() {
                   {t("projects.cta")}
                   <ArrowUpRight size={14} aria-hidden="true" />
                 </a>
+                <Link href={`/work/${featured.id}`} className="btn btn-ghost w-full sm:w-auto">
+                  {en ? "Detail" : "Detail"}
+                </Link>
               </div>
             </div>
           </FloatingCard>
@@ -184,17 +188,25 @@ export default function Projects() {
                   ))}
                 </div>
 
-                <a
-                  href={project.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`mt-4 inline-flex items-center gap-1.5 border-t border-line-soft pt-3 text-[0.76rem] font-semibold transition-colors ${
-                    archived ? "text-muted hover:text-ink" : "text-accent hover:text-ink"
-                  }`}
-                >
-                  {project.cta}
-                  <ArrowUpRight size={13} aria-hidden="true" />
-                </a>
+                <div className="mt-4 flex items-center justify-between gap-3 border-t border-line-soft pt-3">
+                  <a
+                    href={project.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center gap-1.5 text-[0.76rem] font-semibold transition-colors ${
+                      archived ? "text-muted hover:text-ink" : "text-accent hover:text-ink"
+                    }`}
+                  >
+                    {project.cta}
+                    <ArrowUpRight size={13} aria-hidden="true" />
+                  </a>
+                  <Link
+                    href={`/work/${project.id}`}
+                    className="inline-flex items-center text-[0.76rem] font-semibold text-muted transition-colors hover:text-ink"
+                  >
+                    Detail
+                  </Link>
+                </div>
               </FloatingCard>
             </Reveal>
           );
@@ -248,6 +260,12 @@ export default function Projects() {
                     {project.cta}
                     <ArrowUpRight size={13} aria-hidden="true" />
                   </a>
+                  <Link
+                    href={`/work/${project.id}`}
+                    className="inline-flex items-center text-[0.76rem] font-semibold text-muted transition-colors hover:text-ink"
+                  >
+                    Detail
+                  </Link>
                 </div>
               </FloatingCard>
             </Reveal>

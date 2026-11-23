@@ -5,8 +5,38 @@ export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
 const MAX_MESSAGES = 10;
-const MAX_CHARS = 1200;
+const MAX_USER_CHARS = 500; // batas input user (A9)
+const MAX_HISTORY_CHARS = 1200; // batas teks per pesan lama (konteks)
 const PROVIDER_TIMEOUT_MS = 12000;
+
+// Rate limit per IP: 10 request / menit. Catatan: Map in-memory ini per
+// instance (Vercel serverless), jadi sifatnya best-effort — cukup buat
+// nahan spam kasar dari satu IP.
+const RATE_LIMIT = 10;
+const RATE_WINDOW_MS = 60 * 1000;
+const rateMap = new Map();
+
+function getClientIp(request) {
+  const fwd = request.headers.get("x-forwarded-for");
+  if (fwd) return fwd.split(",")[0].trim();
+  return request.headers.get("x-real-ip") || "unknown";
+}
+
+function isRateLimited(ip) {
+  const now = Date.now();
+  const entry = rateMap.get(ip);
+  if (!entry || now > entry.resetAt) {
+    if (rateMap.size > 5000) {
+      for (const [key, value] of rateMap) {
+        if (now > value.resetAt) rateMap.delete(key);
+      }
+    }
+    rateMap.set(ip, { count: 1, resetAt: now + RATE_WINDOW_MS });
+    return false;
+  }
+  entry.count += 1;
+  return entry.count > RATE_LIMIT;
+}
 
 const SYSTEM_PROMPT = `Kamu adalah "Cekael AI", asisten di portfolio ${PROFILE.fullName} (panggil "Cekael").
 Aturan:
@@ -36,7 +66,8 @@ function sanitizeMessages(input) {
     const role = item.role === "assistant" ? "assistant" : item.role === "user" ? "user" : null;
     const content = typeof item.content === "string" ? item.content.trim() : "";
     if (!role || !content) continue;
-    cleaned.push({ role, content: content.slice(0, MAX_CHARS) });
+    const limit = role === "user" ? MAX_USER_CHARS : MAX_HISTORY_CHARS;
+    cleaned.push({ role, content: content.slice(0, limit) });
   }
   return cleaned.slice(-MAX_MESSAGES);
 }
@@ -144,6 +175,19 @@ export async function POST(request) {
 
   const messages = sanitizeMessages(payload?.messages);
   const lang = payload?.lang === "en" ? "en" : "id";
+
+  // Rate limit per IP (10 request / menit). Balikin 429 dengan pesan ramah;
+  // client (CekaelAI) tetap nampilin reply-nya walau status non-200.
+  if (isRateLimited(getClientIp(request))) {
+    const friendly =
+      lang === "en"
+        ? "Whoa, lots of requests. Give it a minute, then try again."
+        : "Waduh, rame banget nih. Kasih jeda semenit dulu ya, terus coba lagi.";
+    const res = json({ reply: friendly, source: "local" }, 429);
+    res.headers.set("Retry-After", "60");
+    return res;
+  }
+
   const prompt = systemPrompt(lang);
   const lastUser = [...messages].reverse().find((m) => m.role === "user");
   const lastUserText = lastUser?.content ?? "";

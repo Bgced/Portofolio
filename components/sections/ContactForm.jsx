@@ -36,6 +36,16 @@ export default function ContactForm() {
     event.preventDefault();
     if (status === "loading") return;
 
+    // Honeypot: kalau field jebakan keisi, hampir pasti bot. Pura-pura
+    // sukses tanpa benar-benar kirim apa pun.
+    const formData = new FormData(event.currentTarget);
+    if (String(formData.get("website") || "").trim()) {
+      setStatus("success");
+      setNote(en ? "Message sent. I'll reply soon!" : "Pesan terkirim. Nanti gue bales ya!");
+      setForm({ name: "", email: "", topic: TOPICS[0].id, message: "" });
+      return;
+    }
+
     const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
     const configured = accessKey && accessKey !== "YOUR_WEB3FORMS_ACCESS_KEY";
 
@@ -106,8 +116,17 @@ export default function ContactForm() {
     <form onSubmit={onSubmit} className="flex flex-col gap-3">
       <div className="flex items-center justify-between gap-2">
         <p className="mono-label text-accent">// brief form</p>
-        <span className="mono-label text-[0.52rem]">web3forms ready</span>
       </div>
+
+      {/* honeypot jebakan bot — jangan diisi manusia */}
+      <input
+        type="text"
+        name="website"
+        tabIndex={-1}
+        autoComplete="off"
+        aria-hidden="true"
+        className="absolute left-[-9999px] h-0 w-0 opacity-0"
+      />
 
       <div className="grid gap-3 sm:grid-cols-2">
         <label className="block">

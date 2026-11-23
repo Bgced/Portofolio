@@ -50,9 +50,8 @@ export default function About() {
                 src="/profile.jpg"
                 alt="Cedric Kilian, front-end developer and Electrical Engineering student"
                 fill
-                sizes="(min-width: 1024px) 292px, (min-width: 640px) 60vw, 92vw"
+                sizes="(min-width: 1024px) 304px, (min-width: 640px) 60vw, 92vw"
                 className="photo-img object-cover object-center"
-                priority
               />
               {/* scanline overlay */}
               <div aria-hidden="true" className="photo-scanlines pointer-events-none absolute inset-0" />

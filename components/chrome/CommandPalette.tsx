@@ -118,6 +118,18 @@ export default function CommandPalette() {
         return;
       }
 
+      // "/" buka palette, tapi cuma kalau lagi nggak ngetik di input.
+      if (event.key === "/" && !open) {
+        const target = event.target as HTMLElement | null;
+        const tag = target?.tagName;
+        const typing = tag === "INPUT" || tag === "TEXTAREA" || target?.isContentEditable;
+        if (!typing) {
+          event.preventDefault();
+          openPalette();
+          return;
+        }
+      }
+
       if (event.key === "Escape" && open) close();
     };
 
@@ -211,6 +223,15 @@ export default function CommandPalette() {
         group: "navigate",
         icon: Sparkles,
         run: () => goSection("playground"),
+      },
+      {
+        id: "nav-circuit-lab",
+        label: en ? "Circuit Lab" : "Lab Circuit",
+        hint: "#circuit-lab",
+        keywords: "circuit lab resistor ohm led rc elektronika elektro tool hitung",
+        group: "navigate",
+        icon: Wrench,
+        run: () => goSection("circuit-lab"),
       },
       {
         id: "nav-stack",

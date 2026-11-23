@@ -16,13 +16,11 @@ import { useLang } from "@/components/providers";
 import { COUNT } from "@/lib/games";
 import { PROJECTS } from "@/lib/content";
 
-const IDLE_MS = 450;
 const SNOOZE_KEY = "cekael-intro-snooze";
 const SNOOZE_MS = 10 * 60 * 1000; // 10 menit
 
 export default function IntroOverlay() {
   const { t } = useLang();
-  const [phase, setPhase] = useState("loading"); // "loading" | "ready"
   const [open, setOpen] = useState(true);
   const [snooze, setSnooze] = useState(false);
   const closeRef = useRef(null);
@@ -39,14 +37,6 @@ export default function IntroOverlay() {
     }
     if (snoozed) setOpen(false);
   }, []);
-
-  // Loading singkat, terus tampilkan isinya.
-  useEffect(() => {
-    if (!open) return undefined;
-    setPhase("loading");
-    const timer = window.setTimeout(() => setPhase("ready"), IDLE_MS);
-    return () => window.clearTimeout(timer);
-  }, [open]);
 
   const close = useCallback(() => {
     if (snooze) {
@@ -106,14 +96,11 @@ export default function IntroOverlay() {
         role="dialog"
         aria-modal="true"
         aria-labelledby="intro-title"
-        aria-busy={phase === "loading"}
         className="intro-panel relative w-full max-w-[400px] overflow-hidden rounded-[16px] border border-line bg-surface shadow-[0_40px_120px_-20px_rgba(0,0,0,0.9)]"
       >
         {/* bar atas: label + tombol X */}
         <div className="flex items-center justify-between border-b border-line-soft px-4 py-2.5">
-          <p className="mono-label text-[0.56rem]">
-            {phase === "loading" ? t("intro.loading") : t("intro.kicker")}
-          </p>
+          <p className="mono-label text-[0.56rem]">{t("intro.kicker")}</p>
           <button
             ref={closeRef}
             type="button"
@@ -127,63 +114,50 @@ export default function IntroOverlay() {
 
         {/* isi */}
         <div className="p-5 sm:p-6">
-          {phase === "loading" ? (
-            <div className="flex min-h-[150px] flex-col items-center justify-center gap-3">
-              <span className="flex gap-1.5" aria-hidden="true">
-                <span className="intro-dot h-2 w-2 rounded-full bg-accent" />
-                <span className="intro-dot h-2 w-2 rounded-full bg-accent [animation-delay:0.15s]" />
-                <span className="intro-dot h-2 w-2 rounded-full bg-accent [animation-delay:0.3s]" />
+          <div className="intro-body">
+            <h2
+              id="intro-title"
+              className="text-[1.4rem] font-semibold leading-tight tracking-[-0.02em] text-ink"
+            >
+              {t("intro.title")}
+            </h2>
+            <p className="mt-2 text-[0.85rem] leading-relaxed text-muted">
+              {t("intro.body", { games: COUNT.games, tools: COUNT.tools, projects: PROJECTS.length })}
+            </p>
+
+            <button
+              type="button"
+              onClick={close}
+              className="btn btn-primary mt-5 w-full"
+            >
+              {t("intro.enter")}
+              <ArrowRight size={14} aria-hidden="true" />
+            </button>
+
+            <label className="mt-3 flex cursor-pointer items-center gap-2 text-[0.74rem] text-muted">
+              <span className="relative grid h-4 w-4 place-items-center">
+                <input
+                  type="checkbox"
+                  checked={snooze}
+                  onChange={(event) => setSnooze(event.target.checked)}
+                  className="peer h-4 w-4 cursor-pointer appearance-none rounded-[3px] border border-line bg-surface-2 transition-colors checked:border-accent checked:bg-accent"
+                />
+                <svg
+                  aria-hidden="true"
+                  viewBox="0 0 16 16"
+                  className="pointer-events-none absolute h-3 w-3 scale-75 text-[color:var(--accent-ink)] opacity-0 transition-all peer-checked:scale-100 peer-checked:opacity-100"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M3 8.5 6.5 12 13 4.5" />
+                </svg>
               </span>
-              <p className="font-mono text-[0.62rem] uppercase tracking-[0.16em] text-muted">
-                {t("intro.loading")}
-              </p>
-            </div>
-          ) : (
-            <div className="intro-body">
-              <h2
-                id="intro-title"
-                className="text-[1.4rem] font-semibold leading-tight tracking-[-0.02em] text-ink"
-              >
-                {t("intro.title")}
-              </h2>
-              <p className="mt-2 text-[0.85rem] leading-relaxed text-muted">
-                {t("intro.body", { games: COUNT.games, tools: COUNT.tools, projects: PROJECTS.length })}
-              </p>
-
-              <button
-                type="button"
-                onClick={close}
-                className="btn btn-primary mt-5 w-full"
-              >
-                {t("intro.enter")}
-                <ArrowRight size={14} aria-hidden="true" />
-              </button>
-
-              <label className="mt-3 flex cursor-pointer items-center gap-2 text-[0.74rem] text-muted">
-                <span className="relative grid h-4 w-4 place-items-center">
-                  <input
-                    type="checkbox"
-                    checked={snooze}
-                    onChange={(event) => setSnooze(event.target.checked)}
-                    className="peer h-4 w-4 cursor-pointer appearance-none rounded-[3px] border border-line bg-surface-2 transition-colors checked:border-accent checked:bg-accent"
-                  />
-                  <svg
-                    aria-hidden="true"
-                    viewBox="0 0 16 16"
-                    className="pointer-events-none absolute h-3 w-3 scale-75 text-[color:var(--accent-ink)] opacity-0 transition-all peer-checked:scale-100 peer-checked:opacity-100"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M3 8.5 6.5 12 13 4.5" />
-                  </svg>
-                </span>
-                {t("intro.snooze")}
-              </label>
-            </div>
-          )}
+              {t("intro.snooze")}
+            </label>
+          </div>
         </div>
       </div>
     </div>

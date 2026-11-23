@@ -1,27 +1,24 @@
 "use client";
 
+import Link from "next/link";
 import { ArrowRight, Play } from "lucide-react";
 import { useBestScore, formatScore } from "@/lib/scores";
 import GameIcon from "@/components/games/GameIcon";
 
 /**
- * Satu kartrid di grid playground. Shell kaca + surface cekung bikin kartunya
- * kebaca sebagai objek fisik; lift + dek miring cuma di kartu ini karena
- * seluruh permukaannya memang satu tombol.
- *
- * Badge atas: NEW / BEST n / TOOL — biar nggak ada "BEST 0" yang kosong.
+ * Satu kartrid di grid playground. Kartu ini Link ke /play/[slug] (bukan
+ * modal) biar tiap game/tool bisa di-share. Skor tetap lokal di device.
  */
-export default function GameCard({ item, onOpen, playLabel = "Play" }) {
+export default function GameCard({ item, playLabel = "Play" }) {
   const [best] = useBestScore(item.id);
 
   // Badge cuma kalau ada isinya: TOOL atau BEST n. Kosong = biarin kosong.
   const badge = item.kind === "TOOL" ? "tool" : best ? `best ${formatScore(best)}` : "";
 
   return (
-    <button
-      type="button"
-      onClick={() => onOpen(item)}
-      className="card-shell card-lift group"
+    <Link
+      href={`/play/${item.id}`}
+      className="card-shell card-lift group block"
       aria-label={`${playLabel} ${item.title}`}
     >
       <div className="card-surface flex flex-col">
@@ -58,6 +55,6 @@ export default function GameCard({ item, onOpen, playLabel = "Play" }) {
           />
         </div>
       </div>
-    </button>
+    </Link>
   );
 }
