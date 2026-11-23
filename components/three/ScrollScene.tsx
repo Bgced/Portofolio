@@ -16,7 +16,7 @@ import { Component, Suspense, memo, useEffect, useMemo, useRef, useState, type R
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { usePrefersReducedMotion, useWebGLSupport } from "@/lib/hooks";
-import { loadPrefs } from "@/lib/ui-prefs";
+import { ACCENTS, loadPrefs } from "@/lib/ui-prefs";
 
 type Mood = "wire" | "off";
 
@@ -38,6 +38,15 @@ const PALETTES = {
     ambient: 0.3,
   },
 } as const;
+
+type Palette = {
+  clay: string;
+  clayEdge: string;
+  wire: string;
+  rim: string;
+  light: number;
+  ambient: number;
+};
 
 type Shape = {
   key: string;
@@ -100,7 +109,7 @@ const ShapeMesh = memo(function ShapeMesh({
   reduced,
 }: {
   shape: Shape;
-  palette: (typeof PALETTES)["light"] | (typeof PALETTES)["dark"];
+  palette: Palette;
   mood: Mood;
   /** Progress scroll 0..1 (ref, dibaca tiap frame tanpa re-render). */
   scroll: { current: number };
@@ -251,7 +260,7 @@ function Rig({
   mouse,
 }: {
   mood: Mood;
-  palette: (typeof PALETTES)["light"] | (typeof PALETTES)["dark"];
+  palette: Palette;
   reduced: boolean;
   /** true cuma di device ber-mouse (hover + pointer fine). Mobile: false. */
   mouse: boolean;
@@ -393,6 +402,23 @@ function ThemeInvalidator({ token }: { token: string }) {
   return null;
 }
 
+/** Akun warna aktif dari ui-prefs, dipakai buat ngewarnain balok 3D.
+ *  Ikut berubah pas audience ganti tema di overlay / sandbox. */
+function useAccent() {
+  const [accentId, setAccentId] = useState("amber");
+  useEffect(() => {
+    setAccentId(loadPrefs().accent);
+    const onPrefs = (event: Event) => {
+      const detail = (event as CustomEvent<{ accent?: string }>).detail;
+      if (detail?.accent) setAccentId(detail.accent);
+    };
+    window.addEventListener("cekael:prefs", onPrefs);
+    return () => window.removeEventListener("cekael:prefs", onPrefs);
+  }, []);
+  const accent = ACCENTS.find((item) => item.id === accentId) ?? ACCENTS[0];
+  return { accentId, accent };
+}
+
 function CanvasSizer() {
   const gl = useThree((state) => state.gl);
   const invalidate = useThree((state) => state.invalidate);
@@ -495,8 +521,14 @@ export default function ScrollScene() {
     return () => observer.disconnect();
   }, []);
 
-  // Satu tema saja (dark), jadi palet scene nggak perlu nunggu tema client.
-  const palette = PALETTES.dark;
+  // Warna balok 3D ikut tema aksen yang dipilih (ui-prefs), bukan amber mati.
+  const { accentId, accent } = useAccent();
+  const palette = {
+    ...PALETTES.dark,
+    clayEdge: accent.dark,
+    wire: accent.dark,
+    rim: accent.hover,
+  };
 
   if (webgl === null) return null;
   if (!webgl || mood === "off") return null;
@@ -511,7 +543,7 @@ export default function ScrollScene() {
           frameloop={frameloop}
           shadows={false}
           camera={{ position: [0, 0, 9.2], fov: 42 }}
-          gl={{ antialias: true, alpha: true, powerPreference: "high-performance", preserveDrawingBuffer: false }}
+          gl={{ antialias: false, alpha: true, powerPreference: "default", preserveDrawingBuffer: false }}
           style={{ width: "100%", height: "100%" }}
         >
           <Suspense fallback={null}>
@@ -520,7 +552,7 @@ export default function ScrollScene() {
             <directionalLight position={[-6, -3, -5]} intensity={palette.light * 0.3} color={palette.rim} />
             <Rig mood={mood} palette={palette} reduced={reduced} mouse={mouse} />
             <CanvasSizer />
-            <ThemeInvalidator token={mood} />
+            <ThemeInvalidator token={`${mood}:${accentId}`} />
           </Suspense>
         </Canvas>
       </SceneBoundary>
