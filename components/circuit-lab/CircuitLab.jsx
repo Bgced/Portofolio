@@ -64,7 +64,7 @@ export default function CircuitLab() {
             key={item.id}
             type="button"
             onClick={() => setTab(item.id)}
-            className={`relative px-4 py-2.5 font-mono text-[0.85rem] transition-colors ${
+            className={`relative inline-flex items-center rounded-[4px] px-4 py-2.5 font-mono text-[0.85rem] transition-colors hover:bg-ink/[0.05] ${
               tab === item.id
                 ? "text-ink"
                 : "text-muted hover:text-ink"

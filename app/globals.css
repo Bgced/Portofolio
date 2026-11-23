@@ -1102,3 +1102,13 @@ body {
     transform: none;
   }
 }
+
+/* Mobile: tap target nyaman buat tool interaktif Circuit Lab (R-39, min 44px).
+   Di-scope ke #circuit-lab aja, desktop & section lain nggak keganggu. */
+@media (max-width: 640px) {
+  #circuit-lab button,
+  #circuit-lab select,
+  #circuit-lab [role="button"] {
+    min-height: 44px;
+  }
+}
