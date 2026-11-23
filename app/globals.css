@@ -37,22 +37,6 @@
   color-scheme: dark;
 }
 
-/* Pilihan tema aksen — audience pilih di overlay intro. Base netral (bg,
-   surface, text) tetap; cuma aksen yang ganti. --accent-soft auto-ikut
-   karena pakai color-mix(var(--accent)). Default = amber (:root). */
-[data-theme="cyan"] {
-  --accent: #38bdf8;
-  --accent-hover: #7dd3fc;
-  --accent-2: #7dd3fc;
-  --accent-ink: #0a1016;
-}
-[data-theme="violet"] {
-  --accent: #a78bfa;
-  --accent-hover: #c4b5fd;
-  --accent-2: #c4b5fd;
-  --accent-ink: #0f0a18;
-}
-
 @theme inline {
   --font-sans: var(--font-instrument), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-sora), var(--font-instrument), ui-sans-serif, system-ui, sans-serif;

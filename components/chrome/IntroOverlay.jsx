@@ -15,6 +15,7 @@ import { ArrowRight, X } from "lucide-react";
 import { useLang } from "@/components/providers";
 import { COUNT } from "@/lib/games";
 import { PROJECTS } from "@/lib/content";
+import { ACCENTS, applyPrefs, loadPrefs, savePrefs } from "@/lib/ui-prefs";
 
 const SNOOZE_KEY = "cekael-intro-snooze";
 const SNOOZE_MS = 10 * 60 * 1000; // 10 menit
@@ -27,31 +28,32 @@ export default function IntroOverlay() {
   const closeRef = useRef(null);
   const lastFocused = useRef(null);
 
-  const THEMES = [
-    { id: "amber", swatch: "#F5A524", label: "Amber" },
-    { id: "cyan", swatch: "#38bdf8", label: "Cyan" },
-    { id: "violet", swatch: "#a78bfa", label: "Violet" },
-  ];
   const [theme, setTheme] = useState("amber");
+
+  // Sumber tema = store ui-prefs yang sama dipakai UiSandbox (inline --accent).
+  const themeSwatch = (id) => {
+    const found = ACCENTS.find((item) => item.id === id);
+    return found ? found.dark : "#f5a524";
+  };
+  const themeLabel = (id) => {
+    const found = ACCENTS.find((item) => item.id === id);
+    if (!found) return id;
+    return en ? found.enLabel : found.idLabel;
+  };
+  const THEME_IDS = ACCENTS.map((item) => item.id);
 
   // Baca tema tersimpan biar picker sinkron sama yang lagi aktif.
   useEffect(() => {
-    try {
-      const saved = window.localStorage.getItem("cekael-theme");
-      if (saved === "amber" || saved === "cyan" || saved === "violet") setTheme(saved);
-    } catch {
-      /* default amber */
-    }
+    const prefs = loadPrefs();
+    applyPrefs(prefs);
+    setTheme(prefs.accent);
   }, []);
 
   const pickTheme = (id) => {
+    const prefs = { ...loadPrefs(), accent: id };
+    applyPrefs(prefs);
+    savePrefs(prefs);
     setTheme(id);
-    document.documentElement.setAttribute("data-theme", id);
-    try {
-      window.localStorage.setItem("cekael-theme", id);
-    } catch {
-      /* private mode — tema tetap ganti di sesi ini */
-    }
   };
 
   // Cek snooze di mount. Kalau masih dalam 10 menit, jangan buka overlay.
@@ -156,24 +158,24 @@ export default function IntroOverlay() {
             <div className="mt-4">
               <p className="mono-label mb-1.5">{en ? "Theme" : "Tema"}</p>
               <div className="flex flex-wrap gap-2" role="group" aria-label={en ? "Theme" : "Tema"}>
-                {THEMES.map((item) => (
+                {THEME_IDS.map((id) => (
                   <button
-                    key={item.id}
+                    key={id}
                     type="button"
-                    onClick={() => pickTheme(item.id)}
-                    aria-pressed={theme === item.id}
+                    onClick={() => pickTheme(id)}
+                    aria-pressed={theme === id}
                     className={`flex items-center gap-2 rounded-[5px] border px-2.5 py-1.5 font-mono text-[0.72rem] transition-colors ${
-                      theme === item.id
+                      theme === id
                         ? "border-accent text-ink"
                         : "border-line text-muted hover:text-ink"
                     }`}
                   >
                     <span
                       className="inline-block h-3.5 w-3.5 rounded-[2px] border border-line/50"
-                      style={{ backgroundColor: item.swatch }}
+                      style={{ backgroundColor: themeSwatch(id) }}
                       aria-hidden="true"
                     />
-                    {item.label}
+                    {themeLabel(id)}
                   </button>
                 ))}
               </div>
