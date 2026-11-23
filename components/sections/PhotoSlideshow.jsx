@@ -2,11 +2,10 @@
 
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import { usePrefersReducedMotion } from "@/lib/hooks";
 
-/* Foto ganti tiap 4 detik, transisi crossfade halus.
-   - Pause otomatis pas hover/focus (biar bisa dilihat).
-   - Hormati prefers-reduced-motion: nggak auto-putar (foto pertama diam). */
+/* Foto ganti tiap 4 detik, transisi crossfade halus (700ms).
+   Selalu auto-putar; prefers-reduced-motion cuma bikin transisi instan
+   (motion-reduce:transition-none), fotonya tetap berganti. */
 const PHOTOS = [
   "/photos/p1.webp",
   "/photos/p2.webp",
@@ -19,26 +18,18 @@ const PHOTOS = [
 const INTERVAL = 4000;
 
 export default function PhotoSlideshow() {
-  const reduced = usePrefersReducedMotion();
   const [index, setIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
 
+  // Selalu ganti tiap 4 detik. Reduced-motion -> transisi instan (CSS), bukan freeze.
   useEffect(() => {
-    if (reduced || paused) return undefined;
     const id = setInterval(() => {
       setIndex((value) => (value + 1) % PHOTOS.length);
     }, INTERVAL);
     return () => clearInterval(id);
-  }, [reduced, paused]);
+  }, []);
 
   return (
-    <div
-      className="absolute inset-0"
-      onMouseEnter={() => setPaused(true)}
-      onMouseLeave={() => setPaused(false)}
-      onFocus={() => setPaused(true)}
-      onBlur={() => setPaused(false)}
-    >
+    <div className="absolute inset-0">
       {PHOTOS.map((src, i) => (
         <Image
           key={src}

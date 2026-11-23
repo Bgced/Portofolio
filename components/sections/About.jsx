@@ -68,6 +68,7 @@ export default function About() {
               <span className="photo-hint pointer-events-none absolute right-3 top-3 font-mono text-[0.52rem] uppercase tracking-[0.14em] text-accent-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
                 live
               </span>
+              <span aria-hidden="true" className="photo-neon" />
             </div>
           </FloatingCard>
         </Reveal>
