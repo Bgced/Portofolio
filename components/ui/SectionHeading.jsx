@@ -3,10 +3,15 @@
 /**
  * Section header: label mono + judul besar + paragraf intro. Tanpa nomor urut
  * (dulu "02 — ABOUT"), cukup label biar nggak template.
+ *
+ * Dibungkus Reveal -> tiap heading muncul dengan animasi pas section kena scroll
+ * (Windows & mobile, hormati prefers-reduced-motion).
  */
+import Reveal from "@/components/ui/Reveal";
+
 export default function SectionHeading({ index = "01", kicker = "", title, accent, intro, className = "" }) {
   return (
-    <div className={`mb-8 sm:mb-10 ${className}`}>
+    <Reveal className={`mb-8 sm:mb-10 ${className}`}>
       <p className="eyebrow">
         {kicker || title}
       </p>
@@ -30,6 +35,6 @@ export default function SectionHeading({ index = "01", kicker = "", title, accen
           {intro}
         </p>
       ) : null}
-    </div>
+    </Reveal>
   );
 }

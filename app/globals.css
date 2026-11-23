@@ -1039,9 +1039,9 @@ body {
 /* reveal pas section masuk viewport. Dipasang lewat [data-reveal] di markup. */
 [data-reveal] {
   opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
-    transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(26px);
+  transition: opacity 640ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 640ms cubic-bezier(0.22, 1, 0.36, 1);
   transition-delay: var(--reveal-delay, 0ms);
   will-change: opacity, transform;
 }
@@ -1153,10 +1153,10 @@ body {
 /* Ken Burns halus: foto aktif zoom pelan biar keliatan hidup/ganti. */
 @keyframes photo-kenburns {
   from {
-    transform: scale(1);
+    transform: scale(1.02);
   }
   to {
-    transform: scale(1.08);
+    transform: scale(1.14);
   }
 }
 .photo-kenburns {

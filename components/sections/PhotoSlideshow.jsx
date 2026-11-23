@@ -7,10 +7,10 @@ import Image from "next/image";
    Selalu auto-putar; prefers-reduced-motion cuma bikin transisi instan
    (motion-reduce:transition-none), fotonya tetap berganti. */
 const PHOTOS = [
-  "/photos/p1.webp",
-  "/photos/p2.webp",
-  "/photos/p3.webp",
-  "/photos/p4.webp",
+  "/photos/photo-1-4d803542.webp",
+  "/photos/photo-2-e8771ed8.webp",
+  "/photos/photo-3-83fa9243.webp",
+  "/photos/photo-4-ef9e6933.webp",
 ];
 
 const INTERVAL = 4000;
