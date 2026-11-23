@@ -47,10 +47,6 @@ export default function Hero() {
               </span>
             </h1>
 
-            <p className="mt-6 max-w-[34rem] text-[0.95rem] leading-relaxed text-muted">
-              {t("hero.value")}
-            </p>
-
             <div className="mt-8 flex flex-wrap items-center gap-2.5">
               <a href="#projects" className="btn btn-primary">
                 {t("hero.seeWork")}

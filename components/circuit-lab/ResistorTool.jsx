@@ -369,35 +369,55 @@ export default function ResistorTool() {
         <div className="p-4">
           {result ? (
             <div>
-              {/* Resistor SVG */}
+              {/* Resistor 3D — silinder berbayang, semua band termasuk toleransi */}
               <svg
-                viewBox="0 0 400 120"
+                viewBox="0 0 400 150"
                 className="mb-4 w-full"
                 role="img"
                 aria-label={`${result.formatted} ${result.tolerance}`}
               >
-                <rect
-                  x="80"
-                  y="40"
-                  width="240"
-                  height="40"
-                  fill="#D4AF37"
-                  stroke="#2A2E35"
-                  strokeWidth="2"
-                  rx="3"
-                />
-                {result.bands.slice(0, -1).map((color, i) => (
-                  <rect
-                    key={i}
-                    x={120 + i * 60}
-                    y="40"
-                    width="24"
-                    height="40"
-                    fill={getColorHex(color)}
-                  />
-                ))}
-                <line x1="40" y1="60" x2="80" y2="60" stroke="#9AA0A6" strokeWidth="2" />
-                <line x1="320" y1="60" x2="360" y2="60" stroke="#9AA0A6" strokeWidth="2" />
+                <defs>
+                  <linearGradient id="rb" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stopColor="#EBD27E" />
+                    <stop offset="1" stopColor="#C9A94A" />
+                  </linearGradient>
+                  <linearGradient id="rshade" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0" stopColor="#ffffff" stopOpacity="0.45" />
+                    <stop offset="0.4" stopColor="#ffffff" stopOpacity="0" />
+                    <stop offset="0.6" stopColor="#000000" stopOpacity="0" />
+                    <stop offset="1" stopColor="#000000" stopOpacity="0.5" />
+                  </linearGradient>
+                  <clipPath id="rbclip">
+                    <rect x="80" y="50" width="240" height="52" rx="10" />
+                  </clipPath>
+                </defs>
+
+                {/* kaki */}
+                <line x1="26" y1="76" x2="80" y2="76" stroke="#9AA0A6" strokeWidth="3" strokeLinecap="round" />
+                <line x1="320" y1="76" x2="374" y2="76" stroke="#9AA0A6" strokeWidth="3" strokeLinecap="round" />
+
+                {/* badan + band + bayangan silinder */}
+                <ellipse cx="80" cy="76" rx="9" ry="26" fill="#B8993E" stroke="#2A2E35" strokeWidth="1.5" />
+                <rect x="80" y="50" width="240" height="52" rx="10" fill="url(#rb)" stroke="#2A2E35" strokeWidth="1.5" />
+                <g clipPath="url(#rbclip)">
+                  {result.bands.map((color, i) => {
+                    const n = result.bands.length;
+                    const bw = 30;
+                    const gap = (240 - n * bw) / (n + 1);
+                    return (
+                      <rect
+                        key={i}
+                        x={80 + gap * (i + 1) + bw * i}
+                        y="50"
+                        width={bw}
+                        height="52"
+                        fill={getColorHex(color)}
+                      />
+                    );
+                  })}
+                  <rect x="80" y="50" width="240" height="52" fill="url(#rshade)" />
+                </g>
+                <ellipse cx="320" cy="76" rx="9" ry="26" fill="#D9BB57" stroke="#2A2E35" strokeWidth="1.5" />
               </svg>
 
               <div className="space-y-2">

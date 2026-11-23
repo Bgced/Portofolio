@@ -20,11 +20,39 @@ const SNOOZE_KEY = "cekael-intro-snooze";
 const SNOOZE_MS = 10 * 60 * 1000; // 10 menit
 
 export default function IntroOverlay() {
-  const { t } = useLang();
+  const { t, lang } = useLang();
+  const en = lang === "en";
   const [open, setOpen] = useState(true);
   const [snooze, setSnooze] = useState(false);
   const closeRef = useRef(null);
   const lastFocused = useRef(null);
+
+  const THEMES = [
+    { id: "amber", swatch: "#F5A524", label: "Amber" },
+    { id: "cyan", swatch: "#38bdf8", label: "Cyan" },
+    { id: "violet", swatch: "#a78bfa", label: "Violet" },
+  ];
+  const [theme, setTheme] = useState("amber");
+
+  // Baca tema tersimpan biar picker sinkron sama yang lagi aktif.
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("cekael-theme");
+      if (saved === "amber" || saved === "cyan" || saved === "violet") setTheme(saved);
+    } catch {
+      /* default amber */
+    }
+  }, []);
+
+  const pickTheme = (id) => {
+    setTheme(id);
+    document.documentElement.setAttribute("data-theme", id);
+    try {
+      window.localStorage.setItem("cekael-theme", id);
+    } catch {
+      /* private mode — tema tetap ganti di sesi ini */
+    }
+  };
 
   // Cek snooze di mount. Kalau masih dalam 10 menit, jangan buka overlay.
   useEffect(() => {
@@ -124,6 +152,32 @@ export default function IntroOverlay() {
             <p className="mt-2 text-[0.85rem] leading-relaxed text-muted">
               {t("intro.body", { games: COUNT.games, tools: COUNT.tools, projects: PROJECTS.length })}
             </p>
+
+            <div className="mt-4">
+              <p className="mono-label mb-1.5">{en ? "Theme" : "Tema"}</p>
+              <div className="flex flex-wrap gap-2" role="group" aria-label={en ? "Theme" : "Tema"}>
+                {THEMES.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => pickTheme(item.id)}
+                    aria-pressed={theme === item.id}
+                    className={`flex items-center gap-2 rounded-[5px] border px-2.5 py-1.5 font-mono text-[0.72rem] transition-colors ${
+                      theme === item.id
+                        ? "border-accent text-ink"
+                        : "border-line text-muted hover:text-ink"
+                    }`}
+                  >
+                    <span
+                      className="inline-block h-3.5 w-3.5 rounded-[2px] border border-line/50"
+                      style={{ backgroundColor: item.swatch }}
+                      aria-hidden="true"
+                    />
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            </div>
 
             <button
               type="button"

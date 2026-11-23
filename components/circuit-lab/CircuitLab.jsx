@@ -8,7 +8,7 @@ import RcTool from "./RcTool";
 
 const COPY = {
   en: {
-    kicker: "B1 — Electrical tools",
+    kicker: "Electrical tools",
     title: "Circuit",
     accent: "Lab",
     intro: "Three quick EE calculators that actually compute. Pick a tab, tweak the values, copy the result — shareable by URL.",
@@ -18,7 +18,7 @@ const COPY = {
     note: "Semua perhitungan jalan lokal di browser. Nggak ada data yang dikirim ke mana-mana.",
   },
   id: {
-    kicker: "B1 — Tool teknik elektro",
+    kicker: "Tool elektro",
     title: "Circuit",
     accent: "Lab",
     intro: "Tiga kalkulator elektro cepat yang beneran ngitung. Pilih tab, ubah nilainya, salin hasilnya — bisa dibagi lewat URL.",

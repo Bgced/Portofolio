@@ -19,6 +19,18 @@ function LanguageProvider({ children }) {
     if (stored === "en" || stored === "id") setLang(stored);
   }, []);
 
+  // Tema aksen pilihan audience (disimpan di localStorage).
+  useEffect(() => {
+    try {
+      const saved = window.localStorage.getItem("cekael-theme");
+      if (saved === "amber" || saved === "cyan" || saved === "violet") {
+        document.documentElement.setAttribute("data-theme", saved);
+      }
+    } catch {
+      /* private mode — pakai default amber */
+    }
+  }, []);
+
   useEffect(() => {
     document.documentElement.lang = lang;
     try {
