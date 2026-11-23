@@ -84,6 +84,26 @@ export default function IntroOverlay() {
     });
   }, [snooze]);
 
+  // Lihat portofolio: tutup overlay + lompat ke section Work (#projects).
+  const goPortfolio = useCallback(() => {
+    if (snooze) {
+      try {
+        window.localStorage.setItem(SNOOZE_KEY, String(Date.now() + SNOOZE_MS));
+      } catch {
+        /* ignore */
+      }
+    }
+    setOpen(false);
+    window.requestAnimationFrame(() => {
+      const target = document.getElementById("projects");
+      const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+        ? "auto"
+        : "smooth";
+      if (target) target.scrollIntoView({ behavior, block: "start" });
+      else document.getElementById("home")?.focus({ preventScroll: true });
+    });
+  }, [snooze]);
+
   // Bisa dibuka lagi dari command palette
   useEffect(() => {
     const onOpen = () => {
@@ -187,6 +207,15 @@ export default function IntroOverlay() {
               className="btn btn-primary mt-5 w-full"
             >
               {t("intro.enter")}
+              <ArrowRight size={14} aria-hidden="true" />
+            </button>
+
+            <button
+              type="button"
+              onClick={goPortfolio}
+              className="mt-2 flex min-h-[44px] w-full items-center justify-center gap-2 rounded-[6px] border border-line bg-surface-2 font-mono text-[0.8rem] text-ink transition-colors hover:border-accent hover:text-accent"
+            >
+              {t("intro.ctaPortfolio")}
               <ArrowRight size={14} aria-hidden="true" />
             </button>
 
