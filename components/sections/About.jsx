@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import SectionHeading from "@/components/ui/SectionHeading";
+import PhotoSlideshow from "@/components/sections/PhotoSlideshow";
 import { PROFILE } from "@/lib/content";
 import { useLang } from "@/components/providers";
 import TechArsenal from "@/components/sections/TechArsenal";
@@ -46,13 +46,7 @@ export default function About() {
             surfaceClassName="card-surface--flush aspect-[4/5] w-full"
           >
             <div className="photo-frame group relative h-full w-full overflow-hidden">
-              <Image
-                src="/profile.jpg"
-                alt="Cedric Kilian, front-end developer and Electrical Engineering student"
-                fill
-                sizes="(min-width: 1024px) 304px, (min-width: 640px) 60vw, 92vw"
-                className="photo-img object-cover object-center"
-              />
+              <PhotoSlideshow />
               {/* scanline overlay */}
               <div aria-hidden="true" className="photo-scanlines pointer-events-none absolute inset-0" />
               {/* gradient scrim */}
