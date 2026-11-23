@@ -1124,13 +1124,13 @@ body {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 3px;
+  padding: 6px;
   background: conic-gradient(
     from var(--neon-angle),
     transparent 0deg,
-    transparent 285deg,
-    var(--accent) 325deg,
-    var(--accent-2) 348deg,
+    transparent 225deg,
+    var(--accent) 280deg,
+    var(--accent-2) 330deg,
     transparent 360deg
   );
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -1146,6 +1146,24 @@ body {
 }
 @media (prefers-reduced-motion: reduce) {
   .photo-neon {
+    animation: none;
+  }
+}
+
+/* Ken Burns halus: foto aktif zoom pelan biar keliatan hidup/ganti. */
+@keyframes photo-kenburns {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+.photo-kenburns {
+  animation: photo-kenburns 4.2s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .photo-kenburns {
     animation: none;
   }
 }
